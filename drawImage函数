@@ -1,0 +1,5 @@
+var img = new Image();   // 创建img元素
+img.onload = function(){
+  // 执行drawImage语句
+}
+img.src = 'myImage.png'; // 设置图片源地址
