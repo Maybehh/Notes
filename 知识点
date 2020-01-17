@@ -22,3 +22,35 @@ sub 下标
 < img src/>没有结束标签 对齐 align="bottom"默认
 left right 为浮动到文本的左右边 源代码中代码顺序不管
 img与map配合使用，map中使用area可制作点击图片特定区域进行操作的功能
+
+单元格边距(Cell padding)
+单元格间距(Cell spacing)
+框架(frame)属性："frame" 属性来控制围绕表格的边框
+<table frame="box">
+<ol type="a">
+<ol start="50">
+
+什么是响应式 Web 设计？
+RWD 指的是响应式 Web 设计（Responsive Web Design）
+RWD 能够以可变尺寸传递网页
+RWD 对于平板和移动设备是必需的
+使用 Bootstrap
+另一个创建响应式设计的方法，是使用现成的 CSS 框架
+Bootstrap 是最流行的开发响应式 web 的 HTML, CSS, 和 JS 框架
+Bootstrap 帮助您开发在任何尺寸都外观出众的站点：显示器、笔记本电脑、平板电脑或手机
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<frameset cols="25%,75%">
+   <frame src="frame_a.htm">
+   <frame src="frame_b.htm">
+</frameset>
+一个框架有可见边框，用户可以拖动边框来改变它的大小。为了避免这种情况发生，可以在 <frame> 标签中加入：noresize="noresize"
+为不支持框架的浏览器添加 <noframes> 标签
+<iframe src="demo_iframe.htm" frameborder="0"></iframe>
+<iframe src="demo_iframe.htm" name="iframe_a"></iframe>
+<p><a href="http://www.w3school.com.cn" target="iframe_a">W3School.com.cn</a></p>
+
+<img src="picture.jpg">	picture.jpg 位于与当前网页相同的文件夹
+<img src="images/picture.jpg">	picture.jpg 位于当前文件夹的 images 文件夹中
+<img src="/images/picture.jpg">	picture.jpg 当前站点根目录的 images 文件夹中
+<img src="../picture.jpg">	picture.jpg 位于当前文件夹的上一级文件夹中
