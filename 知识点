@@ -70,7 +70,7 @@ title 元素能够：
 <link>charset 属性规定被链接文档的字符编码方式
       media 属性规定被链接文档将显示在什么设备上
       media 属性用于为不同的媒介类型规定不同的样式
-      rel 属性规定当前文档与被链接文档之间的关系(stylesheet	文档的外部样式表)
+      rel 属性规定当前文档与被链接文档之间的关系(stylesheet文档的外部样式表)
       rev 属性规定被链接文档与当前文档之间的关系
       sizes 属性规定被链接资源的尺寸
             只有当被链接资源是图标时 (rel="icon")，才能使用该属性
@@ -102,3 +102,50 @@ title 元素能够：
        content 属性始终要和 name 属性或 http-equiv 属性一起使用
        scheme 属性用于指定要用来翻译属性值的方案。此方案应该在由 <head> 标签的 profile 属性指定的概况文件中进行了定义
        <meta http-equiv="Refresh" content="5;url=http://www.w3school.com.cn" />
+<script>
+HTML 4 和 XHTML 在处理脚本中的内容方面有所不同：
+在 HTML 4 中，内容类型声明为 CDATA，就是说不会对实体进行解析。
+在 XHTML 中，内容类型声明为 (#PCDATA)，也就是说会对实体进行解析。
+这意味着，在 XHTML 中，应该编码所有特殊的字符，或者把所有内容嵌套在 CDATA 部分中。
+为了确保在 XHTML 文档中脚本正确进行解析，请使用如下语法：
+<script type="text/javascript"><![CDATA[
+  document.write("Hello World!")
+//]]></script>
+async 属性规定一旦脚本可用，则会异步执行。
+注释：async 属性仅适用于外部脚本（只有在使用 src 属性时）。
+注释：有多种执行外部脚本的方法：
+如果 async="async"：脚本相对于页面的其余部分异步地执行（当页面继续进行解析时，脚本将被执行）
+如果不使用 async 且 defer="defer"：脚本将在页面完成解析时执行
+如果既不使用 async 也不使用 defer：在浏览器继续解析页面之前，立即读取并执行脚本
+
+defer 属性规定是否对脚本执行进行延迟，直到页面加载为止
+有的 javascript 脚本 document.write 方法来创建当前的文档内容，其他脚本就不一定是了
+如果您的脚本不会改变文档的内容，可将 defer 属性加入到 <script> 标签中，以便加快处理文档的速度。
+因为浏览器知道它将能够安全地读取文档的剩余部分而不用执行脚本，它将推迟对脚本的解释，直到文档已经显示给用户为止
+
+<style> 标签用于为 HTML 文档定义样式信息
+在 style 中，您可以规定在浏览器中如何呈现 HTML 文档
+type 属性是必需的，定义 style 元素的内容。唯一可能的值是 "text/css"
+style 元素位于 head 部分中
+media 属性用于为不同的媒介类型规定不同的样式
+提示：如需在一个 style 元素中定义一个以上的媒介类型，请使用逗号分隔的列表（例如：<style type="text/css" media="screen,projection">）
+<html>
+<head>
+<style type="text/css">
+h1 {color:#FF0000;}
+p {color:#0000FF;}
+body {background-color:#FFEFD6;}
+</style>
+
+<style type="text/css" media="print">
+h1 {color:#000000;}
+p {color:#000000;}
+body {background-color:#FFFFFF;}
+</style>
+</head>
+
+<body>
+<h1>Header 1</h1>
+<p>A paragraph.</p>
+</body>
+</html>
