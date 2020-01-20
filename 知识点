@@ -193,7 +193,7 @@ XHTML 文档必须有一个根元素
 属性语法
 XHTML 属性必须使用小写
 XHTML 属性值必须用引号包围
-XHTML 属性最小化也是禁止的
+XHTML 属性最小化也是禁止的（属性简写）<input checked>错误 <input checked="checked" />正确
 
 如何从 HTML 转换到 XHTML
 向每张页面的第一行添加 XHTML <!DOCTYPE>
@@ -202,6 +202,38 @@ XHTML 属性最小化也是禁止的
 关闭所有空元素
 把所有属性名改为小写
 为所有属性值加引号
-
+文档类型定义（DTD）可定义合法的XML文档构建模块。它使用一系列合法的元素来定义文档的结构
+通过 DTD，您的每一个 XML 文件均可携带一个有关其自身格式的描述。
+通过 DTD，独立的团体可一致地使用某个标准的 DTD 来交换数据。
+而您的应用程序也可使用某个标准的 DTD 来验证从外部接收到的数据。
+您还可以使用 DTD 来验证您自身的数据
 在 XHTML 中有哪些不同的 DTD ？ Strict, Transitional, Frameset
 Transitional是最常用的 XHTML DTD
+
+<input type="submit"> 定义用于向表单处理程序（form-handler）提交表单的按钮。
+表单处理程序通常是包含用来处理输入数据的脚本的服务器页面。
+表单处理程序在表单的 action 属性中指定：
+实例
+<form action="action_page.php">
+First name:<br>
+<input type="text" name="firstname" value="Mickey">
+<br>
+Last name:<br>
+<input type="text" name="lastname" value="Mouse">
+<br><br>
+<input type="submit" value="Submit">
+</form> 
+Action 属性
+action 属性定义在提交表单时执行的动作
+向服务器提交表单的通常做法是使用提交按钮
+通常，表单会被提交到 web 服务器上的网页
+在上面的例子中，指定了某个服务器脚本来处理被提交表单：
+<form action="action_page.php">
+如果省略 action 属性，则 action 会被设置为当前页面
+
+method 属性规定在提交表单时所用的 HTTP 方法（GET 或 POST）
+您能够使用 GET（默认方法）：
+如果表单提交是被动的（比如搜索引擎查询），并且没有敏感信息。
+当您使用 GET 时，表单数据在页面地址栏中是可见的：
+action_page.php?firstname=Mickey&lastname=Mouse
+注释：GET 最适合少量数据的提交。浏览器会设定容量限制。
