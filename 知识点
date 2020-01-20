@@ -149,3 +149,59 @@ body {background-color:#FFFFFF;}
 <p>A paragraph.</p>
 </body>
 </html>
+
+URL 可以由单词组成，比如 “w3school.com.cn”，或者是因特网协议（IP）地址：192.168.1.253
+scheme://host.domain:port/path/filename
+解释：
+scheme - 定义因特网服务的类型。最常见的类型是 http
+host - 定义域主机（http 的默认主机是 www）
+domain - 定义因特网域名，比如 w3school.com.cn
+:port - 定义主机上的端口号（http 的默认端口号是 80）
+path - 定义服务器上的路径（如果省略，则文档必须位于网站的根目录中）。
+filename - 定义文档/资源的名称
+编者注：URL 的英文全称是 Uniform Resource Locator，中文也译为“统一资源定位符”
+
+http	超文本传输协议	以 http:// 开头的普通网页。不加密。
+https	安全超文本传输协议	安全网页。加密所有信息交换。
+ftp	文件传输协议	用于将文件下载或上传至网站。
+file	您计算机上的文件
+
+URL 编码使用 "%" 其后跟随两位的十六进制数来替换非 ASCII 字符。
+URL 不能包含空格。URL 编码通常使用 + 来替换空格
+
+如果希望向世界发布您的网站，那么您必须把它存放在 web 服务器上
+使用因特网服务提供商（ISP）
+
+<!DOCTYPE> 声明帮助浏览器正确地显示网页
+<!DOCTYPE> 不是 HTML 标签。它为浏览器提供一项信息（声明），即 HTML 是用什么版本编写的
+
+&lt; is the same as <
+&gt; is the same as >
+&#169; is the same as ©
+
+XHTML 指的是可扩展超文本标记语言
+XHTML 是以 XML 应用的方式定义的 HTML
+文档结构
+XHTML DOCTYPE 是强制性的（DOCTYPE 没有关闭标签）
+<html> 中的 XML namespace 属性是强制性的
+<html>、<head>、<title> 以及 <body> 也是强制性的
+元素语法
+XHTML 元素必须正确嵌套
+XHTML 元素必须始终关闭
+XHTML 元素必须小写
+XHTML 文档必须有一个根元素
+属性语法
+XHTML 属性必须使用小写
+XHTML 属性值必须用引号包围
+XHTML 属性最小化也是禁止的
+
+如何从 HTML 转换到 XHTML
+向每张页面的第一行添加 XHTML <!DOCTYPE>
+向每张页面的 html 元素添加 xmlns 属性，例如：<html xmlns="http://www.w3.org/1999/xhtml">
+把所有元素名改为小写
+关闭所有空元素
+把所有属性名改为小写
+为所有属性值加引号
+
+在 XHTML 中有哪些不同的 DTD ？ Strict, Transitional, Frameset
+Transitional是最常用的 XHTML DTD
