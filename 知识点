@@ -446,3 +446,98 @@ step 属性规定 <input> 元素的合法数字间隔
 step 属性适用于以下输入类型：number、range、date、datetime、datetime-local、month、time 以及 week
 
 HTML5 是专门为承载丰富的 web 内容而设计的，并且无需额外插件
+
+HTML5 定义了八个新的语义 HTML 元素。所有都是块级元素
+您可以把 CSS display 属性设置为 block，以确保老式浏览器中正确的行为:
+header, section, footer, aside, nav, main, article, figure {
+    display: block; 
+}
+
+向 HTML 添加新元素
+您可以通过浏览器 trick 向 HTML 添加任何新元素：
+本例向 HTML 添加了一个名为 <myHero> 的新元素，并为其定义 display 样式：
+<script>document.createElement("myHero")</script>(已添加的JavaScript语句document.createElement("myHero")，仅适用于IE(IE需要，其他的直接写）)
+<style>
+  myHero {
+    display: block;
+    background-color: #ddd;
+    padding: 50px;
+    font-size: 30px;
+  } 
+</style> 
+<myHero>My First Hero</myHero>
+
+上述方案可用于所有新的 HTML5 元素，但是：
+注意：Internet Explorer 8 以及更早的版本，不允许对未知元素添加样式
+幸运的是，Sjoerd Visscher 创造了 "HTML5 Enabling JavaScript", "the shiv"：
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+以上代码是一段注释，但是 IE9 的早期版本会读取它（并理解它）
+
+完整的 Shiv 解决方案
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Styling HTML5</title>
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1>My First Article</h1>
+<article>
+London is the capital city of England. 
+It is the most populous city in the United Kingdom, 
+with a metropolitan area of over 13 million inhabitants.
+</article>
+</body>
+</html>
+引用 shiv 代码的链接必须位于 <head> 元素中，因为 Internet Explorer 需要在读取之前认识所有新元素
+
+语义元素清楚地向浏览器和开发者描述其意义
+非语义元素的例子：<div> 和 <span> - 无法提供关于其内容的信息
+语义元素的例子：<form>、<table> 以及 <img> - 清晰地定义其内容
+
+<section> 元素定义文档中的节
+根据 W3C 的 HTML 文献：“节（section）是有主题的内容组，通常具有标题”
+可以将网站首页划分为简介、内容、联系信息等节
+
+在 HTML5 标准中，<article> 元素定义完整的相关元素自包含块
+<section> 元素被定义为相关元素块
+我们能够使用该定义来决定如何嵌套元素吗？不，我们不能！
+
+<header> 元素为文档或节规定页眉
+<header> 元素应该被用作介绍性内容的容器
+一个文档中可以有多个 <header> 元素
+
+<footer> 元素为文档或节规定页脚
+<footer> 元素应该提供有关其包含元素的信息
+页脚通常包含文档的作者、版权信息、使用条款链接、联系信息等等
+您可以在一个文档中使用多个 <footer> 元素
+
+<nav> 元素定义导航链接集合
+<nav> 元素旨在定义大型的导航链接块。不过，并非文档中所有链接都应该位于 <nav> 元素中！
+
+<aside> 元素页面主内容之外的某些内容（比如侧栏）
+aside 内容应该与周围内容相关
+
+在书籍和报纸中，与图片搭配的标题很常见
+标题（caption）的作用是为图片添加可见的解释
+通过 HTML5，图片和标题能够被组合在 <figure> 元素中：
+实例
+<figure>
+   <img src="pic_mountain.jpg" alt="The Pulpit Rock" width="304" height="228">
+   <figcaption>Fig1. - The Pulpit Pock, Norway.</figcaption>
+</figure> （位置按代码顺序）
+<img> 元素定义图像，<figcaption> 元素定义标题。
+
+为何使用 HTML5 元素？
+根据 W3C，语义网：
+“允许跨应用程序、企业和团体对数据进行分享和重用。”（统一属性名）
+
+<main>	规定文档的主内容
+<mark>	定义重要的或强调的文本
+<details>	定义用户能够查看或隐藏的额外细节
+<summary>	定义 <details> 元素的可见标题
+<time>	定义日期/时间
