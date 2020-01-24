@@ -600,5 +600,61 @@ Canvas API 非常紧凑的一个原因上它没有对绘制文本提供任何支
 
 CanvasRenderingContext2D 对象提供了一组用来在画布上绘制的图形函数：
 strokeRect() 方法用于在单选按钮上模拟一次鼠标点击
+stroke() 方法绘制当前路径的边框
+
 lineCap 属性指定线段的末端如何绘制
 lineJoin 属性说明如何绘制交点
+miterLimit 属性说明如何绘制交点（当一个斜角连接超过了 miterLimit，连接会转换为圆连接）
+   当宽线条使用设置为 "miter" 的 lineJoin 属性绘制并且两条线段以锐角相交的时候，所得的斜面可能相当长。
+   当斜面太长，就会变得不协调。miterLimit 属性为斜面的长度设置一个上限。这个属性表示斜面长度和线条长度的比值。
+   默认是 10，意味着一个斜面的长度不应该超过线条宽度的 10 倍。如果斜面达到这个长度，它就变成斜角了
+   当 lineJoin 为 "round" 或 "bevel" 的时候，这个属性无效
+beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)
+当一个画布的环境第一次创建，beginPath() 方法会被显式地调用
+
+如果画布的子路径是打开的，closePath() 通过添加一条线条连接当前点和子路径起始点来关闭它
+如果子路径已经闭合了，这个方法不做任何事情
+一旦子路径闭合，就不能再为其添加更多的直线或曲线了。要继续向该路径添加，需要通过调用 moveTo() 开始一条新的子路径
+不需要在勾勒或填充一条路径之前调用 closePath()。当填充的时候（并且当你调用 clip() 的时候），路径是隐式闭合的
+
+fill() 方法使用 fillStyle 属性所指定的颜色、渐变和模式来填充当前路径。这一路径的每一条子路径都单独填充。
+任何未闭合的子路径都被填充，就好像已经对他们调用了 closePath() 方法一样（但是，注意，实际上没有这么让子路径成为闭合的）
+
+rect() 方法为路径添加了一个矩形。这个矩形是路径的一个子路径并且没有和路径中的任何其他子路径相连，当 rect() 方法返回时，当前位置是 (0,0)
+
+clearRect() 方法擦除了指定的矩形，并且用一个透明的颜色填充它
+
+drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight,destX, destY, destWidth, destHeight)
+image所要绘制的图像,这必须是表示 <img> 标记或者屏幕外图像的 Image 对象，或者是 Canvas 元素
+x, y	要绘制的图像的左上角的位置
+width, height	图像所应该绘制的尺寸。指定这些参数使得图像可以缩放
+sourceX, sourceY	图像将要被绘制的区域的左上角。这些整数参数用图像像素来度量
+sourceWidth, sourceHeight	图像所要绘制区域的大小，用图像像素表示
+destX, destY	所要绘制的图像区域的左上角的画布坐标
+destWidth, destHeight	图像区域所要绘制的画布大小
+
+addColorStop() 方法在渐变中的某一点添加一个颜色变化
+createLinearGradient() 方法创建一条线性颜色渐变
+createRadialGradient() 方法创建一条放射颜色渐变
+
+当没有设置宽度和高度的时候，canvas会初始化宽度为300像素和高度为150像素。该元素可以使用CSS来定义大小，但在绘制时图像会伸缩以适应它的框架尺寸：
+如果CSS的尺寸与初始画布的比例不一致，它会出现扭曲。
+注意: 如果你绘制出来的图像是扭曲的, 尝试用width和height属性为<canvas>明确规定宽高，而不是使用CSS
+
+这非常简单：我们只是在<canvas>标签中提供了替换内容。不支持<canvas>的浏览器将会忽略容器并在其中渲染后备内容。
+而支持<canvas>的浏览器将会忽略在容器中包含的内容，并且只是正常渲染canvas（不支持的执行canvas中的内容，支持的执行js中的内容）
+
+</canvas> 标签不可省，如果结束标签不存在，则文档的其余部分会被认为是替代内容，将不会显示出来（文档剩余所有的都不会显示）
+如果不需要替代内容，一个简单的 <canvas id="foo" ...></canvas> 在所有支持canvas的浏览器中都是完全兼容的
+
+检查支持性
+替换内容是用于在不支持 <canvas> 标签的浏览器中展示的。通过简单的测试getContext()方法的存在，脚本可以检查编程支持性。上面的代码片段现在变成了这个样子：
+var canvas = document.getElementById('tutorial');
+if (canvas.getContext){
+  var ctx = canvas.getContext('2d');
+  // drawing code here
+} else {
+  // canvas-unsupported code here
+}
+
+不同于 SVG，<canvas> 只支持两种形式的图形绘制：矩形和路径
