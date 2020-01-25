@@ -665,3 +665,39 @@ if (canvas.getContext){
 第一条路径构造命令通常被视为是moveTo（），无论实际上是什么。出于这个原因，你几乎总是要在设置路径之后专门指定你的起始位置
 闭合路径closePath(),不是必需的。这个方法会通过绘制一条从当前点到开始点的直线来闭合图形。如果图形是已经闭合了的，即当前点为开始点，该函数什么也不做
 注意：当你调用fill()函数时，所有没有闭合的形状都会自动闭合，所以你不需要调用closePath()函数。但是调用stroke()时不会自动闭合
+
+arc(x, y, radius, startAngle, endAngle, anticlockwise)（参数anticlockwise为一个布尔值，为true时，是逆时针方向，否则顺时针方向）
+注意：arc()函数中表示角的单位是弧度，不是角度。角度与弧度的js表达式:
+弧度=(Math.PI/180)*角度
+
+quadraticCurveTo(cp1x, cp1y, x, y)
+绘制二次贝塞尔曲线，cp1x,cp1y为一个控制点，x,y为结束点。
+bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+绘制三次贝塞尔曲线，cp1x,cp1y为控制点一，cp2x,cp2y为控制点二，x,y为结束点
+
+二次贝塞尔曲线有一个开始点（蓝色）、一个结束点（蓝色）以及一个控制点（红色），而三次贝塞尔曲线有两个控制点
+参数x、y在这两个方法中都是结束点坐标。cp1x,cp1y为坐标中的第一个控制点，cp2x,cp2y为坐标中的第二个控制点
+
+rect(x, y, width, height)
+绘制一个左上角坐标为（x,y），宽高为width以及height的矩形。
+当该方法执行的时候，moveTo()方法自动设置坐标参数（0,0）。也就是说，当前笔触自动重置回默认坐标
+
+为了简化代码和提高性能，Path2D对象已可以在较新版本的浏览器中使用，用来缓存或记录绘画命令，这样你将能快速地回顾路径,例：
+function draw() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+
+    var rectangle = new Path2D();
+    rectangle.rect(10, 10, 50, 50);
+
+    var circle = new Path2D();
+    circle.moveTo(125, 35);
+    circle.arc(100, 35, 25, 0, 2 * Math.PI);
+
+    ctx.stroke(rectangle);
+    ctx.fill(circle);
+  }
+}
+新的Path2D API有另一个强大的特点，就是使用SVG path data来初始化canvas上的路径。这将使你获取路径时可以以SVG或canvas的方式来重用它们，例：
+var p = new Path2D("M10 10 h 80 v 80 h -80 Z");
