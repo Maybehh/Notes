@@ -701,3 +701,98 @@ function draw() {
 }
 新的Path2D API有另一个强大的特点，就是使用SVG path data来初始化canvas上的路径。这将使你获取路径时可以以SVG或canvas的方式来重用它们，例：
 var p = new Path2D("M10 10 h 80 v 80 h -80 Z");
+ctx.fill(p);
+
+fillStyle = color设置图形的填充颜色   strokeStyle = color设置图形轮廓的颜色
+
+miterLimit = value限制当两条线相交时交接处最大长度；所谓交接处长度（斜接长度）是指线条交接处内角顶点到外角顶点的长度
+lineWidth线宽是指给定路径的中心到两边的粗细。换句话说就是在路径的两边各绘制线宽的一半
+实际填充区域（深蓝色部分）仅仅延伸至路径两旁各一半像素。而这半个像素又会以近似的方式进行渲染，这意味着那些像素只是部分着色，
+结果就是以实际笔触颜色一半色调的颜色来填充整个区域（浅蓝和深蓝的部分）
+
+线段的外侧边缘会延伸交汇于一点上。线段直接夹角比较大的，交点不会太远，但当夹角减少时，交点距离会呈指数级增大
+miterLimit 属性就是用来设定外延交点与连接点的最大距离，如果交点距离大于此值，连接效果会变成了 bevel
+
+
+用 setLineDash 方法和 lineDashOffset 属性来制定虚线样式.
+setLineDash 方法接受一个数组(实线长度和空隙长度），来指定线段与间隙的交替；（ctx.setLineDash([4, 2]);）
+lineDashOffset 属性设置起始偏移量
+
+createLinearGradient(x1, y1, x2, y2)
+createLinearGradient 方法接受 4 个参数，表示渐变的起点 (x1,y1) 与终点 (x2,y2)
+createRadialGradient(x1, y1, r1, x2, y2, r2)
+createRadialGradient 方法接受 6 个参数，前三个定义一个以 (x1,y1) 为原点，半径为 r1 的圆，后三个参数则定义另一个以 (x2,y2) 为原点，半径为 r2 的圆
+（两个圆半径之间的渐变，内圆为最后或开始的颜色）
+gradient.addColorStop(position, color)
+addColorStop 方法接受 2 个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置
+例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）
+
+createPattern(image, type)
+该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y和no-repeat
+var img = new Image();
+img.src = 'someimage.png';
+var ptrn = ctx.createPattern(img,'repeat');
+注意：与 drawImage 有点不同，你需要确认 image 对象已经装载完毕，否则图案可能效果不对的
+使用 Image 对象的 onload handler 来确保设置图案之前图像已经装载完毕
+function draw() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+
+  // 创建新 image 对象，用作图案
+  var img = new Image();
+  img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png';
+  img.onload = function() {
+
+    // 创建图案
+    var ptrn = ctx.createPattern(img, 'repeat');
+    ctx.fillStyle = ptrn;
+    ctx.fillRect(0, 0, 150, 150);
+
+  }
+}
+
+shadowOffsetX（Y) = float负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为0
+shadowBlur 用于设定阴影的模糊程度 shadowColor = color
+
+Canvas 填充规则
+fill（或者 clip和isPointinPath ）   例：ctx.fill("evenodd");
+"nonzero": non-zero winding rule, 默认值.
+"evenodd":  even-odd winding rule
+
+fillText(text, x, y [, maxWidth])
+在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的.
+strokeText(text, x, y [, maxWidth])
+在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的
+font = value  默认的字体是 10px sans-serif
+textAlign = value 文本对齐选项
+textBaseline = value 基线对齐选项
+获得文本细节：measureText()将返回一个 TextMetrics对象的宽度、所在像素，这些体现文本特性的属性，例：
+下面的代码段将展示如何测量文本来获得它的宽度：
+function draw() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  var text = ctx.measureText("foo"); // TextMetrics object
+  text.width; // 16;
+}
+
+HTMLImageElement
+这些图片是由Image()函数构造出来的，或者任何的<img>元素
+HTMLVideoElement
+用一个HTML的 <video>元素作为你的图片源，可以从视频中抓取当前帧作为一个图像
+HTMLCanvasElement
+可以使用另一个 <canvas> 元素作为你的图片源。
+ImageBitmap
+这是一个高性能的位图，可以低延迟地绘制，它可以从上述的所有源以及其它几种源中生成
+
+使用相同页面内的图片
+document.images集合
+document.getElementsByTagName()方法
+document.getElementById()方法
+使用其它域名下的图片
+在 HTMLImageElement上使用crossOrigin属性，你可以请求加载其它域名上的图片。
+如果图片的服务器允许跨域访问这个图片，那么你可以使用这个图片而不污染canvas，否则，使用这个图片将会污染canvas（在 <canvas> 检索数据过程中引发异常）
+由零开始创建图像
+若调用 drawImage 时，图片没装载完，那什么都不会发生（在一些旧的浏览器中可能会抛出异常）。因此你应该用load事件来保证不会在加载完毕之前使用这个图片：
+var img = new Image();   // 创建img元素
+img.onload = function(){（加载后调用函数）
+  // 执行drawImage语句
+}
+img.src = 'myImage.png'; // 设置图片源地址
