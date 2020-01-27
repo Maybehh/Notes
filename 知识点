@@ -773,6 +773,7 @@ function draw() {
   text.width; // 16;
 }
 
+获得图片：
 HTMLImageElement
 这些图片是由Image()函数构造出来的，或者任何的<img>元素
 HTMLVideoElement
@@ -789,6 +790,7 @@ document.getElementById()方法
 使用其它域名下的图片
 在 HTMLImageElement上使用crossOrigin属性，你可以请求加载其它域名上的图片。
 如果图片的服务器允许跨域访问这个图片，那么你可以使用这个图片而不污染canvas，否则，使用这个图片将会污染canvas（在 <canvas> 检索数据过程中引发异常）
+
 由零开始创建图像
 若调用 drawImage 时，图片没装载完，那什么都不会发生（在一些旧的浏览器中可能会抛出异常）。因此你应该用load事件来保证不会在加载完毕之前使用这个图片：
 var img = new Image();   // 创建img元素
@@ -796,3 +798,43 @@ img.onload = function(){（加载后调用函数）
   // 执行drawImage语句
 }
 img.src = 'myImage.png'; // 设置图片源地址
+
+通过 data: url 方式嵌入图像：
+我们还可以通过 data:url 方式来引用图像。Data urls 允许用一串 Base64 编码的字符串的方式来定义一个图片。
+img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==';
+其优点就是图片内容即时可用，无须再到服务器兜一圈。（还有一个优点是，可以将 CSS，JavaScript，HTML 和 图片全部封装在一起，迁移起来十分方便。）
+缺点就是图像没法缓存，图片大的话内嵌的 url 数据会相当的长
+
+绘制图片：
+一旦获得了源图对象，我们就可以使用 drawImage 方法将它渲染到 canvas 里
+缩放 Scaling：
+drawImage(image, x, y, width, height)这个方法多了2个参数：width 和 height，
+这两个参数用来控制 当向canvas画入时应该缩放的大小（以width和height显示）
+切片 Slicing：
+drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+第一个参数和其它的是相同的，都是一个图像或者另一个 canvas 的引用
+其它8个参数最好是参照右边的图解，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小
+24-bit PNG 图像带有一个完整的 8-bit alpha 通道，与 GIF 和 8-bit PNG 不同，我可以将它放成背景而不必担心底色的问题
+
+控制图像的缩放行为 Controlling image scaling behavior
+Gecko 1.9.2 引入了 mozImageSmoothingEnabled 属性，值为 false 时，图像不会平滑地缩放。默认是 true 
+
+每一次调用 restore （画布(canvas)的所有状态）方法，上一个保存的状态就从栈中弹出，所有设定都恢复
+translate(x, y)（移动原点）
+rotate(angle)（以原点为中心旋转 canvas）：
+这个方法只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。
+旋转的中心点始终是 canvas 的原点，如果要改变它，我们需要用到 translate 方法
+scale(x, y)
+scale  方法可以缩放画布的水平和垂直的单位。两个参数都是实数，可以为负数，x 为水平缩放因子，y 为垂直缩放因子，如果比1小，会比缩放图形， 
+如果比1大会放大图形。默认值为1， 为实际大小。
+（坐标轴，画布位置均不变，进行坐标轴变换，负数坐标轴180翻转（正轴变负轴），在现在的坐标轴按坐标作画，
+最后翻折回第一象限（按原来画布左上角原点的画布显示，为显示的内容）
+画布初始情况下， 是以左上角坐标为原点的第一象限。如果参数为负实数， 相当于以x 或 y轴作为对称轴镜像反转
+（例如， 使用translate(0,canvas.height); scale(1,-1); 
+以y轴作为对称轴镜像反转， 就可得到著名的笛卡尔坐标系，左下角为原点）。
+默认情况下，canvas 的 1 个单位为 1 个像素。举例说，如果我们设置缩放因子是 0.5，1 个单位就变成对应 0.5 个像素，
+这样绘制出来的形状就会是原先的一半。同理，设置为 2.0 时，1 个单位就对应变成了 2 像素，绘制的结果就是图形放大了 2 倍
+（在对应的单位情况下，一个单位对应的像素变了，例：缩放前，1单位对应1像素，0.5的话，缩放后，1单位对应0.5像素（原来的1像素*0.5），
+                                              缩放前，1单位对应2像素，0.5的话，缩放后，1单位对应1像素）
+画图的方法的长度单位并不是1个像素点
+例如 fillRect(0,0,100,100)，表示长为100 * canvas默认单位长度，宽为100 * canvas默认单位长度。（canvas默认单位长度为1px）
