@@ -724,7 +724,7 @@ createLinearGradient(x1, y1, x2, y2)
 createLinearGradient 方法接受 4 个参数，表示渐变的起点 (x1,y1) 与终点 (x2,y2)
 createRadialGradient(x1, y1, r1, x2, y2, r2)
 createRadialGradient 方法接受 6 个参数，前三个定义一个以 (x1,y1) 为原点，半径为 r1 的圆，后三个参数则定义另一个以 (x2,y2) 为原点，半径为 r2 的圆
-（两个圆半径之间的渐变，内圆为最后或开始的颜色）
+（两个圆半径之间的渐变，内圆内的为最后或开始的颜色，外圆外的为最后或开始的颜色）
 gradient.addColorStop(position, color)
 addColorStop 方法接受 2 个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置
 例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）
@@ -1022,12 +1022,14 @@ SVG 文件可通过以下标签嵌入 HTML 文档：<embed>、<object> 或者 <i
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
 <svg width="100%" height="100%" version="1.1"
-xmlns="http://www.w3.org/2000/svg">
+xmlns="http://www.w3.org/2000/svg">定义了一个100*100px的SVG画布
 
 <rect x="20" y="20" rx="20" ry="20" width="250"
 height="100" style="fill:red;stroke:black;
 stroke-width:5;opacity:0.5"/>
 （rx 和 ry 属性可使矩形产生圆角)
+rx圆角的x方位的半径
+ry圆角的y方位的半径
 </svg>
 
 <ellipse> 标签可用来创建椭圆 
@@ -1045,6 +1047,7 @@ y2 属性在 y 轴定义线条的结束
 <polygon> 标签用来创建含有不少于三个边的图形
 points 属性定义多边形每个角的 x 和 y 坐标 
 例：<polygon points="220,100 300,210 170,250" style="fill:#cccccc; stroke:#000000;stroke-width:1"/>
+polygon的路径在最后一个点处自动回到第一个点
 
 <polyline> 标签用来创建仅包含直线的形状
 例：<polyline points="0,0 0,20 20,20 20,40 40,40 40,60" style="fill:white;stroke:red;stroke-width:2"/>
@@ -1053,12 +1056,147 @@ points 属性定义多边形每个角的 x 和 y 坐标
 下面的命令可用于路径数据：
 M = moveto
 L = lineto
-H = horizontal lineto
-V = vertical lineto
-C = curveto
+H = horizontal lineto H，绘制水平线(H x (or h dx右为正，左为负))
+V = vertical lineto   V，绘制垂直线(V y (or v dy下为正，上为负))
+C = curveto 三次贝塞尔曲线，控制点描述的是曲线起始点的斜率和曲线结束点的斜率，曲线上各个点的斜率，是从起点斜率到终点斜率的渐变过程
 S = smooth curveto
-Q = quadratic Belzier curve
+Q = quadratic Belzier curve二次贝塞尔曲线Q只需要一个控制点，用来确定起点和终点的曲线斜率
 T = smooth quadratic Belzier curveto
 A = elliptical Arc
-Z = closepath
-注释：以上所有命令均允许小写字母。大写表示绝对定位，小写表示相对定位
+Z = closepath(不区分大小写）
+注释：以上所有命令均允许小写字母。大写表示绝对定位，小写表示相对定位（例如：从上一个点开始，向上移动10px，向左移动7px）
+例：<path d="M250 150 L150 350 L350 350 Z" />（m dx dy)
+属性d采用的是用户坐标系统，所以不需标明单位
+三次贝塞尔曲线有一个S命令，二次贝塞尔曲线有一个T命令，可以通过更简短的参数，延长贝塞尔曲线
+S:S x2 y2, x y (or s dx2 dy2, dx dy)(第二个控制点以及结束点）
+S命令可以用来创建与前面一样的贝塞尔曲线，但是，如果S命令跟在一个C或S命令后面，
+则它的第一个控制点会被假设成前一个命令曲线的第二个控制点的中心对称点（以前一个S或C的结束点作中心对称）
+如果S命令单独使用，前面没有C或S命令，那当前点将作为第一个控制点
+T x y (or t dx dy)（结束点）
+T命令前面必须是一个Q命令，或者是另一个T命令，和上述的S命令的对称方式相同。如果T单独使用，那么控制点就会被认为和终点是同一个点，所以画出来的将是一条直线
+弧形命令A
+ A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+ a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy
+ rx,ry x,y轴半径
+ x,y 终点
+ x-axis-rotation（x轴旋转角度） 
+ large-arc-flag（角度大小），large-arc-flag决定弧线是大于还是小于180度，0表示小角度弧，1表示大角度弧
+ sweep-flag（弧线方向），sweep-flag表示弧线的方向，0表示从起点到终点沿逆时针画弧，1表示从起点到终点沿顺时针画弧
+ 
+通过指定stroke-dasharray属性，将虚线类型应用在描边上
+stroke-dasharray属性的参数，是一组用逗号分割的数字组成的数列，数字必须用逗号分割（空格会被忽略）
+每一组数字，第一个用来表示填色区域的长度，第二个用来表示非填色区域的长度（第一个是填色的）
+第一个例子指定了3个数字，这种情况下，数字会循环两次，形成一个偶数的虚线模式（奇数个循环两次变偶数个）。所以该路径首先渲染5个填色单位，10个空白单位，
+5个填色单位，然后回头以这3个数字做一次循环，但是这次是创建5个空白单位，10个填色单位，5个空白单位。通过这两次循环得到偶数模式，并将这个偶数模式不断重复
+
+SVG规范将属性区分成properties和其他attributes，前者是可以用CSS设置的，后者不能
+在svg里<style>则放在<defs>标签里。<defs>表示定义，这里面可以定义一些不会在SVG图形中出现、但是可以被其他元素使用的元素
+<?xml version="1.0" standalone="no"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <style type="text/css"><![CDATA[
+       #MyRect {
+         stroke: black;
+         fill: red;
+       }
+    ]]></style>
+  </defs>
+  <rect x="10" height="180" y="10" width="180" id="MyRect"/>
+</svg>
+定义一个外部的样式表，但是要符合normal XML-stylesheet syntax的CSS规则<?xml-stylesheet type="text/css" href="style.css"?>
+
+必须在 <defs> 标签中定义 SVG 滤镜
+例：
+<defs>
+<filter id="Gaussian_Blur">
+<feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+</filter>
+</defs>
+
+<ellipse cx="200" cy="150" rx="70" ry="40"
+style="fill:#ff0000;stroke:#000000;
+stroke-width:2;filter:url(#Gaussian_Blur)"/>
+
+SVG 渐变必须在 <defs> 标签中进行定义
+<linearGradient> 可用来定义 SVG 的线性渐变
+当 y1 和 y2 相等，而 x1 和 x2 不同时，可创建水平渐变
+当 x1 和 x2 相等，而 y1 和 y2 不同时，可创建垂直渐变
+当 x1 和 x2 不同，且 y1 和 y2 不同时，可创建角形渐变
+例：
+<defs>
+<linearGradient id="orange_red" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" style="stop-color:rgb(255,255,0);
+stop-opacity:1"/>
+<stop offset="100%" style="stop-color:rgb(255,0,0);
+stop-opacity:1"/>
+</linearGradient>
+</defs>
+
+<ellipse cx="200" cy="190" rx="85" ry="55"
+style="fill:url(#orange_red)"/>
+线性渐变内部有几个<stop>（中值）结点，这些结点通过指定位置的offset（偏移）属性和stop-color（颜色中值）属性来说明在渐变的特定位置上应该是什么颜色
+偏移量应该始终从0%开始（或者0也可以，百分号可以扔掉），到100%（或1）结束。如果stop设置的位置有重合，将使用XML树中较晚设置的值
+渐变色默认是水平方向的
+可以在渐变上使用xlink:href属性。
+如果使用了该属性时，一个渐变的属性和颜色中值（stop）可以被另一个渐变包含引用。在下例中，你就不需要再Grandient2中重新创建全部的颜色中值（stop）
+<linearGradient id="Gradient1">
+   <stop id="stop1" offset="0%"/>
+   <stop id="stop2" offset="50%"/>
+   <stop id="stop3" offset="100%"/>
+ </linearGradient>
+ <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#Gradient1"/>
+    
+<defs>
+<radialGradient id="grey_blue" cx="50%" cy="50%" r="50%"
+fx="50%" fy="50%">
+<stop offset="0%" style="stop-color:rgb(200,200,200);
+stop-opacity:0"/>
+<stop offset="100%" style="stop-color:rgb(0,0,255);
+stop-opacity:1"/>
+</radialGradient>
+</defs>
+
+<ellipse cx="230" cy="200" rx="110" ry="100"
+style="fill:url(#grey_blue)"/>
+cx、cy 和 r 属性定义了渐变结束所围绕的圆环，它需要一个中心点
+焦点，由fx和fy属性定义。第一个点描述了渐变边缘位置，焦点则描述了渐变的中心
+如果焦点移到圆圈的外面，渐变将不能正确呈现，所以该点会被假定在圆圈范围内。如果没有给出焦点，将认为该点与中心点的位置一致
+spreadMethod属性，该属性控制了当渐变到达终点的行为，但是此时该对象尚未被填充颜色。这个属性可以有三个值：pad、reflect或repeat
+pad当渐变到达终点时，最终的偏移颜色被用于填充对象剩下的空间。
+reflect会让渐变一直持续下去，不过它的效果是与渐变本身是相反的，以100%偏移位置的颜色开始，逐渐偏移到0%位置的颜色，然后再回到100%偏移位置的颜色
+repeat也会让渐变继续，但是它不会像reflect那样反向渐变，而是跳回到最初的颜色然后继续渐变
+两种渐变都有一个叫做 gradientUnits（渐变单元）的属性，它描述了用来描述渐变的大小和方向的单元系统。该属性有两个值：userSpaceOnUse 、objectBoundingBox。
+默认值为objectBoundingBox，我们目前看到的效果都是在这种系统下的，它大体上定义了对象的渐变大小范围，所以你只要指定从0到1的坐标值，
+渐变就会自动的缩放到对象相同大小。userSpaceOnUse使用绝对单元，所以你必须知道对象的位置，并将渐变放在同样地位置上
+
+<text x="15" y="30" fill="white" font-family="sans-serif" font-size="12pt">Pad</text>
+
+<pattern>需要放在SVG文档的<defs>内部
+patternUnits属性：同 gradientUnits属性（在objectBoundingBox下，width和height设置为0.5为对象的一半，以此类推）
+patternContentUnits属性：描述了pattern元素基于基本形状使用的单元系统，这个属性默认值为userSpaceOnUse
+userSpaceOnUse:有确认的大小(不变)并且重复他们自己，与对象形状独立开来，为了美观需要自己调整位置:x和y 或者大小
+这意味着除非你至少指定其中一个属性值（patternContentUnits或patternUnits），
+否则在pattern中绘制的形状（patternUnits）将与pattern元素（patternContentUnits）使用的坐标系不同
+因为pattern内容与pattern本身处于相同的单元系统中，所以我们不用偏移边框以使pattern在正确的位置上开始，并且即使对象变大，
+pattern也会自动的缩放以保证pattern内部的对象数目和重复不变。
+这与userSpaceOnUse系统不同，userSpaceOnUse系统中如果对象改变大小，pattern本身会保持不变，只是重复更多次去填满边框
+<pattern id="Pattern" width=".25" height=".25" patternContentUnits="objectBoundingBox">(pattern以及pattern里的内容百分比均为相对于对象来说）
+   <rect x="0" y="0" width=".25" height=".25" fill="skyblue"/>
+   <rect x="0" y="0" width=".125" height=".125" fill="url(#Gradient2)"/>
+   <circle cx=".125" cy=".125" r=".1" fill="url(#Gradient1)" fill-opacity="0.5"/>
+ </pattern>
+如果你已经知道了如何创建基本SVG文件，下一步就是把它们上传到web服务器，但是在这阶段有一些陷阱。对于普通SVG文件，服务器应该会发送下面的HTTP头：
+Content-Type: image/svg+xml
+Vary: Accept-Encoding
+对于gzip压缩的SVG文件，服务器应该会发送下面的HTTP头：
+Content-Type: image/svg+xml
+Content-Encoding: gzip
+Vary: Accept-Encoding
+
+基本上，在 SVG 文档中的1个像素对应输出设备（比如显示屏）上的1个像素。但是这种情况是可以改变的，否则 SVG 的名字里也不至于会有“Scalable”（可缩放）这个词。
+如同CSS可以定义字体的绝对大小和相对大小，SVG也可以定义绝对大小（比如使用“pt”或“cm”标识维度）同时SVG也能使用相对大小，
+只需给出数字，不标明单位，输出时就会采用用户的单位
+在没有进一步规范说明的情况下，1个用户单位等同于1个屏幕单位。要明确改变这种设定，SVG里有多种方法(svg跟用户，用户与屏幕单位有规定）
+<svg width="200" height="200" viewBox="0 0 100 100">
+这里定义的画布尺寸是200*200px。但是，viewBox属性定义了画布上可以显示的区域：从(0,0)点开始，100宽*100高的区域。
+这个100*100的区域，会放到200*200的画布上显示。于是就形成了放大两倍的效果
