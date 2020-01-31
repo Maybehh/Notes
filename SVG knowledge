@@ -118,18 +118,6 @@ SVG规范将属性区分成properties和其他attributes，前者是可以用CSS
 </svg>
 定义一个外部的样式表，但是要符合normal XML-stylesheet syntax的CSS规则<?xml-stylesheet type="text/css" href="style.css"?>
 
-必须在 <defs> 标签中定义 SVG 滤镜
-例：
-<defs>
-<filter id="Gaussian_Blur">
-<feGaussianBlur in="SourceGraphic" stdDeviation="3" />
-</filter>
-</defs>
-
-<ellipse cx="200" cy="150" rx="70" ry="40"
-style="fill:#ff0000;stroke:#000000;
-stroke-width:2;filter:url(#Gaussian_Blur)"/>
-
 SVG 渐变必须在 <defs> 标签中进行定义
 <linearGradient> 可用来定义 SVG 的线性渐变
 当 y1 和 y2 相等，而 x1 和 x2 不同时，可创建水平渐变
@@ -264,3 +252,158 @@ transform属性定义了应用于元素和元素子元素的转换定义列表
 斜切skewX()变形和skewY()变形
 缩放scale()需要两个数字，作为比率计算如何缩放。0.5表示收缩到50%。如果第二个数字被忽略了，它默认等于第一个值
 变形矩阵matrix()
+SVG嵌在SVG内部
+比之HTML，SVG允许你无缝嵌入别的svg元素。因此你可以利用内部svg元素的属性viewBox、属性width和属性height简单创建一个新的坐标系统
+
+Clipping用来移除在别处定义的元素的部分内容。在这里，任何半透明效果都是不行的。它只能要么显示要么不显示
+Masking允许使用透明度和灰度值遮罩计算得的软边缘
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <clipPath id="cut-off-bottom">
+      <rect x="0" y="0" width="200" height="100" />
+    </clipPath>
+  </defs>
+
+  <circle cx="100" cy="100" r="100" clip-path="url(#cut-off-bottom)" />
+</svg>
+rect不会被绘制，它的像素数据将用来确定：圆形的哪些像素需要最终呈现出来
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="Gradient">
+      <stop offset="0" stop-color="white" stop-opacity="0" />
+      <stop offset="1" stop-color="white" stop-opacity="1" />
+    </linearGradient>
+    <mask id="Mask">
+      <rect x="0" y="0" width="200" height="200" fill="url(#Gradient)"  />
+    </mask>
+  </defs>
+
+  <rect x="0" y="0" width="200" height="200" fill="green" />
+  <rect x="0" y="0" width="200" height="200" fill="red" mask="url(#Mask)" />
+</svg>
+mask元素的内容是一个单一的rect元素，它填充了一个透明到白色的渐变。作为红色矩形继承mark内容的alpha值（透明度）的结果，我们看到一个从绿色到红色渐变的输出
+填充和描边还有两个属性是fill-opacity和stroke-opacity，分别用来控制填充和描边的不透明度。需要注意的是描边将绘制在填充的上面
+因此，如果你在一个元素上设置了描边透明度，但它同时设有填充，则描边的一半应用填充色，另一半将应用背景色
+
+所有的SVG元素的初始display值都是inline
+
+嵌入光栅图像
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="200" height="200">
+  <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+     xlink:href="https://developer.mozilla.org/media/img/mdn-logo.png"/>
+</svg>
+如果你没有设置x属性或y属性，它们自动被设置为0
+如果你没有设置height属性或width属性，它们自动被设置为0
+如果width属性或height等于0，将不会呈现这个图像
+
+嵌入任意XML
+<foreignObject> 元素,它的唯一的目的是作为其它标记的容器和SVG样式属性的载体（更突出的width和height用来定义该对象占用的空间)
+foreignObject元素是一个好办法，用来在SVG中嵌入XHTML。如果你有更长的文本，该HTML布局比SVG text元素更适合,另一个经常被引用的用例是用MathML写的方程式
+foreignObject元素的内容是能被浏览器加工的。一个独立的SVG浏览器不太可能呈现HTML或MathML
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    polygon { fill: black }
+ 
+    div {
+      color: white;
+      font:18px serif;
+      height: 100%;
+      overflow: auto;
+    }
+  </style>
+ 
+  <polygon points="5,5 195,10 185,185 10,195" />
+  
+  <foreignObject x="20" y="20" width="160" height="160">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+      porta vel dui convallis, rutrum imperdiet eros. Aliquam
+      erat volutpat.
+    </div>
+  </foreignObject>
+</svg>
+
+定义一个字体
+<font id="Font1" horiz-adv-x="1000">
+  <font-face font-family="Super Sans" font-weight="bold" font-style="normal"
+      units-per-em="1000" cap-height="600" x-height="400"
+      ascent="700" descent="300"
+      alphabetic="0" mathematical="350" ideographic="400" hanging="500">
+    <font-face-src>
+      <font-face-name name="Super Sans Bold"/>
+    </font-face-src>
+  </font-face>
+  <missing-glyph><path d="M0,0h200v200h-200z"/></missing-glyph>
+  <glyph unicode="!" horiz-adv-x="300"><!-- Outline of exclam. pt. glyph --></glyph>
+  <glyph unicode="@"><!-- Outline of @ glyph --></glyph>
+  <!-- more glyphs -->
+</font>
+horiz-adv-x定义了相比之单一字形的路径定义，一个字符的平均宽度
+<font-face>元素在SVG中等同于CSS的 @font-face 声明
+它的子元素，<font-face-src>元素，相对于CSS的@font-face描述符中的src描述符。你可以利用它的子元素 <font-face-name>和<font-face-uri>把字体声明指向外源
+以上示例表达了如果渲染器有一个名为“Super Sans Bold”的本地字体可用，它将使用这个本地字体
+<missing-glyph>元素。它定义了如果一个特定的字形在字体中找不到，而且也没有回调机制的话，该如何显示。它同时还显示了如何创建字形
+真正的字形是用<glyph>元素定义的。它最重要的属性是unicode。它定义了表达这个字形的unicode代码点
+<hkern>元素和<vkern>元素。这两个元素每个引用到至少两个字符（属性u1和属性u2）以及一个属性k
+属性k决定了那些字符之间的距离应该减少多少。下面的示例指示用户代理把“A”和“V”字符放得比标准的字符间距更靠近一些
+<hkern u1="A" u2="V" k="20" />
+
+引用一个字体
+<font>
+  <font-face font-family="Super Sans" />
+  <!-- and so on -->
+</font>
+<text font-family="Super Sans">My text uses Super Sans</text>
+可以使用@font-face以引用远程（或者非远程）字体
+<font id="Super_Sans">
+  <!-- and so on -->
+</font>
+<style type="text/css">
+@font-face {
+  font-family: "Super Sans";
+  src: url(#Super_Sans);
+}
+</style>
+<text font-family="Super Sans">My text uses Super Sans</text>
+
+font-face-uri元素允许你引用一个外来字体
+<font>
+  <font-face font-family="Super Sans">
+    <font-face-src>
+      <font-face-uri xlink:href="fonts.svg#Super_Sans" />
+    </font-face-src>
+  </font-face>
+</font> 
+
+必须在 <defs> 标签中定义 SVG 滤镜
+例：
+<defs>
+<filter id="Gaussian_Blur">
+<feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+</filter>
+</defs>
+
+<ellipse cx="200" cy="150" rx="70" ry="40"
+style="fill:#ff0000;stroke:#000000;
+stroke-width:2;filter:url(#Gaussian_Blur)"/>
+
+滤镜：输入和输出，对图形加滤镜后输出显示
+<filter>
+x,y:定义滤镜渲染区域左上角的坐标,默认值均为-10%（滤镜会加东西变大，偏离保持结果完整）
+width，height：默认值均为120%（滤镜会加东西变大，加大保持结果完整）
+filterUnits：userSpaceOnUse（参照用户的坐标系统） | objectBoundingBox 默认值	objectBoundingBox（所述参考元件上的边界框的分数或百分比（使用百分比））
+primitiveUnits：为过滤器基元内的各种长度值以及定义过滤器基元子区域的属性指定坐标系 默认值	userSpaceOnUse
+
+<animate>
+begin,end,min,max,dur: 一次动画的时间属性
+restart：指定动画是否可以重新启动(默认always)
+always 此值指示可以随时重新启动动画
+whenNotActive 该值指示动画只能在不活动时（即，在活动结束之后）重新启动。在动画激活期间尝试重新启动动画的尝试将被忽略
+never 此值指示在加载文档时无法重新启动动画
+repeatCount: 指示动画将发生的次数(大于0的值或者indefinite)
+repeatDur: 指定重复动画的总持续时间(大于0的值或者indefinite)
+fill：定义动画的最终状态 freeze（保留最后一个动画帧的状态）| remove（保持第一个动画帧的状态）(默认remove)
