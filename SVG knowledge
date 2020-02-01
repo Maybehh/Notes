@@ -407,3 +407,103 @@ never 此值指示在加载文档时无法重新启动动画
 repeatCount: 指示动画将发生的次数(大于0的值或者indefinite)
 repeatDur: 指定重复动画的总持续时间(大于0的值或者indefinite)
 fill：定义动画的最终状态 freeze（保留最后一个动画帧的状态）| remove（保持第一个动画帧的状态）(默认remove)
+calcMode: 指定动画的插值模式,默认模式为linear，但是如果属性不支持线性插值（例如，对于字符串），则将calcMode忽略该属性，并使用离散插值
+路径动画calcMode默认值是paced，也就是说并不是所有动画calcMode默认属性值是linear
+linear
+<animate xlink:href="#ant"
+      attributeName="x"
+      calcMode="linear"
+      values="10;30;150"
+      dur="4s"
+      begin="click"/>
+动画通过values属性划分为两个阶段，在x轴方位（10至30）与（30至150）
+这两个阶段动画持续时间相同，也就是都是2秒
+动画在这两个阶段都是允许进行
+discrete
+<animate xlink:href="#ant"
+      attributeName="x"
+      calcMode="discrete"
+      values="10;30;150"
+      dur="4s"
+      begin="click"/>
+点击蓝色矩形可以开始动画效果，整个动画持续时间为4秒，但是没有动画效果，都是瞬间完成
+动画通过values属性划分为两个阶段，在x轴方位（10至30）与（30至150）
+这两个阶段动画持续时间相同，也就是都是2秒
+点击按钮之后，需要等待2秒，然后瞬时完成第一阶段，再等待两秒，再瞬时完成第二阶段
+paced
+<animate xlink:href="#ant"
+      attributeName="x"
+      calcMode="paced"
+      values="10;30;150"
+      dur="4s"
+      begin="click"/>
+将属性值设置为"paced"之后，动画效果比较耿直，动画阶段无论如何划分，都是匀速执行
+比如上述代码，动画划分为两个阶段，点击按钮后，动画会从头到尾保持相同速度完成
+keyTimes：为动画各个阶段指定动画持续时间
+ <animate xlink:href="#ant"
+      attributeName="x"
+      calcMode="linear"
+      values="10;30;40;60;80;140;160"
+      keyTimes="0;0.15;0.3;0.45;0.6;0.75;1"
+      dur="10s"
+      begin="click"/>
+通过values属性为整个动画划分阶段
+keyTimes可以为values规定的动画阶段规定对应的执行时间
+将整个动画持续过程看做1，keyTimes值对0-1这个这个时间段进行划分区间与value规定的值对应起来（每个value对应一个时间）
+keySplines：定义了一个与keyTimes列表相关的一组Bézier控制点，定义了一个控制间隔速率的三次Bézier函数，每一段内不同点速度不同（依据曲线）
+calcMode属性值为"spline"的时候，keySplines属性才会生效
+ <animate xlink:href="#ant"
+      attributeName="x"
+      calcMode="spline"
+      values="10;60;140;160"
+      keyTimes="0;0.3;0.8;1"
+      keySplines="0.42 0 1 1;
+        0 0 0.59 1;
+        0.42 0 1 1;"
+      dur="10s"
+      begin="click"/>
+keySplines属性值是一组三次贝塞尔控制点（默认0 0 1 1）（keySplines值是控制点）
+每个控制点使用4个浮点值表示：x1 y1 x2 y2，值范围0~1
+from：指示将在动画期间修改的属性的初始值（通过values属性定义值列表时，将忽略from，to，by）
+与to属性一起使用时，动画会将修改后的属性从from值更改为to值。与该by属性一起使用时，动画会将其属性从from值相对更改为by(加上或减掉by变成最后的结果）
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" height="100">
+    <animate attributeName="width" fill="freeze" from="100" to="150" dur="3s"/>
+  </rect>
+</svg>
+to：指示将在动画期间修改的属性的最终值
+by：将在动画期间修改的属性指定相对偏移值
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="100" height="100">
+    <animate attributeName="width" fill="freeze" by="50" dur="3s"/>
+  </rect>
+</svg>
+attributeName: 指示将在动画过程中更改的CSS属性的名称或目标元素的属性
+additive: 控制动画是否可叠加（replace | sum 默认值	replace）（将动画定义为属性值的偏移量或增量而不是绝对值的时候通常很有用）
+<animate xlink:href="#ant"
+           attributeName="x"
+           from="0"
+           to="100"
+           dur="5s"
+           begin="0s" />
+  <animate xlink:href="#ant"
+           attributeName="x"
+           from="0"
+           to="100"
+           dur="5s"
+           begin="0s" />
+  第二个会覆盖第一个的效果,也就是优先级低覆盖优先级高,结果是0到100用了5s,速度20/s
+  <animate xlink:href="#ant"
+           attributeName="x"
+           from="0"
+           to="100"
+           dur="5s"
+           begin="0s" />
+  <animate xlink:href="#ant"
+           additive="sum"
+           attributeName="x"
+           from="0"
+           to="100"
+           dur="5s"
+           begin="0s" />
+为第二个动画元素添加additive="sum"，动画速度加快了一倍，这就是优先级低的动画效果会附加到优先级高的动画效果,结果是0到200用了5s，速度40/s
