@@ -419,6 +419,8 @@ BackgroundImage的解决方法
   </defs>
   <circle cx="50%" cy="40%" r="40%" fill="#c00" style="filter:url(#imageMultiply);"/>
 </svg>
+
+<feBlend>
 mode：定义了<feBlend>过滤器原语上的混合模式
 normal无论底色是什么，最终颜色都是顶色。效果就像两张不透明的纸叠在一起
 multiply最终颜色是顶部和底部颜色相乘的结果。黑色层导致黑色最终层，而白色层则没有变化。效果就像透明胶片上印刷的两个图像重叠一样
@@ -438,6 +440,106 @@ hue最终颜色具有顶部颜色的色相，同时使用底部颜色的饱和�
 saturation最终颜色具有顶部颜色的饱和度，同时使用底部颜色的色相和亮度。纯灰色背景（不饱和）将不起作用
 color最终颜色具有顶部颜色的色相和饱和度，同时使用底部颜色的光度。 该效果保留灰度级，可用于使前景着色
 luminosity最终颜色具有顶部颜色的亮度，同时使用底部颜色的色相和饱和度。此混合模式等效于color，但是交换了图层
+
+<feComponentTransfer>
+针对每个像素数据的过滤器进行原始颜色分量级重新映射。它允许进行诸如亮度调节，对比度调节，色彩平衡或阈值设置之类的操作
+计算是对未预乘的颜色值进行的,颜色是由每个通道（R，G，B和A）改变到什么样的结果，由<feFuncR>，<feFuncB>，<feFuncG>，和<feFuncA>返回
+
+<feComposite>
+使用Porter-Duff合成操作之一在图像空间中以像素方式执行两个输入图像的组合
+operator属性对于<feComposite>元素，它定义要执行的合成操作，over | in | out | atop | xor | arithmetic
+over此值指示in属性中定义的源图形放置在in2属性中定义的目标图形上方
+in此值表示in属性中定义的源图形中与属性中定义的目标图形重叠的部分in2替换了目标图形
+out此值指示显示in属性中定义的源图形中属于属性中定义的目标图形之外的in2部分
+atop此值表示in属性中定义的源图形的部分与属性中定义的目标图形重叠的部分in2替换了目标图形。目标图形中与源图形不重叠的部分保持不变
+xor此值指示in属性中定义的源图形和in2属性中定义的目标图形的非重叠区域已合并
+lighter此值指示显示in属性中定义的源图形和属性中定义的目标图形之和in2
+arithmetic
+arithmetic运算对于将<feDiffuseLighting>和<feSpecularLighting>过滤器的输出与纹理数据组合起来非常有用
+如果选择arithmetic运算，则使用以下公式计算每个结果像素：
+result = k1*i1*i2 + k2*i1 + k3*i2 + k4
+i1和i2表示输入图像的相应像素通道值，分别映射到in和in2
+k1, k2, k3和k4表示具有相同名称的属性的值(默认值为0)
+
+<feConvolveMatrix>
+应用矩阵卷积滤波器效果。 卷积将输入图像中的像素与相邻像素组合以产生结果图像。 通过卷积可以实现各种各样的成像操作，包括模糊，边缘检测，锐化，压花和斜角
+order属性指示<feConvolveMatrix>元素要使用的矩阵的大小
+第一个数字<orderX>表示矩阵中的列数。 第二个数字<orderY>表示矩阵中的行数。 如果未提供<orderY> ，则默认为<orderX>
+kernelMatrix属性定义构成<feConvolveMatrix>元素的内核矩阵
+divisor属性输入图像以生成数字后，将该数字除以赋予divisor属性的值，以生成最终目标颜色值
+divisor是所有矩阵值的总和，往往会对结果的整体颜色强度产生影响
+默认值是kernelMatrix中所有值的总和，但如果总和为零，则除数设置为1,指定零除数是错误的
+bias属性改变了滤波器的范围,输入图像以生成数字并应用divisor属性后，将bias属性添加到每个组件（改变起始值）。这样可以表示原本可以固定为0或1的值
+偏置的一种应用是在希望使0.5灰度值为滤波器的零响应时
+targetX属性确定卷积矩阵相对于输入图像中的给定目标像素在X中的定位。 矩阵的最左列是列号零
+默认情况下，卷积矩阵在输入图像的每个像素上以X为中心（即targetX = floor ( orderX / 2 ))
+edgeMode属性确定如何根据需要使用颜色值扩展输入图像，以便在内核位于输入图像边缘或附近时应用矩阵操作
+duplicate它表示通过复制输入图像的给定边缘处的颜色值，根据需要沿其每个边界扩展输入图像（默认值）
+wrap它表示通过从图像的相对边缘获取颜色值来扩展输入图像
+none它表示输入图像扩展为R，G，B和A的像素值为零
+kernelUnitLength属性指示连续列和行之间的当前过滤器单元中的预期距离（由属性primitiveUnits的值确定的单位）
+第一个数字是<dx>值。 第二个数字是<dy>值。 如果未指定<dy>值，则默认为与<dx>相同的值
+preserveAlpha属性指示<feConvolveMatrix>元素如何处理alpha透明度
+值false表示卷积矩阵将应用于所有通道，包括alpha通道，这是默认值
+值true表示卷积矩阵仅适用于颜色通道
+
+<feDiffuseLighting> 
+使用Alpha通道作为凹凸贴图点亮图像。 生成的图像是RGBA不透明图像，取决于输入凹凸贴图的光色，光位置和表面几何形状
+surfaceScale属性表示滤镜基元的曲面高度。 如果未指定该属性，则效果就好像指定了值1
+diffuseConstant属性表示Phong照明模型中的k d值。在SVG中，这可以是任何非负数。它用于确定给定像素的最终RGB值。照明颜色越亮，该数字应该越小 
+kernelUnitLength属性表示在曲面法线计算公式中分别用于dx和dy的当前滤镜单元中的预期距离
+
+<feDisplacementMap> 
+使用来自in2的图像中的像素值来从中空间移位图像
+P'(x,y) ← P( x + scale * (XC(x,y) - 0.5), y + scale * (YC(x,y) - 0.5))
+P'(x,y)指的是转换之后的x, y坐标。
+· x + scale * (XC(x,y) - 0.5), y + scale * (YC(x,y) - 0.5)指的是具体的转换规则。
+· XC(x,y)表示当前x,y坐标像素点其X轴方向上设置的对应通道的计算值，范围是0~1。
+· YC(x,y)表示当前x,y坐标像素点其Y轴方向上设置的对应通道的计算值，范围是0~1。
+· -0.5是偏移值，因此XC(x,y) - 0.5范围是-0.5~0.5，YC(x,y) - 0.5范围也是-0.5~0.5。
+· scale表示计算后的偏移值相乘的比例，scale越大，则偏移越大
+xChannelSelector对应XC(x,y)，表示X轴坐标使用的是哪个颜色通道进行位置偏移。我们应该都知道，颜色有RGBA四个通道，R表示red红色，G表示green绿色，
+B表示blue蓝色，A表示alpha可以理解为透明度。因此，xChannelSelector属性值可以是R、G、B、A中的任意一个，默认是A，基于透明度进行位置偏移
+偏移为正，是反向的位移：原来的0,0坐标变成了40,0坐标，于是，原始图片所有点都往左移动了40像素
+color-interpolation-filters表示滤镜对颜色进行计算时候采用的颜色模式类型。分为linearRGB（默认值）和sRGB
+in表示输入的原始图形，in2表示用来映射的图形
+图片不移动: <feImage>颜色是50度灰的时候，RGB表示为rgb(127,127,127)，16进制色值为#7f7f7f
+因此，在feDisplacementMap世界里，五十度灰可以等同于“纹丝不动”的意思
+
+<feMerge>
+同时应用滤镜效果而不是顺序应用滤镜效果。 这是通过其他过滤器通过result属性存储其输出，然后在<feMergeNode>子项中访问它来实现的
+ <feMerge>
+      <feMergeNode in="blur2" />
+      <feMergeNode in="SourceGraphic" />
+</feMerge>
+
+<feFlood> 
+使用flood-color和flood-opacity透明度定义的颜色和不透明度填充滤镜子区域
+<feFlood x="50" y="50" width="100" height="100"
+          flood-color="green" flood-opacity="0.5"/>
+<use style="filter: url(#floodFilter);"/>（对<g>和滤镜来说，用use标签可以直接调用）
+
+<feImage>
+从外部源获取图像数据并提供像素数据作为输出（意味着如果外部源是SVG图像，则进行栅格化。）
+viewport<svg width="500" height="300"></svg>
+viewbox: viewBox="x, y, width, height" 
+SVG就像是我们的显示器屏幕，viewBox就是截屏工具选中的那个框框，最终的呈现就是把框框中的截屏内容再次在显示器中全屏显示！
+preserveAspectRatio属性指示具有提供给定纵横比的viewBox的元素如何必须适合具有不同纵横比的视口
+由于SVG图像的长宽比由viewBox属性定义，因此，如果未设置此属性，则该属性preserveAspectRatio无效
+它的值由一个或两个关键字组成：必需的对齐值和一个可选的“ meet or slice”引用
+第1个值表示，viewBox如何与SVG viewport对齐；第2个值表示，如何维持高宽比（如果有）
+其中，第1个值又是由两部分组成的。前半部分表示x方向对齐，后半部分表示y方向对齐。家族成员如下：
+xMin	viewBox和viewport左边对齐
+xMid	viewBox和viewportx轴中心对齐
+xMax	viewBox和viewport右边对齐
+YMin	viewBox和viewport上边缘对齐。注意Y是大写
+YMid	viewBox和viewporty轴中心点对齐。注意Y是大写
+YMax	viewBox和viewport下边缘对齐。注意Y是大写
+preserveAspectRatio属性第2部分的值支持下面3个：（viewbox中的内容占的比例不变）
+meet	保持纵横比缩放viewBox适应viewport（拉对角）（塞得进）
+slice	保持纵横比同时比例小的方向放大填满viewport（拉对角）（塞得满）
+none	扭曲纵横比以充分适应viewport（看情况）（塞得满）
+
 
 <animate>
 begin,end,min,max,dur: 一次动画的时间属性
@@ -581,3 +683,11 @@ sum表示从当前动画结束的状态为起始点进行下一次动画
     <set attributeName="class" to="round" begin="me.click" dur="2s" />
   </rect>
 </svg>
+
+“nonzero规则”顾名思意就是“非零规则”，用通俗的话讲，就算计算某些东西是不是0，如果不是0则内部，填充；如果是0则外部，不填充
+“evenodd规则”顾名思意就是“奇偶规则”，用通俗的话讲，就算计算某些东西是不是奇数，如果是奇数则内部，填充；如果是偶数则外部，不填充
+nonzero是计算顺时针逆时针数量，evenodd是交叉路径数量
+对于nonzero规则：起始值为0，射线会和路径相交，如果路径方向和射线方向形成的是顺时针方向则+1，如果是逆时针方向则-1，最后如果数值为0，则是路径的外部；
+如果不是0，则是路径的内部，因此被称为“非0规则”（与射线相交的路径才看方向，才做计算累加，从路径开始，沿着走到射线尾，然后继续走绕个圆，判断是顺还是逆）
+对于evenodd规则：起始值为0，射线会和路径相交，每交叉一条路径，我们计数就+1，最后看我们的总计算数值，如果是奇数，则认为是路径内部，
+如果是偶数，则认为是路径外部
