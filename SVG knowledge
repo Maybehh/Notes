@@ -397,6 +397,47 @@ x,y:定义滤镜渲染区域左上角的坐标,默认值均为-10%（滤镜会�
 width，height：默认值均为120%（滤镜会加东西变大，加大保持结果完整）
 filterUnits：userSpaceOnUse（参照用户的坐标系统） | objectBoundingBox 默认值	objectBoundingBox（所述参考元件上的边界框的分数或百分比（使用百分比））
 primitiveUnits：为过滤器基元内的各种长度值以及定义过滤器基元子区域的属性指定坐标系 默认值	userSpaceOnUse
+in: 标识给定过滤器原语的输入,如果没有提供任何值，并且这是第一个过滤器原语，则此过滤器原语将SourceGraphic用作其输入
+SourceGraphic作为元素原始输入的图形元素
+SourceAlpha作为元素原始输入的图形元素(只使用Alpha通道)
+BackgroundImage <filter>在调用元素时SVG文档在过滤器区域下的图像快照
+BackgroundAlpha BackgroundImage除仅使用Alpha通道外，其他均相同
+FillPaint fill滤镜效果的目标元素上的属性值
+StrokePaint stroke滤镜效果的目标元素上的属性值
+<filter-primitive-reference> This value is an assigned name for the filter primitive in the form of a <custom-ident>
+如果提供，则可以通过同一过滤器元素内后续过滤器基元上的in属性来引用处理此过滤器基元所得到的图形
+如果未提供任何值，则该输出仅可用于下一个过滤器原语的隐式输入（如果该过滤器原语不为其in属性提供值）
+BackgroundImage的解决方法
+除了使用in="BackgroundImage"，我们还需要使用导入其中一张图像以将其融合到滤镜本身中  <feImage> element
+<svg style="width:200px; height:200px; display: inline;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="imageMultiply">
+      <!-- This is a workaround. -->
+      <feImage xlink:href="https://developer.mozilla.org/files/6457/mdn_logo_only_color.png" x="10%" y="10%" width="80%" height="80%"/>
+      <feBlend in2="SourceGraphic" mode="multiply"/>（有了feImage默认使用了in="BackgroundImage")
+    </filter>
+  </defs>
+  <circle cx="50%" cy="40%" r="40%" fill="#c00" style="filter:url(#imageMultiply);"/>
+</svg>
+mode：定义了<feBlend>过滤器原语上的混合模式
+normal无论底色是什么，最终颜色都是顶色。效果就像两张不透明的纸叠在一起
+multiply最终颜色是顶部和底部颜色相乘的结果。黑色层导致黑色最终层，而白色层则没有变化。效果就像透明胶片上印刷的两个图像重叠一样
+screen最终的颜色是反转颜色，将它们相乘并反转该值的结果。黑色层不会导致变化，而白色层则会导致白色最终层。效果就像两个图像照在投影屏幕上一样
+overlay最终颜色是multiply底色较深或screen底色较浅的结果。此混合模式等效于hard-light但交换了层
+darken最终颜色由每个颜色通道的最暗值组成
+lighten最终颜色由每个颜色通道的最亮值组成
+color-dodge最终颜色是将底色除以顶色的倒数的结果。黑色前景不会改变。具有背景相反颜色的前景会导致完全照亮颜色。
+此混合模式类似于screen，但是前景仅需要与背景相反的亮度即可创建完全照亮的颜色
+color-burn最终颜色是将底色反转，将值除以顶色并反转该值的结果。白色前景不变。具有背景相反颜色的前景导致黑色最终图像。
+此混合模式类似于multiply，但是前景只需要与背景相反，就可以使最终图像变黑
+hard-light最终颜色是multiply顶部颜色较深或screen顶部颜色较浅的结果。此混合模式等效于overlay但交换了层。效果类似于在背景上照亮刺眼的聚光灯
+soft-light最终颜色类似于hard-light，但更柔和。此混合模式的行为类似于hard-light。效果类似于在背景上照亮散射的聚光灯
+difference最终颜色是从较浅的一种颜色中减去两种颜色中的较深颜色的结果。黑色层没有效果，而白色层会反转另一层的颜色
+exclusion最终颜色类似于difference,但对比度较低。与一样difference，黑色层无效，而白色层则反转另一层的颜色
+hue最终颜色具有顶部颜色的色相，同时使用底部颜色的饱和度和光度
+saturation最终颜色具有顶部颜色的饱和度，同时使用底部颜色的色相和亮度。纯灰色背景（不饱和）将不起作用
+color最终颜色具有顶部颜色的色相和饱和度，同时使用底部颜色的光度。 该效果保留灰度级，可用于使前景着色
+luminosity最终颜色具有顶部颜色的亮度，同时使用底部颜色的色相和饱和度。此混合模式等效于color，但是交换了图层
 
 <animate>
 begin,end,min,max,dur: 一次动画的时间属性
@@ -480,6 +521,7 @@ by：将在动画期间修改的属性指定相对偏移值
 </svg>
 attributeName: 指示将在动画过程中更改的CSS属性的名称或目标元素的属性
 additive: 控制动画是否可叠加（replace | sum 默认值	replace）（将动画定义为属性值的偏移量或增量而不是绝对值的时候通常很有用）
+sum指定动画将添加到属性和其他较低优先级动画的基础值
 <animate xlink:href="#ant"
            attributeName="x"
            from="0"
@@ -506,4 +548,36 @@ additive: 控制动画是否可叠加（replace | sum 默认值	replace）（将
            to="100"
            dur="5s"
            begin="0s" />
-为第二个动画元素添加additive="sum"，动画速度加快了一倍，这就是优先级低的动画效果会附加到优先级高的动画效果,结果是0到200用了5s，速度40/s
+为第二个动画元素添加additive="sum"（意味着允许前面的动画叠加），动画速度加快了一倍
+这就是优先级高的动画效果会附加到优先级低的动画效果,结果是0到200用了5s，速度40/s
+
+accumulate：规定是否将当前动画结束的状态作为下一次动画的起始状态
+none默认值，表示从起始状态进行下一次动画
+sum表示从当前动画结束的状态为起始点进行下一次动画
+如果目标属性值不支持加法，或者动画元素不重复，则忽略此属性
+如果仅使用该to属性指定了动画功能，则将忽略该属性
+<animate attributeType="XML"
+             attributeName="x"
+             from="10" to="50"
+             dur="1s"
+             accumulate="sum"
+             repeatCount="3"
+             begin="click"
+             fill="freeze">
+</animate>
+ 默认状态下，重复的动画都是从最初的起始状态重新再执行一次；如果将accumulate属性值设置为"num"，那么下一次动画的指定都是在上一次动画结束状态基础上进行的
+ 
+ <set>
+ 提供了一种简单的方法，可以仅在指定的持续时间内设置属性的值
+ <set>元素是无添加剂。将additive和accumulate属性是不允许的，如果指定将被忽略
+ to: 定义在动画持续时间内要应用于目标属性的值
+ <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    rect { cursor: pointer }
+    .round { rx: 5px; fill: green; }
+  </style>
+
+  <rect id="me" width="10" height="10">
+    <set attributeName="class" to="round" begin="me.click" dur="2s" />
+  </rect>
+</svg>
