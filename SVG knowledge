@@ -677,6 +677,7 @@ by：将在动画期间修改的属性指定相对偏移值
 attributeName: 指示将在动画过程中更改的CSS属性的名称或目标元素的属性
 additive: 控制动画是否可叠加（replace | sum 默认值	replace）（将动画定义为属性值的偏移量或增量而不是绝对值的时候通常很有用）
 sum指定动画将添加到属性和其他较低优先级动画的基础值
+（同一个标签(animate或animateTransform或animateMotion)使用同一个attributeName会替换，想同时使用必须使用additive,使用可累加效果）
 <animate xlink:href="#ant"
            attributeName="x"
            from="0"
@@ -722,6 +723,17 @@ sum表示从当前动画结束的状态为起始点进行下一次动画
 </animate>
  默认状态下，重复的动画都是从最初的起始状态重新再执行一次；如果将accumulate属性值设置为"num"，那么下一次动画的指定都是在上一次动画结束状态基础上进行的
  
+animateColor	规定随时间进行的颜色转换
+
+animateMotion	使元素沿着动作路径移动
+<text id="TextElement" x="0" y="0" style="font-family:Verdana;font-size:24"> It's SVG!
+<animateMotion path="M 0 0 L 100 100" dur="5s" fill="freeze"/>
+</text>
+
+animateTransform	对元素进行动态的属性转换
+<animateTransform attributeName="transform" attributeType="XML" type="rotate" from="-30" to="0" begin="1s" dur="5s" fill="freeze"/> 
+<animateTransform attributeName="transform" attributeType="XML" type="scale" from="1" to="3" additive="sum" begin="1s" dur="5s" fill="freeze"/> 
+
  <set>
  提供了一种简单的方法，可以仅在指定的持续时间内设置属性的值
  <set>元素是无添加剂。将additive和accumulate属性是不允许的，如果指定将被忽略
@@ -744,3 +756,16 @@ nonzero是计算顺时针逆时针数量，evenodd是交叉路径数量
 如果不是0，则是路径的内部，因此被称为“非0规则”（与射线相交的路径才看方向，才做计算累加，从路径开始，沿着走到射线尾，然后继续走绕个圆，判断是顺还是逆）
 对于evenodd规则：起始值为0，射线会和路径相交，每交叉一条路径，我们计数就+1，最后看我们的总计算数值，如果是奇数，则认为是路径内部，
 如果是偶数，则认为是路径外部
+
+Canvas
+依赖分辨率
+不支持事件处理器
+弱的文本渲染能力
+能够以 .png 或 .jpg 格式保存结果图像
+最适合图像密集型的游戏，其中的许多对象会被频繁重绘
+SVG
+不依赖分辨率
+支持事件处理器
+最适合带有大型渲染区域的应用程序（比如谷歌地图）
+复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快）
+不适合游戏应用
