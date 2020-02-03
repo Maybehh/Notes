@@ -293,7 +293,7 @@ mask元素的内容是一个单一的rect元素，它填充了一个透明到白
      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
      width="200" height="200">
   <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
-     xlink:href="https://developer.mozilla.org/media/img/mdn-logo.png"/>
+     xlink:href="https://developer.mozilla.org/media/img/mdn-logo.png"/>（Image元素位置占这么大，具体怎么铺图片看滤镜等其他要求）
 </svg>
 如果你没有设置x属性或y属性，它们自动被设置为0
 如果你没有设置height属性或width属性，它们自动被设置为0
@@ -414,7 +414,7 @@ BackgroundImage的解决方法
     <filter id="imageMultiply">
       <!-- This is a workaround. -->
       <feImage xlink:href="https://developer.mozilla.org/files/6457/mdn_logo_only_color.png" x="10%" y="10%" width="80%" height="80%"/>
-      <feBlend in2="SourceGraphic" mode="multiply"/>（有了feImage默认使用了in="BackgroundImage")
+      <feBlend in2="SourceGraphic" mode="multiply"/>（in中自动继承了feImage的result)
     </filter>
   </defs>
   <circle cx="50%" cy="40%" r="40%" fill="#c00" style="filter:url(#imageMultiply);"/>
@@ -484,7 +484,7 @@ preserveAlpha属性指示<feConvolveMatrix>元素如何处理alpha透明度
 值true表示卷积矩阵仅适用于颜色通道
 
 <feDiffuseLighting> 
-使用Alpha通道作为凹凸贴图点亮图像。 生成的图像是RGBA不透明图像，取决于输入凹凸贴图的光色，光位置和表面几何形状
+滤镜光照一个图像，使用alpha通道作为隆起映射。结果图像，是一个RGBA不透明图像，取决于光的颜色、光的位置以及输入隆起映射的表面几何形状
 surfaceScale属性表示滤镜基元的曲面高度。 如果未指定该属性，则效果就好像指定了值1
 diffuseConstant属性表示Phong照明模型中的k d值。在SVG中，这可以是任何非负数。它用于确定给定像素的最终RGB值。照明颜色越亮，该数字应该越小 
 kernelUnitLength属性表示在曲面法线计算公式中分别用于dx和dy的当前滤镜单元中的预期距离
@@ -505,6 +505,27 @@ color-interpolation-filters表示滤镜对颜色进行计算时候采用的颜�
 in表示输入的原始图形，in2表示用来映射的图形
 图片不移动: <feImage>颜色是50度灰的时候，RGB表示为rgb(127,127,127)，16进制色值为#7f7f7f
 因此，在feDisplacementMap世界里，五十度灰可以等同于“纹丝不动”的意思
+
+<feDistantLight>
+定义了一个可在照明滤镜基元中使用的远光源： <feDiffuseLighting>或<feSpecularLighting>
+azimuth属性表示XY平面上光源的方向角（顺时针），以度为单位，以x轴为单位。如果未指定该属性，则效果就像指定了值0一样
+elevation属性表示光源从XY平面朝向z轴的方向角度，以度为单位。 注意，正Z轴指向内容的观看者。如果未指定该属性，则效果就像指定了值0一样
+
+<fePointLight>允许创建点光源效果
+
+<feSpotLight>
+允许创建聚光灯效果
+pointsAtX属性表示由光源指向的点的<filter>元素上的属性primitiveUnits建立的坐标系中的X位置
+specularExponent属性控制光源的焦点，值越大表示光线越“亮”
+limitingConeAngle属性表示点光轴（即光源与其指向的点之间的轴）与点光锥之间的角度（以度为单位）
+因此，它定义了一个限制锥，它限制了光投射的区域。 锥体外没有光投射。如果未指定任何值，则不会应用限制锥
+
+<feDropShadow>
+创建输入图像的阴影。 它是速记过滤器，并根据其他过滤器基元的组合进行定义
+stdDeviation属性定义模糊操作的标准偏差。 如果提供两个<number> ，则第一个数字表示沿x轴的标准偏差值。
+第二个值表示沿y轴的标准偏差。 如果提供了一个数字，则该值用于X和Y
+dx,dy
+
 
 <feMerge>
 同时应用滤镜效果而不是顺序应用滤镜效果。 这是通过其他过滤器通过result属性存储其输出，然后在<feMergeNode>子项中访问它来实现的
@@ -540,6 +561,36 @@ meet	保持纵横比缩放viewBox适应viewport（拉对角）（塞得进）
 slice	保持纵横比同时比例小的方向放大填满viewport（拉对角）（塞得满）
 none	扭曲纵横比以充分适应viewport（看情况）（塞得满）
 
+<feMorphology>
+用来腐蚀或扩张输入图像。它的作用尤其在于增脂或稀疏效果
+operator属性定义是否侵蚀(稀疏）或扩张（变胖）源图形 erode（侵蚀） | dilate（扩大）
+radius属性表示在给定的<feMorphology>滤波器基元上进行操作的半径（或半径）
+如果提供两个数字，则第一个数字表示x半径，第二个数字表示y半径，如果提供一个数字，则该值将同时用于x和y。
+这些值位于元素primitiveUnits上的属性所建立的坐标系中，负值或零将禁用给定滤镜基元的效果（即结果是滤镜输入图像）
+
+<feOffset> 
+允许偏移输入图像。 输入图像整体上由dx和dy属性中指定的值偏移
+
+<feSpecularLighting> 
+使用Alpha通道作为凹凸贴图点亮源图形。 得到的图像是基于光色的RGBA图像
+surfaceScale属性表示滤镜基元的曲面高度。 如果未指定该属性，则效果就好像指定了值1
+specularConstant属性表示Phong照明模型中的ks值。 在SVG中，这可以是任何非负数。如果未指定该属性，则效果就好像指定了值1
+specularExponent属性控制光源的焦点，值越大表示光线越“亮”。对于<feSpecularLighting>该值应在1.0到128.0的范围内,如果未指定该属性，则指定值1
+kernelUnitLength对于照明滤镜图元，它表示在曲面法线计算公式中分别用于dx和dy的当前滤镜单元中的预期距离（即，由属性primitiveUnits的值确定的单位)
+
+<feTile>允许使用输入图像的重复平铺图案填充目标矩形
+
+<feTurbulence>
+使用Perlin湍流函数创建图像。 它允许合成人造纹理，如云或大理石。 生成的图像将填充整个过滤器基元子区域
+baseFrequency属性表示<feTurbulence>原语的噪声函数的基本频率参数。 
+如果提供两个<number> s <number> ，则第一个数字表示X方向上的基频，第二个值表示Y方向上的基频。如果提供了一个数字，则该值用于X和Y.禁止使用负值
+numOctaves属性：噪声函数的numOctaves参数
+seed属性表示<feTurbulence>原语的伪随机数生成器的起始编号
+stitchTiles属性定义Perlin切片在边框处的行为方式
+如果stitchTiles="noStitch" ，则不会尝试在包含湍流函数的图块边界处实现平滑过渡。 有时，结果将在图块边框处显示明显的不连续性。
+如果stitchTiles="stitch" ，那么浏览器将自动调整baseFrequency-x和baseFrequency-y值，使得<feTurbulence>节点的宽度和高度（即当前子区域的宽度和高度）
+包含Perlin的整数第一个八度音阶的平铺宽度和高度
+type属性指示滤波器基元是否应执行噪声或湍流功能fractalNoise | turbulence
 
 <animate>
 begin,end,min,max,dur: 一次动画的时间属性
