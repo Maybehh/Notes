@@ -214,6 +214,7 @@ pattern也会自动的缩放以保证pattern内部的对象数目和重复不变
    <rect x="0" y="0" width=".125" height=".125" fill="url(#Gradient2)"/>
    <circle cx=".125" cy=".125" r=".1" fill="url(#Gradient1)" fill-opacity="0.5"/>
  </pattern>
+ 
 如果你已经知道了如何创建基本SVG文件，下一步就是把它们上传到web服务器，但是在这阶段有一些陷阱。对于普通SVG文件，服务器应该会发送下面的HTTP头：
 Content-Type: image/svg+xml
 Vary: Accept-Encoding
@@ -296,7 +297,7 @@ mask元素的内容是一个单一的rect元素，它填充了一个透明到白
      xlink:href="https://developer.mozilla.org/media/img/mdn-logo.png"/>（Image元素位置占这么大，具体怎么铺图片看滤镜等其他要求）
 </svg>
 如果你没有设置x属性或y属性，它们自动被设置为0
-如果你没有设置height属性或width属性，它们自动被设置为0
+如果你没有设置height属性或width属性（图像呈现的宽度），它们自动被设置为0
 如果width属性或height等于0，将不会呈现这个图像
 
 嵌入任意XML
@@ -444,6 +445,7 @@ luminosity最终颜色具有顶部颜色的亮度，同时使用底部颜色的�
 <feComponentTransfer>
 针对每个像素数据的过滤器进行原始颜色分量级重新映射。它允许进行诸如亮度调节，对比度调节，色彩平衡或阈值设置之类的操作
 计算是对未预乘的颜色值进行的,颜色是由每个通道（R，G，B和A）改变到什么样的结果，由<feFuncR>，<feFuncB>，<feFuncG>，和<feFuncA>返回
+详见CSDN收藏夹
 
 <feComposite>
 使用Porter-Duff合成操作之一在图像空间中以像素方式执行两个输入图像的组合
@@ -578,7 +580,7 @@ specularConstant属性表示Phong照明模型中的ks值。 在SVG中，这可�
 specularExponent属性控制光源的焦点，值越大表示光线越“亮”。对于<feSpecularLighting>该值应在1.0到128.0的范围内,如果未指定该属性，则指定值1
 kernelUnitLength对于照明滤镜图元，它表示在曲面法线计算公式中分别用于dx和dy的当前滤镜单元中的预期距离（即，由属性primitiveUnits的值确定的单位)
 
-<feTile>允许使用输入图像的重复平铺图案填充目标矩形
+<feTile>允许使用输入图像的重复平铺图案填充滤镜指定区域
 
 <feTurbulence>
 使用Perlin湍流函数创建图像。 它允许合成人造纹理，如云或大理石。 生成的图像将填充整个过滤器基元子区域
