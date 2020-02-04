@@ -1,0 +1,307 @@
+WAVE 是因特网上最受欢迎的无压缩声音格式，所有流行的浏览器都支持它。如果您需要未经压缩的声音（音乐或演讲），那么您应该使用 WAVE 格式
+MP3 是最新的压缩录制音乐格式。MP3 这个术语已经成为数字音乐的代名词。如果您的网址从事录制音乐，那么 MP3 是一个选项
+
+辅助应用程序（helper application）是可由浏览器启动的程序。辅助应用程序也称为插件
+辅助程序是使用 <object> 标签来加载的
+
+使用 QuickTime 来播放 Wave 音频
+<object width="420" height="360"
+classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"
+codebase="http://www.apple.com/qtactivex/qtplugin.cab">
+<param name="src" value="bird.wav" />
+<param name="controller" value="true" />
+</object>
+
+使用 QuickTime 来播放 MP4 视频
+<object width="420" height="360"
+classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"
+codebase="http://www.apple.com/qtactivex/qtplugin.cab">
+<param name="src" value="movie.mp4" />
+<param name="controller" value="true" />
+</object>
+
+使用 Flash 来播放 SWF 视频
+<object width="400" height="40"
+classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+codebase="http://fpdownload.macromedia.com/
+pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0">
+<param name="SRC" value="bookmark.swf">
+<embed src="bookmark.swf" width="400" height="40"></embed>
+</object>
+
+使用 Windows Media Player 来播放 WMV 影片
+下面的例子展示用于播放 Windows 媒体文件的推荐代码：
+<object width="100%" height="100%"
+type="video/x-ms-asf" url="3d.wmv" data="3d.wmv"
+classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6">
+<param name="url" value="3d.wmv">
+<param name="filename" value="3d.wmv">
+<param name="autostart" value="1">
+<param name="uiMode" value="full" />
+<param name="autosize" value="1">
+<param name="playcount" value="1">
+<embed type="application/x-mplayer2" src="3d.wmv" width="100%"
+ height="100%" autostart="true" showcontrols="true" 
+pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"></embed>
+</object>
+
+浏览器插件是一种扩展浏览器标准功能的小型计算机程序
+可使用 <object> 或 <embed> 标签来将插件添加到 HTML 页面
+
+<embed> 标签定义外部（非 HTML）内容的容器。（这是一个 HTML5 标签，在 HTML4 中是非法的，但是所有浏览器中都有效）
+<embed height="100" width="100" src="song.mp3" />
+使用 <!DOCTYPE html> (HTML5) 解决验证问题
+height	pixels	设置嵌入内容的高度
+src	url	嵌入内容的 URL
+type	type	定义嵌入内容的类型
+width	pixels	设置嵌入内容的宽度
+
+<object> 标签也可以定义外部（非 HTML）内容的容器
+<object height="100" width="100" data="song.mp3"></object>
+如果未显示 object 元素，就会执行位于 <object> 和 </object> 之间的代码。通过这种方式，我们能够嵌套多个 object 元素（每个对应一个浏览器）
+不要对图像使用 <object> 标签，请使用 <img> 标签代替
+
+archive 属性的值是一个用引号括起来的 URL 列表，其中每个 URL 都指向一个在显示或执行对象之前浏览器需要加载的档案文件
+
+classid 属性用于指定浏览器中包含的对象的位置，通常是一个 Java 类,它的值是对象的绝对或相对的 URL
+如果提供了 codebase 属性的话，相对 URL 是相对于 codebase 属性指定的 URL 而言的；否则，它们是相对于当前文档的 URL
+例如，为了执行包含在 clock.class 文件中的时间 Java applet，可以在 HTML 文档中包含如下的代码：
+<object classid="clock.class"></object>
+浏览器将会用当前文档的基本 URL 为这个 applet 查找代码。因此，如果当前文档的 URL 如下所示：
+http://www.w3school.com.cn/time.html
+浏览器将会在下列地址为我们的 clock.class 实例获取 applet 代码：
+http://www.w3school.com.cn/clock.class
+提示：classid 属性与 <applet> 标签的 code 属性类似，提供了包含这个对象的文件名
+
+codebase 属性是一个可选的属性，提供了一个基本的 URL。该属性的值是一个 URL，该 URL 指向的目录包含了 classid 属性所引用的对象
+codebase URL 会覆盖文档的基本 URL，但不会永久替代它。如果不使用 codebase 属性，这个基本 URL 就是默认值
+<object classid="clock.class" codebase="http://www.w3school.com.cn/classes/">
+</object>
+这行语句可以解析为这个 URL：
+http://www.w3school.com.cn/classes/clock.class
+尽管我们在此例中使用了绝对 URL，实际上也可以使用相对 URL。例如，applet 往往和主机文档一起保存在同一台服务器上，
+因此，处于重新定位的缘故，为 codebase 指定一个相对的 URL，情况往往更好一些，例如：
+<object classid="clock.class" codebase="/classes/">
+
+codetype 属性用于标识程序代码类型
+只有在浏览器无法根据 classid 属性决定 applet 的 MIME 类型，或者如果在下载某个对象时服务器没有传输正确的 MIME 类型的情况下，才需要使用 codetype 属性
+codetype 属性与 type 属性类似。不同的是，它用来标识程序代码类型，而 type 属性用来标识数据文件类型
+下面这个例子显式地告知浏览器，对象的代码是 Java：
+<object codebase="clock.class" codetype="application/java"></object>
+
+declare 属性可以定义一个对象，但同时防止浏览器进行下载和处理
+与 name 属性一起使用时，这个工具类似于更为传统的编程语言中的某种前置声明，这样的声明能够延迟下载对象的时间，直到这个对象确实在文档中得到了应用
+
+data 属性用于指定供对象处理的数据文件的 URL
+align属性定义围绕该对象的文本对齐方式
+border属性定义对象周围的边框
+form属性规定对象所属的一个或多个表单
+hspace属性定义对象周围水平方向的空白
+standby属性定义当对象正在加载时所显示的文本
+usemap属性规定与对象一同使用的客户端图像映射的 URL
+vspace属性定义对象的垂直方向的空白
+
+<applet>标签定义嵌入的applet
+在 HTML5 中，不支持 applet 元素；在 HTML 4.01 中，不赞成使用 applet 元素
+code规定 Java applet 的文件名
+object定义了包含该 applet 的一系列版本的资源名称
+archive规定档案文件的位置
+
+<param>允许您为插入 XHTML 文档的对象规定 run-time 设置，也就是说，此标签可为包含它的 <object> 或者 <applet> 标签提供参数
+name定义参数的名称（用在脚本中）
+<object classid="clsid:F08DF954-8592-11D1-B16A-00C0F0283628" id="Slider1" 
+width="100" height="50">
+  <param name="BorderStyle" value="1" />
+  <param name="MousePointer" value="0" />
+  <param name="Enabled" value="1" />
+  <param name="Min" value="0" />
+  <param name="Max" value="10" />
+</object>
+
+<audio> 标签定义声音，比如音乐或其他音频流
+<audio> 元素是一个 HTML5 元素，在 HTML 4 中是非法的，但在所有浏览器中都有效
+可以在开始标签和结束标签之间放置文本内容，这样老的浏览器就可以显示出不支持该标签的信息
+<audio controls="controls">
+  <source src="song.mp3" type="audio/mp3" />
+  <source src="song.ogg" type="audio/ogg" />
+Your browser does not support this audio format.
+</audio>
+上面的例子使用了一个 mp3 文件，这样它在 Internet Explorer、Chrome 以及 Safari 中是有效的。
+为了使这段音频在 Firefox 和 Opera 中同样有效，添加了一个 ogg 类型的文件。如果失败，会显示错误消息
+autoplay 属性规定一旦音频就绪马上开始播放<audio autoplay="autoplay" />
+controls 属性规定浏览器应该为音频提供播放控件,如果设置了该属性，则规定不存在作者设置的脚本控件<audio controls="controls">
+loop 属性规定当音频结束后将重新开始播放<audio loop="loop" />
+muted 属性属于逻辑属性,如被设置，则规定视频输出应该被静音<audio muted>
+preload 属性规定是否在页面加载后载入音频,如果设置了 autoplay 属性，则忽略该属性<audio preload="load" />
+load	规定是否预加载音频
+auto  当页面加载后载入整个音频
+meta  当页面加载后只载入元数据
+none  当页面加载后不载入音频
+src属性规定要播放的音频的 URL<audio src="URL">
+
+<source> 标签允许您规定可替换的视频/音频文件供浏览器根据它对媒体类型或者编解码器的支持进行选择
+media 属性规定媒体资源的类型（文件是为何种媒体/设备进行了优化）浏览器可使用该属性来判断它是否能播放这个文件。如果不能播放，则可以选择不进行下载
+可能的运算符：and	规定 AND 运算符，not	规定 NOT 运算符，     ,	规定 OR 运算符
+orientation规定目标显示器/纸张的方向，可能的值："portrait" 或 "landscape"。例子：media="all and (orientation: landscape)"
+aspect-ratio规定目标显示区域的宽度/高度比
+device-aspect-ratio	规定目标显示器/纸张的 device-width/device-height 比率
+color-index规定目标显示器可以处理的颜色数
+monochrome规定单色帧缓冲中的 bits/pixel（位/像素）
+resolution	规定目标显示器/纸张的像素密度 (dpi 或 dpcm)
+scan	规定电视显示器的扫描方式。可能的值："progressive" 和 "interlace"
+grid 规定输出设备是网格还是位图。可能的值："1" 为网格，否则为 "0"
+例子格式：media="handheld and (grid:0)"
+任何浏览器都不支持 <source> 标签的 media 属性
+
+<video> 标签的作用是在 HTML 页面中嵌入视频元素（和<audio>差不多）
+
+最好的 HTML音频 解决方法
+<audio controls="controls" height="100" width="100">
+  <source src="song.mp3" type="audio/mp3" />
+  <source src="song.ogg" type="audio/ogg" />
+<embed height="100" width="100" src="song.mp3" />
+</audio>
+上面的例子使用了两个不同的音频格式。HTML5 <audio> 元素会尝试以 mp3 或 ogg 来播放音频。如果失败，代码将回退尝试 <embed> 元素
+
+向网站添加音频的最简单方法
+使用雅虎媒体播放器是一个不同的途径。您只需简单地让雅虎来完成歌曲播放的工作就好了
+它能播放 mp3 以及一系列其他格式。通过一行简单的代码，您就可以把它添加到网页中，轻松地将 HTML 页面转变为专业的播放列表
+<a href="song.mp3">Play Sound</a>
+<script type="text/javascript" src="http://mediaplayer.yahoo.com/js"></script>
+雅虎媒体播放器为您的用户提供的是一个小型的播放按钮，而不是完整的播放器。不过，当您点击该按钮，会弹出完整的播放器。
+请注意，这个播放器始终停靠在窗框底部。只需点击它，就可将其滑出
+
+使用超链接
+如果网页包含指向媒体文件的超链接，大多数浏览器会使用“辅助应用程序”来播放文件
+以下代码片段显示指向 mp3 文件的链接。如果用户点击该链接，浏览器会启动“辅助应用程序”来播放该文件
+<a href="song.mp3">Play the sound</a>
+
+最好的 HTML 视频解决方法
+HTML 5 + <object> + <embed>
+<video width="320" height="240" controls="controls">
+  <source src="movie.mp4" type="video/mp4" />
+  <source src="movie.ogg" type="video/ogg" />
+  <source src="movie.webm" type="video/webm" />
+  <object data="movie.mp4" width="320" height="240">
+    <embed src="movie.swf" width="320" height="240" />
+  </object>
+</video>
+上例中使用了 4 中不同的视频格式。HTML 5 <video> 元素会尝试播放以 mp4、ogg 或 webm 格式中的一种来播放视频。如果均失败，则回退到 <embed> 元素
+
+在 HTML 中显示视频的最简单的方法是使用优酷等视频网站
+如果您希望在网页中播放视频，那么您可以把视频上传到优酷等视频网站，然后在您的网页中插入 HTML 代码即可播放视频：
+<embed src="http://player.youku.com/player.php/sid/XMzI2NTc4NTMy/v.swf" 
+width="480" height="400" 
+type="application/x-shockwave-flash">
+</embed>
+
+使用超链接
+如果网页包含指向媒体文件的超链接，大多数浏览器会使用“辅助应用程序”来播放文件。
+以下代码片段显示指向 AVI 文件的链接。如果用户点击该链接，浏览器会启动“辅助应用程序”，比如 Windows Media Player 来播放这个 AVI 文件：
+<a href="movie.swf">Play a video file</a>
+
+使用 getCurrentPosition() 方法来获得用户的位置
+若成功，则 getCurrentPosition() 方法返回对象。始终会返回 latitude、longitude 以及 accuracy 属性。如果可用，则会返回其他下面的属性
+coords.latitude	十进制数的纬度
+coords.longitude	十进制数的经度
+coords.accuracy	位置精度
+coords.altitude	海拔，海平面以上以米计
+coords.altitudeAccuracy	位置的海拔精度
+coords.heading	方向，从正北开始以度计
+coords.speed	速度，以米/每秒计
+timestamp	响应的日期/时间
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="Latitude: " + position.coords.latitude +
+  "<br />Longitude: " + position.coords.longitude;
+  }
+</script>
+检测是否支持地理定位
+如果支持，则运行 getCurrentPosition() 方法。如果不支持，则向用户显示一段消息。
+如果getCurrentPosition()运行成功，则向参数showPosition中规定的函数返回一个coordinates对象
+showPosition() 函数获得并显示经度和纬度
+获取地图
+function showPosition(position)
+{
+var latlon=position.coords.latitude+","+position.coords.longitude;
+var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
++latlon+"&zoom=14&size=400x300&sensor=false";
+document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
+}
+
+watchPosition() - 返回用户的当前位置，并继续返回用户移动时的更新位置（就像汽车上的 GPS）
+clearWatch() - 停止 watchPosition() 方法
+
+拖放：
+把元素设置为可拖放
+首先：为了把一个元素设置为可拖放，请把 draggable 属性设置为 true：
+<img draggable="true">
+拖放的内容 - ondragstart 和 setData()
+然后，规定当元素被拖动时发生的事情
+在上面的例子中，ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据
+dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+在本例中，数据类型是 "text"，而值是这个可拖动元素的 id ("drag1")
+拖到何处 - ondragover
+ondragover 事件规定被拖动的数据能够被放置到何处
+默认地，数据/元素无法被放置到其他元素中。为了实现拖放，我们必须阻止元素的这种默认的处理方式
+这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
+event.preventDefault()
+进行放置 - ondrop
+当放开被拖数据时，会发生 drop 事件
+在上面的例子中，ondrop 属性调用了一个函数，drop(event)：
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+代码解释：
+调用 preventDefault() 来阻止数据的浏览器默认处理方式（drop 事件的默认行为是以链接形式打开）
+通过 dataTransfer.getData() 方法获得被拖的数据。该方法将返回在 setData() 方法中设置为相同类型的任何数据
+被拖数据是被拖元素的 id ("drag1")
+把被拖元素追加到放置元素中
+
+通过本地存储（Local Storage），web 应用程序能够在用户浏览器中对数据进行本地的存储。
+在 HTML5 之前，应用程序数据只能存储在 cookie 中，包括每个服务器请求。本地存储则更安全，并且可在不影响网站性能的前提下将大量数据存储于本地。
+与 cookie 不同，存储限制要大得多（至少5MB），并且信息不会被传输到服务器。
+本地存储经由起源地（origin）（经由域和协议）。所有页面，从起源地，能够存储和访问相同的数据
+
+HTML 本地存储对象
+HTML 本地存储提供了两个在客户端存储数据的对象：
+window.localStorage - 存储没有截止日期的数据
+window.sessionStorage - 针对一个 session 来存储数据（当关闭浏览器标签页时数据会丢失）
+在使用本地存储时，请检测 localStorage 和 sessionStorage 的浏览器支持：
+if (typeof(Storage) !== "undefined") {
+    // 针对 localStorage/sessionStorage 的代码
+} else {
+    // 抱歉！不支持 Web Storage ..
+}
+
+localStorage 对象存储的是没有截止日期的数据。当浏览器被关闭时数据不会被删除，在下一天、周或年中，都是可用的
+// 存储
+localStorage.setItem("lastname", "Gates");
+// 取回
+document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+实例解释：
+创建 localStorage 名称/值对，其中：name="lastname"，value="Gates"
+取回 "lastname" 的值，并把它插到 id="result" 的元素中
+也可以：
+localStorage.lastname = "Gates";
+// 取回
+document.getElementById("result").innerHTML = localStorage.lastname;
+删除 "lastname" localStorage 项目的语法如下：
+localStorage.removeItem("lastname");
+
+sessionStorage 对象等同 localStorage 对象，不同之处在于只对一个 session 存储数据。如果用户关闭具体的浏览器标签页，数据也会被删除（刷新的话还会保留）
