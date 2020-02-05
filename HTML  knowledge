@@ -13,6 +13,75 @@ sub 下标
 <!--> 中间可以有标签 
 条件注释<!--[if IE 8]>....<![endif]-->只有IE执行的HTML标签(执行里面的内容...)
 软件程序标签注释
+<b>加粗标签
+<abbr>	定义缩写
+<acronym>	定义只取首字母的缩写
+<big> 标签呈现大号字体效果，其字体比周围的文字要大一号，但是，如果文字已经是最大号字体，这个 <big> 标签将不起任何作用（<small>等同)
+<tt>	呈现类似打字机或者等宽的文本效果
+<bdi> 标签允许您设置一段文本，使其脱离其父元素的文本方向设置,属性同<bdo>
+<dfn> 标签可标记那些对特殊术语或短语的定义
+<mark> 标签定义带有记号的文本。请在需要突出显示文本时使用 <m> 标签(对应文本有所记号，本例中变黄）
+
+<menu> 标签定义命令的列表或菜单
+<menu> 标签用于上下文菜单、工具栏以及用于列出表单控件和命令
+label属性规定菜单的可见标签
+type属性规定要显示哪种菜单类型
+list	默认，规定列表菜单。一个用户可执行或激活的命令列表（li 元素）
+context	规定上下文菜单。该菜单必须在用户能够与命令进行交互之前被激活
+toolbar	规定工具栏菜单。活动式命令，允许用户立即与命令进行交互
+
+<menuitem> 标签定义用户可以从弹出菜单调用的命令/菜单项目
+label必需。规定命令/菜单项的名称，以向用户显示
+icon规定命令/菜单项的图标
+checked规定在页面加载后选中命令/菜单项目。仅适用于 type="radio" 或 type="checkbox"
+open定义 details 是否可见
+radiogroup规定命令组的名称，命令组会在命令/菜单项本身被切换时进行切换。仅适用于 type="radio"
+type属性checkbox command radio 规定命令/菜单项的类型。默认是 "command"
+<menu type="context" id="mymenu">
+  <menuitem label="Refresh" onclick="window.location.reload();" icon="ico_reload.png">
+  </menuitem>
+  <menu label="Share on...">
+    <menuitem label="Twitter" icon="ico_twitter.png"
+    onclick="window.open('//twitter.com/intent/tweet?text='+window.location.href);">
+    </menuitem>
+    <menuitem label="Facebook" icon="ico_facebook.png"
+    onclick="window.open('//facebook.com/sharer/sharer.php?u='+window.location.href);">
+    </menuitem>
+  </menu>
+  <menuitem label="Email This Page"
+  onclick="window.location='mailto:?body='+window.location.href;"></menuitem>
+</menu>
+
+<meter> 标签定义已知范围或分数值内的标量测量。也被称为 gauge（尺度）
+例子：磁盘用量、查询结果的相关性，等等
+注释：<meter> 标签不应用于指示进度（在进度条中）。如果标记进度条，请使用 <progress> 标签（会有一条进度条出来，显示结果）
+high 属性规定的范围是被视为高值的度量值
+max 属性规定度量的上限
+optimum 属性规定的范围是被视为最佳值的度量值
+value必需。规定度量的当前值
+
+<dialog> 标签定义对话框或窗口
+open 属性规定在 HTML 页面上 details 应该是可见的
+
+<figure> 标签规定独立的流内容（图像、图表、照片、代码等等）
+figure 元素的内容应该与主内容相关，但如果被删除，则不应对文档流产生影响
+"figcaption" 元素应该被置于 "figure" 元素的第一个或最后一个子元素的位置
+
+<keygen> 标签规定用于表单的密钥对生成器字段
+当提交表单时，私钥存储在本地，公钥发送到服务器
+form 属性规定 keygen 字段所属的一个或多个表单,form 属性的值必须是其所属的表单的 id,如需引用一个以上的表单，请使用空格分隔的列表
+keytype 属性规定应该使用哪种密钥生成算法
+name 属性规定 keygen 元素的名称,keygen 元素的 name 属性用于在表单数据已被提交后对数据进行引用
+command 元素表示用户能够调用的命令
+<command> 标签可以定义命令按钮，比如单选按钮、复选框或按钮
+只有当 command 元素位于 menu 元素内时，该元素才是可见的。否则不会显示这个元素，但是可以用它规定键盘快捷键
+
+<colgroup> 标签用于对表格中的列进行组合，以便对其进行格式化
+如需对全部列应用样式，<colgroup> 标签很有用，这样就不需要对各个单元和各行重复应用样式了
+<colgroup> 标签只能在 table 元素中使用
+span规定列组应该横跨的列数
+<col> 标签为表格中一个或多个列定义属性值
+如果没有 col 元素，列会从 colgroup 那里继承所有的属性值
 
 < a href="(链接)#tips"> 锚 
 找不到name就为顶端
@@ -22,6 +91,28 @@ sub 下标
 < img src/>没有结束标签 对齐 align="bottom"默认
 left right 为浮动到文本的左右边 源代码中代码顺序不管
 img与map配合使用，map中使用area可制作点击图片特定区域进行操作的功能
+
+<img> 标签的 ismap 和 usemap 属性告诉浏览器这个图像是一个特殊的可视映射，可以通过鼠标来对一个或多个超链接进行选择，也就是通常所说的图像映射
+ismap:
+图像映射的 ismap 样式被称为 “服务器端”图像映射，它只可以用在 <a> 标签标识的超链接里面
+当用户在 ismap 图像上单击了某处时，浏览器会自动把鼠标的 x、y 位置（相对于图像的左上角）发送到服务器端
+特殊的服务器端软件（在本例中是 /example/map 程序）可以根据这些坐标来做出响应
+usemap:
+usemap 属性提供了一种“客户端”的图像映射机制，有效地消除了服务器端对鼠标坐标的处理，以及由此带来的网络延迟问题
+通过特殊的 <map> 和 <area> 标签，HTML 创作者可以提供一个描述 usemap 图像中超链接敏感区域坐标的映射，这个映射同时包含相应的超链接 URL
+usemap 属性的值是一个 URL，它指向特殊的 <map> 区域,用户计算机上的浏览器将把鼠标在图像上单击时的坐标转换成特定的行为，包括加载和显示另外一个文档
+
+<img> 中的 usemap 属性可引用 <map> 中的 id 或 name 属性（由浏览器决定），所以我们需要同时向 <map> 添加 id 和 name 两个属性
+
+<area>中的coords:
+x1,y1,x2,y2	如果 shape 属性设置为 "rect"，则该值规定矩形左上角和右下角的坐标。
+x,y,radius	如果 shape 属性设置为 "circ"，则该值规定圆心的坐标和半径。
+x1,y1,x2,y2,..,xn,yn	如果 shape 属性设置为 "poly"，则该值规定多边形各边的坐标。如果第一个坐标和最后一个坐标不一致，
+那么为了关闭多边形，浏览器必须添加最后一对坐标
+多边形会自动封闭，因此在列表的结尾不需要重复第一个坐标来闭合整个区域
+
+nohref从图像映射排除某个区域
+<area shape="circle" coords="180,139,14" nohref="nohref" alt="Venus" />
 
 单元格边距(Cell padding)
 单元格间距(Cell spacing)
@@ -63,6 +154,7 @@ title 元素能够：
 定义浏览器工具栏中的标题
 提供页面被添加到收藏夹时显示的标题
 显示在搜索引擎结果中的页面标题
+
 <base> 标签为页面上的所有链接规定默认地址（href)或默认目标（target）
 <meta> 标签提供关于 HTML 文档的元数据
        name 和 content 属性的作用是描述页面的内容
@@ -101,7 +193,7 @@ title 元素能够：
        
        content 属性始终要和 name 属性或 http-equiv 属性一起使用
        scheme 属性用于指定要用来翻译属性值的方案。此方案应该在由 <head> 标签的 profile 属性指定的概况文件中进行了定义
-       <meta http-equiv="Refresh" content="5;url=http://www.w3school.com.cn" />
+       <meta http-equiv="Refresh" content="5;url=http://www.w3school.com.cn" />重定向
 <script>
 HTML 4 和 XHTML 在处理脚本中的内容方面有所不同：
 在 HTML 4 中，内容类型声明为 CDATA，就是说不会对实体进行解析。
@@ -244,7 +336,7 @@ POST 的安全性更加，因为在页面地址栏中被提交的数据是不可
 Name 属性
 如果要正确地被提交，每个输入字段必须设置一个 name 属性
 
-用 <fieldset> 组合表单数据
+用 <fieldset> 组合表单数据,在数据周围绘制一个带标题的框
 <fieldset> 元素组合表单中的相关数据
 <legend> 元素为 <fieldset> 元素定义标题
 实例
@@ -282,6 +374,12 @@ The cat was playing in the garden.
 </textarea>
 
 <button type="button" onclick="alert('Hello World!')">Click Me!</button>
+
+<label> 标签为 input 元素定义标注（标记）。
+label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性。如果您在 label 元素内点击文本，就会触发此控件
+就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上。
+<label> 标签的 for 属性应当与相关元素的 id 属性相同
+form规定 label 字段所属的一个或多个表单
 
 <datalist> 元素为 <input> 元素规定预定义选项列表。
 用户会在他们输入数据时看到预定义选项的下拉列表。
