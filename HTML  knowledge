@@ -8,7 +8,7 @@ samp 计算机输出
 code 代码 不保留多余的空格和折行
 pre 预格式化文本(保留的意思)
 var 定义数学变量(公式) 斜体
-sup 上标
+sup 上标，当前文本流中字符高度的一半来显示，但是与当前文本流中文字的字体和字号都是一样的
 sub 下标
 <!--> 中间可以有标签 
 条件注释<!--[if IE 8]>....<![endif]-->只有IE执行的HTML标签(执行里面的内容...)
@@ -21,6 +21,21 @@ sub 下标
 <bdi> 标签允许您设置一段文本，使其脱离其父元素的文本方向设置,属性同<bdo>
 <dfn> 标签可标记那些对特殊术语或短语的定义
 <mark> 标签定义带有记号的文本。请在需要突出显示文本时使用 <m> 标签(对应文本有所记号，本例中变黄）
+<pre> 标签:标题、<p> 和 <address> 标签）绝不能包含在 <pre> 所定义的块里,width属性定义每行的最大字符数（通常是 40、80 或 132）
+<strong> 标签（加粗）和 <em> 标签（斜体）一样，用于强调文本，但它强调的程度更强一些
+
+<progress> 标签标示任务的进度（进程），<progress> 标签与 JavaScript 一同使用，来显示任务的进度
+max 属性规定完成任务一共需要多少工作
+value 属性规定任务已完成多少
+<progress> 标签不适合用来表示度量衡（例如，磁盘空间使用情况或查询结果）。如需表示度量衡，请使用 <meter> 标签代替
+
+<summary> 标签包含 details 元素的标题，"details" 元素用于描述有关文档或文档片段的详细信息
+请与 <details> 标签一起使用，标题是可见的（detail内容是不可见的），当用户点击标题时会显示出详细信息
+"summary" 元素应该是 "details" 元素的第一个子元素
+<details>
+<summary>HTML 5</summary>
+This document teaches you everything you have to learn about HTML 5.
+</details>
 
 <menu> 标签定义命令的列表或菜单
 <menu> 标签用于上下文菜单、工具栏以及用于列出表单控件和命令
@@ -82,6 +97,35 @@ command 元素表示用户能够调用的命令
 span规定列组应该横跨的列数
 <col> 标签为表格中一个或多个列定义属性值
 如果没有 col 元素，列会从 colgroup 那里继承所有的属性值
+<table width="100%" border="1">
+  <colgroup span="2" align="left"></colgroup>
+  <colgroup align="right" style="color:#0000FF;"></colgroup>
+  <tr>
+    <th>ISBN</th>
+    <th>Title</th>
+    <th>Price</th>
+  </tr>
+  <tr>
+    <td>3476896</td>
+    <td>My first HTML</td>
+    <td>$53</td>
+  </tr>
+</table>
+<table width="100%" border="1">
+  <col align="left" />
+  <col align="left" />
+  <col align="right" />
+  <tr>
+    <th>ISBN</th>
+    <th>Title</th>
+    <th>Price</th>
+  </tr>
+  <tr>
+    <td>3476896</td>
+    <td>My first HTML</td>
+    <td>$53</td>
+  </tr>
+</table>
 
 < a href="(链接)#tips"> 锚 
 找不到name就为顶端
@@ -113,6 +157,13 @@ x1,y1,x2,y2,..,xn,yn	如果 shape 属性设置为 "poly"，则该值规定多边
 
 nohref从图像映射排除某个区域
 <area shape="circle" coords="180,139,14" nohref="nohref" alt="Venus" />
+
+<rp> 标签在 ruby 注释中使用，以定义不支持 ruby 元素的浏览器所显示的内容
+<rt> 标签定义字符（中文注音或字符）的解释或发音
+<ruby> 标签定义 ruby 注释（中文注音或字符），在东亚使用，显示的是东亚字符的发音
+<ruby>
+ 漢 <rt> ㄏㄢˋ </rt>      结果：ㄏㄢˋ
+</ruby>                         漢 
 
 单元格边距(Cell padding)
 单元格间距(Cell spacing)
@@ -194,6 +245,16 @@ title 元素能够：
        content 属性始终要和 name 属性或 http-equiv 属性一起使用
        scheme 属性用于指定要用来翻译属性值的方案。此方案应该在由 <head> 标签的 profile 属性指定的概况文件中进行了定义
        <meta http-equiv="Refresh" content="5;url=http://www.w3school.com.cn" />重定向
+       
+<section> 标签定义文档中的节（section、区段）。比如章节、页眉、页脚或文档中的其他部分
+cite属性section 的 URL，假如 section 摘自 web 的话
+
+<select> 
+disabled 属性规定禁用下拉列表。被禁用的下拉列表既不可用，也不可点击
+multiple 属性规定可选择多个选项
+required 属性规定文本区域是必填的
+size 属性规定下拉列表中可见选项的数目，如果 size 属性的值大于 1，但是小于列表中选项的总数目，浏览器会显示出滚动条，表示可以查看更多选项（默认为1）
+
 <script>
 HTML 4 和 XHTML 在处理脚本中的内容方面有所不同：
 在 HTML 4 中，内容类型声明为 CDATA，就是说不会对实体进行解析。
@@ -375,11 +436,63 @@ The cat was playing in the garden.
 
 <button type="button" onclick="alert('Hello World!')">Click Me!</button>
 
+表头单元 - 包含头部信息（由 th 元素创建）
+标准单元 - 包含数据（由 td 元素创建）
+th 元素内部的文本通常会呈现为居中的粗体文本，而 td 元素内的文本通常是左对齐的普通文本
+
+<td>
+axis 属性用于对单元格进行分类，axis 属性可用于对相关的信息列进行组合
+如果你在一个食物购物的单元格中使用 axis=meals，浏览器能够找到那些单元格，获取它的值，并且计算出总数
+headers 属性规定表头与单元格相关联,headers 属性不会在普通浏览器中产生任何视觉变化,屏幕阅读器可以利用该属性
+headers 属性会将表格中的一个表头单元格和一个数据单元格联系起来
+这个属性的值是引号包括的一列名称，这些名称是用 id 属性定义的不同表头单元格的名称
+headers 属性对非可视化的浏览器，也就是那些在显示出相关数据单元格内容之前就显示表头单元格内容的浏览器非常有用
+(表头用id，数据单元格用headers)
+rowspan="0" 指示浏览器横跨到表格部分的最后一行（thead、tbody 或者 tfoot）
+scope 属性定义将表头单元与数据单元相关联的方法,标识某个单元是否是列、行、列组或行组的表头。不会在普通浏览器中产生任何视觉变化,屏幕阅读器可以利用该属性。
+通过属性值 row，表头行包括的所有表格都将和表头单元格联系起来。指定 col，会将当前列的所有单元格和表头单元格绑定起来。
+使用 rowgroup 和 colgroup 会将单元格的行组（由 <thead>、<tbody> 或 <tfoot> 标签定义）或
+列组中的所有单元格和表头单元格绑定起来（由 <col> 或 <colgroup> 标签定义
+
+如果您使用 thead、tfoot 以及 tbody 元素，您就必须使用全部的元素
+它们的出现次序是：thead、tfoot、tbody，这样浏览器就可以在收到所有数据前呈现页脚了。您必须在 table 元素内部使用这些标签
+<thead> 内部必须拥有 <tr> 标签！
+align	 right|left|center|justify|char定义 tbody 元素中内容的对齐方式
+char 规定根据哪个字符来进行文本对齐
+charoff 规定第一个对齐字符的偏移量
+valign	top|middle|bottom|baseline 规定 tbody 元素中内容的垂直对齐方式
+
 <label> 标签为 input 元素定义标注（标记）。
 label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性。如果您在 label 元素内点击文本，就会触发此控件
 就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上。
 <label> 标签的 for 属性应当与相关元素的 id 属性相同
 form规定 label 字段所属的一个或多个表单
+
+<optgroup> 标签定义选项组
+optgroup 元素用于组合选项。当您使用一个长的选项列表时，对相关的选项进行组合会使处理更加容易
+label 属性为选项组规定描述，通过 <optgroup> 标签把相关的选项组合在一起（为option分组，组名会显示）
+disabled属性规定禁用该选项组
+
+<output> 标签定义不同类型的输出，比如脚本的输出
+<form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
+<input type="range" id="a" value="50">100
++<input type="number" id="b" value="50">
+=<output name="x" for="a b"></output>
+</form>
+0range控件100+50(文本框)=53
+oninput="x.value=parseInt(a.value)+parseInt(b.value)" 决定output的运算
+for 属性规定了计算中使用的元素与计算结果之间的关系
+<output for="element_id"> element_id	一个或多个元素的 id 列表，以空格分隔，规定计算中使用的元素与计算结果之间的关系
+form 属性规定 <output> 元素所属的一个或多个表单 <output form="form_id">
+<form action="demo_form.asp" id="numform"
+ oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
+ <input type="range" id="a" name="a" value="50">100
+ +<input type="number" id="b" name="b" value="50">
+ <br><br>
+ <input type="submit">
+</form>
+name 属性规定 <output> 元素的名称，name 属性用于在提交表单后引用表单数据，或者在 JavaScript 中引用元素
+<output form="numform" name="x" for="a b"></output> 
 
 <datalist> 元素为 <input> 元素规定预定义选项列表。
 用户会在他们输入数据时看到预定义选项的下拉列表。
@@ -396,6 +509,46 @@ form规定 label 字段所属的一个或多个表单
    <option value="Safari">
 </datalist> 
 </form>
+
+<time> 标签定义公历的时间（24 小时制）或日期，时间和时区偏移是可选的
+该元素能够以机器可读的方式对日期和时间进行编码，这样，举例说，用户代理能够把生日提醒或排定的事件添加到用户日程表中，搜索引擎也能够生成更智能的搜索结果
+datetime 属性规定日期或时间:YYYY-MM-DDThh:mm:ssTZD
+YYYY - 年 (例如 2011)
+MM - 月 (例如 01 表示 January)
+DD - 天 (例如 08)
+T - 必需的分隔符，若规定时间的话
+hh - 时 (例如 22 表示 10.00pm)
+mm - 分 (例如 55)
+ss - 秒 (例如 03)
+TZD - 时区标识符 (Z 表示祖鲁，也称为格林威治时间)
+pubdate 属性指示 <time> 元素中的日期 / 时间是文档（或最近的前辈 <article> 元素）的发布日期
+<time pubdate="pubdate">
+属性值：pubdate	指示 <time> 元素中的日期 / 时间是文档（或最近的前辈 <article> 元素）的发布日期
+
+<track> 标签为诸如 video 元素之类的媒介规定外部文本轨道
+用于规定字幕文件或其他包含文本的文件，当媒介播放时，这些文件是可见的
+使用 default 属性，则规定应该使用该轨道，假如用户没有选择其他轨道的话
+<video width="320" height="240" controls="controls">
+  <source src="forrest_gump.mp4" type="video/mp4" />
+  <source src="forrest_gump.ogg" type="video/ogg" />
+  <track kind="subtitles" src="subschi.srt" srclang="zh" label="Chinese">
+  <track kind="subtitles" default src="subseng.srt" srclang="en" label="English">
+</video>
+kind 属性规定轨道的种类
+captions	该轨道定义将在播放器中显示的简短说明。
+chapters	该轨道定义章节，用于导航媒介资源。
+descriptions	该轨道定义描述，用于通过音频描述媒介的内容，假如内容不可播放或不可见。
+metadata	该轨道定义脚本使用的内容
+subtitles	该轨道定义字幕，用于在视频中显示字幕
+label 属性规定轨道的标签，例如，当用户选择字幕轨道时，标签会显示出来
+<track kind="subtitles" label="Chinese subtitles" src="chisubs.srt" srclang="zh">
+src 属性规定轨道的 url
+srclang 属性定义轨道的语言，如果 kind 属性的值是 "subtitles"，则 srclang 属性是必需的
+
+<wbr>
+Word Break Opportunity (<wbr>) 规定在文本中的何处适合添加换行符
+如果单词太长，或者您担心浏览器会在错误的位置换行，那么您可以使用 <wbr> 元素来添加 Word Break Opportunity（单词换行时机）
+在单词的后面加<wbr>，则此单词会看准时机换行
 
 <input type="text"> 定义供文本输入的单行输入字段
 <input type="password"> 定义密码字段 注释：password 字段中的字符会被做掩码处理（显示为星号或实心圆）
