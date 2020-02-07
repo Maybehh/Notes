@@ -31,3 +31,16 @@ FRAMESET（框架类型）
 
 Dave Raggett 的 HTML TIDY是用来清理HTML代码的免费工具。在处理那些由专门的 HTML 代码编辑器和转换工具生成的难以阅读的HTML代码方面，TIDY 还是做得很棒的
 同时，它可以帮助你发现站点中哪些地方需要投入更多精力，使得对于残疾人士，网页具有更强的易用性
+
+ondblclick当鼠标被双击时执行脚本
+onmousedown当鼠标按钮被按下时执行脚本
+onkeypress当键盘被按下后又松开时执行脚本
+onmouseover当鼠标指针悬停于某元素之上时执行脚本
+onmousemove当鼠标指针移动时执行脚本
+onmouseup当鼠标按钮被松开时执行脚本
+
+请最大限度地使用 CSS 来进行布局。在 web 标准的世界里，XHTML 标记与表现无关，它只与文档结构有关
+相似地，使用 strong 来代替 b，使用 em 代替 i，等等
+id 值必须以字母或者下划线开始；不能以数字开始
+XML不会被XHTML取代
+HTML5不是XHTML的升级版本
