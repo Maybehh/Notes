@@ -1,0 +1,33 @@
+XHTML 是 HTML 与 XML（扩展标记语言）的结合物，XHTML 包含了所有与 XML 语法结合的 HTML 4.01 元素
+XML 是一种标记化语言，其中所有的东西都要被正确的标记，以产生形式良好的文档，XML 用来描述数据，而 HTML 则用来显示数据
+XHTML 文档必须拥有一个根元素，所有的 XHTML 元素必须被嵌套于 <html> 根元素中。其余所有的元素均可有子元素。子元素必须是成对的且被嵌套在其父元素之中
+用 id 属性代替 name 属性
+你应该在 "/" 符号前添加一个额外的空格，以使你的 XHTML 与当今的浏览器相兼容
+如果在某元素中使用 lang 属性，就必须添加额外的 xml:lang，像这样：<div lang="no" xml:lang="no">Heia Norge!</div>
+所有 XHTML 文档必须进行文件类型声明（DOCTYPE declaration）。在 XHTML 文档中必须存在html、head、body元素，而 title 元素必须位于在 head 元素中
+<!DOCTYPE Doctype goes here>文件类型声明并非 XHTML 文档自身的组成部分。它并不是 XHTML 元素，也没有关闭标签
+<!DOCTYPE Doctype goes here>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Title goes here</title>
+</head>
+
+<body>
+</body>
+
+</html>
+在 XHTML 中，<html> 标签内的 xmlns 属性是必需的。然而，即使当 XHTML 文档中没有这个属性时，w3.org 的验证工具也不会提示错误
+这是因为，"xmlns=http://www.w3.org/1999/xhtml" 是一个固定的值，即使你没有把它包含在代码中，这个值也会被添加到 <html> 标签中
+
+XHTML 定义了三种文件类型声明，使用最普遍的是 XHTML Transitional
+DTD 规定了使用通用标记语言(SGML)的网页的语法
+诸如 HTML 这样的通用标记语言应该使用 DTD 来规定应用于某种特定文档中的标签的规则，这些规则包括一系列的元素和实体的声明
+在通用标记语言(SGML)的文档类型声明或 DTD 中，XHTML 被详细地进行了描述
+XHTML DTD 使用精确的可被计算机读取的语言来描述合法的 XHTML 标记的语法和句法
+存在三种XHTML文档类型：
+STRICT（严格类型）
+TRANSITIONAL（过渡类型）
+FRAMESET（框架类型）
+
+Dave Raggett 的 HTML TIDY是用来清理HTML代码的免费工具。在处理那些由专门的 HTML 代码编辑器和转换工具生成的难以阅读的HTML代码方面，TIDY 还是做得很棒的
+同时，它可以帮助你发现站点中哪些地方需要投入更多精力，使得对于残疾人士，网页具有更强的易用性
