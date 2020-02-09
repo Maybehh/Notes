@@ -70,3 +70,17 @@ input[type="button"]
 [attribute^=value]	匹配属性值以指定值开头的每个元素。
 [attribute$=value]	匹配属性值以指定值结尾的每个元素。
 [attribute*=value]	匹配属性值中包含指定值的每个元素。
+
+CSS样式继承同时有三种：不同属性都会继承，相同属性按照就近原则
+
+background-color 不能继承
+
+background-image 属性为元素设置背景图像，元素的背景占据了元素的全部尺寸，包括内边距和边框，但不包括外边距
+默认地，背景图像位于元素的左上角，并在水平和垂直方向上重复
+
+background-repeat 属性设置是否及如何重复背景图像，默认地，背景图像在水平和垂直方向上重复
+repeat	默认。背景图像将在垂直方向和水平方向重复。
+repeat-x	背景图像将在水平方向重复。
+repeat-y	背景图像将在垂直方向重复。
+no-repeat	背景图像将仅显示一次。
+inherit	规定应该从父元素继承 background-repeat 属性的设置
