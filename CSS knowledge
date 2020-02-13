@@ -797,11 +797,19 @@ p:first-line
 "first-line" 伪元素只能用于块级元素
 
 :first-letter 伪元素
-"first-letter" 伪元素用于向文本的首字母设置特殊样式：
+"first-letter" 伪元素用于向文本的首字母（字符）设置特殊样式：
 p:first-letter
   {
   color:#ff0000;
   font-size:xx-large;
   }
-注释："first-letter" 伪元素只能用于块级元素
+在 CSS2.1 之前，:first-letter 只能与块级元素关联。CSS2.1 扩大了这个范围，可以与任何元素关联。可以应用到首字母的属性是有限的
+所有前导标点符号应当与第一个字母一同应用该样式，某些语言有一些要处理为单个字符的字母组合，如果是这样，用户代理可能会把首字母同时应用到这个字母组合
 
+:before 伪元素在元素之前添加内容
+这个伪元素允许创作人员在元素内容的最前面插入生成内容。默认地，这个伪元素是行内元素，不过可以使用属性 display 改变这一点
+h1:before {content:url(/i/w3school_logo_white.gif);}
+
+:after 伪元素在元素之后添加内容
+这个伪元素允许创作人员在元素内容的最后面插入生成内容。默认地，这个伪元素是行内元素，不过可以使用属性 display 改变这一点
+h1:after {content:url(/i/w3school_logo_white.gif);}
