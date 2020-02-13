@@ -766,3 +766,42 @@ CSS 伪类用于向某些选择器添加特殊的效果
 伪类的语法：selector : pseudo-class {property: value}
 CSS 类也可与伪类搭配使用：selector.class : pseudo-class {property: value}
 伪类名称对大小写不敏感
+
+:active 伪类向激活（在鼠标点击与释放之间发生的事件）的元素添加特殊的样式
+:focus 伪类在元素获得焦点时向元素添加特殊的样式
+:hover 伪类在鼠标移到元素上时向此元素添加特殊的样式，应用处于“悬停状态”的元素
+:link 伪类向未访问的链接添加特殊的样式，应用于尚未访问过的链接；也就是说，链接所指的 URI 尚未出现在用户代理的历史中。这种状态与 :visited 状态是互斥的
+:visited 伪类向已访问的链接添加特殊的样式
+
+:first-child 伪类向元素的第一个子元素添加样式（p作为第一个子元素）（这个元素是在父元素中的第一个子元素，不是文档中的第一个，可以有很多个）
+利用 :first-child 这个伪类，只有当元素是另一个元素的第一个子元素时才能匹配。例如，p:first-child 会选择作为另外某个元素第一个子元素的所有 p 元素
+一般可能认为这会选择作为段落第一个子元素的元素，但事实上并非如此，如果要选择段落的第一个子元素，应当写为 p > *:first-child
+
+:lang 伪类向带有指定 lang 属性的元素添加样式
+:lang 伪类允许您为不同的语言定义特殊的规则。在下面的例子中，:lang 类为带有值为 "no" 的 lang 属性的 q 元素定义引号的类型
+q:lang(no)
+  {
+  quotes: "~" "~"
+  }
+<p>Some text <q lang="no">A quote in a paragraph</q> Some text.</p>
+:lang 伪类根据元素的语言编码匹配元素。这种语言信息必须包含在文档中，或者与文档关联，不能从 CSS 指定。:lang 的处理与 |= 选择器相同
+
+CSS 伪元素用于向某些选择器设置特殊效果
+:first-line 伪元素
+"first-line" 伪元素用于向文本的首行设置特殊样式
+p:first-line
+  {
+  color:#ff0000;
+  font-variant:small-caps;
+  }
+"first-line" 伪元素只能用于块级元素
+
+:first-letter 伪元素
+"first-letter" 伪元素用于向文本的首字母设置特殊样式：
+p:first-letter
+  {
+  color:#ff0000;
+  font-size:xx-large;
+  }
+注释："first-letter" 伪元素只能用于块级元素
+
