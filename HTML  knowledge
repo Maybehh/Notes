@@ -52,6 +52,8 @@ checked规定在页面加载后选中命令/菜单项目。仅适用于 type="ra
 open定义 details 是否可见
 radiogroup规定命令组的名称，命令组会在命令/菜单项本身被切换时进行切换。仅适用于 type="radio"
 type属性checkbox command radio 规定命令/菜单项的类型。默认是 "command"
+<div style="background:yellow;border:1px solid #cccccc;padding: 10px;" contextmenu="mymenu">
+<p>请在框中右键点击，就可以看到快捷菜单！</p>
 <menu type="context" id="mymenu">
   <menuitem label="Refresh" onclick="window.location.reload();" icon="ico_reload.png">
   </menuitem>
@@ -433,6 +435,9 @@ target	规定 action 属性中地址的目标（默认：_self）
 <textarea name="message" rows="10" cols="30">
 The cat was playing in the garden.
 </textarea>
+wrap 属性规定当在表单中提交时，文本区域（text area）中的文本如何换行
+soft	当在表单中提交时，textarea 中的文本不换行。默认值。
+hard	当在表单中提交时，textarea 中的文本换行（包含换行符）
 
 <button type="button" onclick="alert('Hello World!')">Click Me!</button>
 
