@@ -987,3 +987,9 @@ id number
 id 定义将增加计数的选择器、id 或 class。
 number 定义增量。number 可以是正数、零或者负数
 
+使用一次counter-increment，计数值加一次，不使用不增加
+counter-reset和counter-increment都可以同时定义多个，用空格隔开就可以（一一对应）
+
+counter（）方法
+counter（name，style)  name是计数器的名字，style是list-style-type,定义计数的类型（数字，罗马，字母等）
+
