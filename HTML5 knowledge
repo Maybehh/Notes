@@ -57,3 +57,36 @@ output:
  <input id="num_b" /> =
  <output id="result" onforminput="resCalc()"></output>
 </form>
+
+bdi 指的是 bidi 隔离
+<bdi> 标签允许您设置一段文本，使其脱离其父元素的文本方向设置
+dir	:ltr rtl auto
+
+command 元素表示用户能够调用的命令
+<command> 标签可以定义命令按钮，比如单选按钮、复选框或按钮
+只有当 command 元素位于 menu 元素内时，该元素才是可见的。否则不会显示这个元素，但是可以用它规定键盘快捷键
+checked	checked	定义是否被选中。仅用于 radio 或 checkbox 类型。
+disabled	disabled	定义 command 是否可用。
+icon	url	定义作为 command 来显示的图像的 url。
+label	text	为 command 定义可见的 label。
+radiogroup	groupname	定义 command 所属的组名。仅在类型为 radio 时使用。
+type :checkbox command radio 定义该 command 的类型。默认是 "command"
+<menu>
+<command onclick="alert('Hello World')">
+Click Me!</command>
+</menu>
+
+<summary> 标签 配合使用可以为 details 定义标题。标题是可见的，用户点击标题时，会显示出 details
+open 属性规定在 HTML 页面上 details 应该是可见的  <details open="open">
+
+<dialog> 标签定义对话框或窗口
+open	open	规定 dialog 元素是活动的，用户可与之交互
+
+<header> 标签定义文档的页眉（介绍信息）
+<article>
+<header>
+<h1>What Does WWF Do?</h1>
+<p>WWF's mission:</p>
+</header>
+<p>WWF's mission is to stop the degradation of our planet's  harmony with nature.</p>
+</article>
