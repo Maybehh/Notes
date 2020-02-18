@@ -2,7 +2,7 @@
 -webkit-border-image:url(border.png) 30 30 round; /* Safari 和 Chrome */
 -o-border-image:url(border.png) 30 30 round; /* Opera */
 
-不继承：
+边框不继承：
 border-image 属性是一个简写属性，用于设置以下属性：
 border-image-source	用在边框的图片的路径。	
 border-image-slice	图片边框向内偏移。	
@@ -42,3 +42,85 @@ repeat	平铺（重复）图像来填充区域（从中间向两侧按原边框�
 round	类似 repeat 值。如果无法完整平铺所有图像，则对图像进行缩放以适应区域
 （图像从中间向两侧平铺，会调整背景图片大小保证图像完整，可能有多个，但每个都是完整的）
 
+border-radius 属性是一个简写属性，用于设置四个 border-*-radius 属性
+border-radius: 1-4 length|%（四个角按顺序设置水平半径） / 1-4 length|%（四个角按顺序设置垂直半径）;
+border-radius: 2em 1em 4em / 0.5em 3em;
+等价于：
+border-top-left-radius: 2em 0.5em;
+border-top-right-radius: 1em 3em;
+border-bottom-right-radius: 4em 0.5em;
+border-bottom-left-radius: 1em 3em;
+
+border-bottom-left-radius 属性的长度值和百分比值定义四分之一椭圆（定义外部边框边缘的边角形状）的半径（radii）。
+第一个值是水平半径，第二个值是垂直半径。如果省略第二个值，则复制第一个值。
+如果长度为零，则边角为方形，而不是圆形。水平半径的百分比值参考边框盒的宽度，而垂直半径的百分比值参考边框盒的高度
+
+box-shadow 属性向框添加一个或多个阴影
+box-shadow: h-shadow v-shadow blur spread color inset;
+h-shadow	必需。水平阴影的位置。允许负值(左上右上等阴影效果）
+v-shadow	必需。垂直阴影的位置。允许负值
+blur	可选。模糊距离（大小，单位px）
+spread	可选。阴影的尺寸
+color	可选。阴影的颜色。请参阅 CSS 颜色值
+inset	可选。将外部阴影 (outset) 改为内部阴影
+
+background-size 属性规定背景图像的尺寸
+length	设置背景图像的高度和宽度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 "auto"。
+percentage	以父元素的百分比来设置背景图像的宽度和高度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 "auto"。
+cover 把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。背景图像的某些部分也许无法显示在背景定位区域中。
+contain	把图像图像扩展至最大尺寸，以使其宽度和高度完全适应内容区域
+在no-repeat情况下，如果容器宽高比与图片宽高比不同，
+cover：图片宽高比不变、铺满整个容器的宽高，而图片多出的部分则会被截掉；
+contain:图片自身的宽高比不变，缩放至图片自身能完全显示出来，所以容器会有留白区域；
+在repeat情况下：cover:与上述相同；contain:容器内至少有一张完整的图，容器留白区域则平铺背景图，铺不下的再裁掉
+
+background-origin 属性规定 background-position 属性相对于什么位置来定位
+注释：如果背景图像的 background-attachment 属性为 "fixed"，则该属性没有效果
+background-origin: padding-box|border-box|content-box;
+
+background-clip 属性规定背景的绘制区域
+background-clip: border-box|padding-box|content-box;
+
+设置多重背景：background-repeat:no repeat; 和 background-position合用
+
+text-shadow 属性向文本设置阴影
+text-shadow: h-shadow v-shadow blur color;
+
+hanging-punctuation 属性规定把标点符号放在文本整行的开头还是结尾的行框之外
+hanging-punctuation: none|first|last|allow-end|force-end;
+none	不在文本整行的开头还是结尾的行框之外放置标签符号
+first	标点附着在首行开始边缘之外
+last	标点附着在首行结尾边缘之外
+force-end 行尾的停止符或逗号挂起
+allow-end 如果在对齐之前不适合，则行尾的停止符或逗号会挂起
+
+punctuation-trim 属性规定如果标点位于行开头或结尾处，或者临近另一个全角标点符号，是否对标点符号进行修剪
+none	请勿修剪打开或关闭标点符号
+start	在每一行的开头放置开头标点符号
+end	在每一行的末尾修剪结束标点符号
+allow-end	如果另有不适合之前的理由，修剪每行末尾的结束标点符号。
+adjacent	若以前相邻字符修剪开口punctuation是一个全形开口，中间或结束标点符号，或表意文字空间。
+修剪结束标点符号，如果下一个相邻的字符是一个全形关闭或中间punctuation，或表意文字空间
+
+text-emphasis 属性是简写属性，用于在一个声明中设置 text-emphasis-style 和 text-emphasis-color
+text-emphasis: text-emphasis-style text-emphasis-color;
+
+text-justify 属性规定当 text-align 被设置为justify时的齐行方法（缩放窗口会自行调整）
+auto	浏览器决定齐行算法
+none	禁用齐行
+inter-word	增加/减少单词间的间隔
+inter-ideograph	用表意文本来排齐内容
+inter-cluster	只对不包含内部单词间隔的内容（比如亚洲语系）进行排齐
+distribute	类似报纸版面，除了在东亚语系中最后一行是不齐行的
+kashida	通过拉伸字符来排齐内容
+
+text-outline 属性规定文本轮廓
+text-outline: thickness blur color;
+thickness	必需。轮廓的粗细
+blur	可选。轮廓的模糊半径
+color	必需。轮廓的颜色
+
+text-overflow 属性规定当文本溢出包含元素时发生的事情
+clip	修剪文本
+ellipsis	显示省略符号来代表被修剪的文本
+string	使用给定的字符串来代表被修剪的文本
