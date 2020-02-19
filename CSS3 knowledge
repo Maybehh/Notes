@@ -357,3 +357,99 @@ column-width的作用是当它大于一列的宽度时使对象“降列显示�
 当column-width<=w1时按指定的4列显示，否则降列显示，首次降列column-count减为3，column-gap数量减为2，重新计算每一列宽度w2=[700-(3-1)*14]/3=224px，
 当column-width<=w2使按新的3列显示，否则再次降列显示，以此类推
 
+appearance 属性允许您使元素看上去像标准的用户界面元素
+normal	将元素呈现为常规元素
+icon	将元素呈现为图标（小图片）
+window	将元素呈现为视口
+button	将元素呈现为按钮
+menu	将元素呈现为一套供用户选择的选项
+field	将元素呈现为输入字段
+
+box-sizing 属性
+content-box 是默认值。如果你设置一个元素的宽为100px，那么这个元素的内容区会有100px 宽，并且任何边框和内边距的宽度都会被增加到最后绘制出来的元素宽度中。
+border-box 告诉浏览器：你想要设置的边框和内边距的值是包含在width内的。也就是说，如果你将一个元素的width设为100px，
+那么这100px会包含它的border和padding，内容区的实际宽度是width减去(border + padding)的值。大多数情况下，这使得我们更容易地设定一个元素的宽高
+
+icon 属性为创作者提供了将元素设置为图标等价物的能力
+注释：除非 "content" 属性的值被设置为 "icon"，否则元素的图标不会被使用
+img{
+  content:icon;
+  icon:url(imgicon.png);
+}
+auto	使用由浏览器提供的默认通用图标
+URL	引用列表中的一个或多个图标，列表用逗号分隔
+
+nav-down 属性规定当使用 nav-down 导航键时，向何处进行导航（键盘上的箭头）
+auto	浏览器决定导航到哪个元素。
+id	规定被导航元素的 id。
+target-name	规定被导航的目标框架
+button#b1{
+top:20%;left:25%;
+nav-index:1;
+nav-right:#b2;nav-left:#b4;
+nav-down:#b2;nav-up:#b4;
+}
+<button id="b1">Button 1</button>
+以上代码意思是当前在button1时，按左和上方向键就会定位到button4，右和下就会定位到button2
+
+nav-index 属性规定元素的连续导航次序 ("tabbing order")
+auto	由浏览器分配元素的导航键控制次序
+number	指示元素的导航键控制次序。1 代表第一个
+根据按导航键的次数定位，设置元素的 tab 键控制次序
+
+outline-offset 属性对轮廓进行偏移，并在边框边缘进行绘制。
+轮廓在两方面与边框不同：
+轮廓不占用空间
+轮廓可能是非矩形
+outline-offset: length|inherit;
+
+resize 属性规定是否可由用户调整元素的尺寸
+注释：如果希望此属性生效，需要设置元素的 overflow 属性，值可以是 auto、hidden 或 scroll
+none	用户无法调整元素的尺寸
+both	用户可调整元素的高度和宽度
+horizontal	用户可调整元素的宽度
+vertical	用户可调整元素的高度
+
+overflow-x 属性规定是否对内容的左/右边缘进行裁剪 - 如果溢出元素内容区域的话
+overflow-x: visible|hidden|scroll|auto|no-display|no-content;
+no-display	如果内容不适合内容框，则删除整个框
+no-content	如果内容不适合内容框，则隐藏整个内容
+
+overflow-style 规定溢出元素的首选滚动方法
+注释：值既可以是 auto，或者是按照优先次序的方法列表。浏览器应该使用列表中其支持的的第一个滚动方法
+overflow-style: auto|scrollbar|panner|move|marquee;
+auto	
+scrollbar	为溢出元素添加滚动条。
+panner	
+move	用户能够直接移动元素的内容。通常，用户能够用鼠标拖动内容。
+marquee	内容自主移动，不需任何用户代理对其控制
+
+rotation 属性围绕由 rotation-point 属性定义的指定点，对块级元素进行逆时针旋转
+提示：边框、内边距、内容以及背景（非固定）也会被旋转！
+angle	元素旋转角度。可能的值：0deg 到 360deg
+
+rotation-point 属性是一对值，定义从上左边框边缘进行偏移的点
+默认值：	50% 50%
+left top
+left center
+left bottom
+right top
+right center
+right bottom
+center top
+center center
+center bottom
+如果只规定一个关键词，则第二个值将是 "center"
+x% y%	百分比值，参考边框盒宽度和高度
+
+box-align 属性规定如何对齐框的子元素
+start	对于正常方向的框，每个子元素的上边缘沿着框的顶边放置。对于反方向的框，每个子元素的下边缘沿着框的底边放置。
+end	对于正常方向的框，每个子元素的下边缘沿着框的底边放置。对于反方向的框，每个子元素的上边缘沿着框的顶边放置。
+center	均等地分割多余的空间，一半位于子元素之上，另一半位于子元素之下
+baseline	如果 box-orient 是inline-axis或horizontal，所有子元素均与其基线对齐
+stretch	拉伸子元素以填充包含块
+
+box-direction 属性规定框元素的子元素以什么方向来排列
+normal	以默认方向显示子元素
+reverse	以反方向显示子元素(所有子元素的顺序颠倒，例：<p id="p1"></p><p id="p2"></p>变成<p id="p2"></p><p id="p1"></p>
+
