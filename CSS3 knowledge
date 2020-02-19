@@ -301,7 +301,59 @@ running	规定动画正在播放（默认值）
 
 animation-fill-mode 属性规定动画在播放之前或之后，其动画效果是否可见
 注释：其属性值是由逗号分隔的一个或多个填充模式关键词
-none	不改变默认行为
-forwards	当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）。
-backwards	在 animation-delay 所指定的一段时间内，在动画显示之前，应用开始属性值（在第一个关键帧中定义）。
-both	向前和向后填充模式都被应用
+none	不改变默认行为 取值为none时，使用得动画不会对动画等待和动画完成的元素样式产生改变
+forwards	当动画完成后，保持最后一个属性值（在最后一个关键帧中定义），动画结束后，元素的样式将设置为动画的最后一帧的样式（保留最后的形态）
+backwards	在 animation-delay 所指定的一段时间内，在动画显示之前，应用开始属性值（在第一个关键帧中定义）
+在动画等待的那段时间内，元素的样式将设置为动画第一帧的样式
+both	向前和向后填充模式都被应用，相当于同时配置了backwards和forwards，意味着在动画等待和动画结束状态，元素将分别应用动画第一帧和最后一帧的样式
+
+像报纸一样的排版：
+columns 属性是一个简写属性，用于设置列宽和列数
+columns: column-width column-count;
+
+column-count 属性规定元素应该被划分的列数
+number	元素内容将被划分的最佳列数
+auto	由其他属性决定列数，比如 "column-width"
+
+column-fill 属性规定如何填充列（是否进行协调）（列长进行调整）
+balance	对列进行协调。浏览器应对列长度的差异进行最小化处理
+auto	按顺序对列进行填充，列长度会各有不同
+
+column-gap 属性规定列之间的间隔
+length	把列间的间隔设置为指定的长度
+normal	规定列间间隔为一个常规的间隔。W3C 建议的值是 1em
+
+column-rule 属性是一个简写属性，用于设置所有 column-rule-* 属性
+column-rule: column-rule-width column-rule-style column-rule-color;
+
+column-rule-color 属性规定列之间的颜色规则（列之间的分割条）
+column-rule-style 属性规定列之间的样式规则（列之间的分割条）
+none	定义没有规则
+hidden	定义隐藏规则
+dotted	定义点状规则
+dashed	定义虚线规则
+solid	定义实线规则
+double	定义双线规则
+groove	定义 3D grooved 规则。该效果取决于宽度和颜色值	
+ridge	定义 3D ridged 规则。该效果取决于宽度和颜色值
+inset	定义 3D inset 规则。该效果取决于宽度和颜色值
+outset	定义 3D outset 规则。该效果取决于宽度和颜色值
+column-rule-width 属性规定列之间的宽度规则（列之间的分割条）
+thin	定义纤细规则
+medium	定义中等规则
+thick	定义宽厚规则
+length	规定规则的宽度
+
+column-span 属性规定元素应横跨多少列
+all	元素应横跨所有列
+numer 自定义 默认是1
+
+column-width 属性规定列的宽度
+auto	由浏览器决定列宽
+length	规定列的宽度
+对象会按指定的column-count减去（column-count - 1）*column-gap宽度的所有列间距后将剩余宽度"column-count等分"
+column-width的作用是当它大于一列的宽度时使对象“降列显示”。降列显示即是对象会显示比原先少一的列数。举例如下：
+假设 对象（文本之类的） width:700px;font-size:14px;column-count:4;每一列宽度w1=[700-(4-1)*14]/4=164.5px，
+当column-width<=w1时按指定的4列显示，否则降列显示，首次降列column-count减为3，column-gap数量减为2，重新计算每一列宽度w2=[700-(3-1)*14]/3=224px，
+当column-width<=w2使按新的3列显示，否则再次降列显示，以此类推
+
