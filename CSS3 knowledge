@@ -531,4 +531,22 @@ p:first-child中p必须是父元素第一个子元素（类型匹配则有效，
 Odd 和 even 是可用于匹配下标是奇数或偶数的子元素的关键词（第一个子元素的下标是 1）
 使用公式 (an + b)。描述：表示周期的长度，n 是计数器（从 0 开始），b 是偏移值。p:nth-child(3n+0)
 
+:nth-last-child(n) 选择器匹配属于其元素的第 N 个子元素的每个元素，不论元素的类型，从最后一个子元素开始计数。n 可以是数字、关键词或公式
+:nth-of-type(n) 选择器匹配属于父元素的特定类型的第 N 个子元素的每个元素.n 可以是数字、关键词或公式
+:nth-last-of-type(n) 选择器匹配属于父元素的特定类型的第 N 个子元素的每个元素，从最后一个子元素开始计数。n 可以是数字、关键词或公式
+:last-child 选择器匹配属于其父元素的最后一个子元素的每个元素
+:root 选择器匹配文档根元素。在 HTML 中，根元素始终是 html 元素 :root{background:#ff0000;}
+:empty 选择器匹配没有子元素（包括文本节点）的每个元素（内容为空<p></p>  p:empty{ background:#ff0000;}）
+
+:target 选择器可用于选取当前活动的目标元素，URL 带有后面跟有锚名称 #，指向文档内某个具体的元素。这个被链接的元素就是目标元素(target element)
+（点击后目标地点的样式会有改变）p:target{...} 点击跳转到最终目标（p)会有样式改变,也可不加，所有的目标都会有样式改变
+
+:enabled 选择器匹配每个已启用的元素（大多用在表单元素上） 不是disabled="disabled"
+input:enabled{background:#ffff00;}
+input:disabled{background:#dddddd;}
+:disabled 选择器匹配每个被禁用的元素（大多用在表单元素上）
+
+:checked 选择器匹配每个已被选中的 input 元素（只用于单选按钮和复选框）只有 Opera 支持 :checked 选择器
+:not(selector) 选择器匹配非指定元素/选择器的每个元素，设置非 <p> 元素的所有元素的背景色:not(p){ background-color: #ff0000;}
+::selection 选择器匹配被用户选取的选取是部分，只能向 ::selection 选择器应用少量 CSS 属性：color、background、cursor 以及 outline
 
