@@ -485,7 +485,38 @@ end	对于正常方向的框，最后子元素的右边缘被放在右侧（首�
 center	均等地分割多余空间，其中一半空间被置于首个子元素前，另一半被置于最后一个子元素后	
 justify	在每个子元素之间分割多余的空间（首个子元素前和最后一个子元素后没有多余的空间）
 
-grid-columns 属性网格中每列的宽度 grid-columns: length|%|none|inherit;
+grid-columns 属性网格中每列的宽度 grid-columns: length|%|none|inherit;（网格布局 display：grid;)
 length	参考包含块的网格
 %	参考包含块的宽度
+具体的看csdn收藏
 
+target 属性是一个简写属性，用于设置以下属性：
+target-name
+target-new
+target-position
+注释：target-new 和 target-position 值只有在 target-name 值创建新标签页或新窗口中有效
+
+target-name 属性规定在何处打开超链接 (target destination)
+current	在链接所在的框架、标签页或窗口中打开超链接。
+root	在当前标签页或窗口中超链接。
+parent	在父框架中打开超链接。如果当前框架没有父框架，则将该值视作 root。
+new	创建新的目的地（参阅 target-new）。
+modal	在新的（暂时创建的）模态窗口中打开新窗口。
+name	在已有框架、窗口或标签页中打开链接。如果 name 目的地不存在，则用该名称创建新的目的地
+
+target-new 属性规定在新窗口还是新标签页或已有窗口中打开新的目的地链接
+window	在新窗口中打开超链接
+tab	在已有窗口的新标签页中打开超链接
+none	不创建新的目的地
+
+target-position 属性规定在何处放置新的目的地链接
+above	在当前标签页/窗口之前放置新的目的地标签页/窗口。
+behind	在当前标签页/窗口之后放置新的目的地标签页/窗口。
+front	在所有其他标签页/窗口之前放置新的目的地标签页/窗口。
+back	在所有其他标签页/窗口之后放置新的目的地标签页/窗口
+
+Marquee 属性
+marquee-direction	设置移动内容的方向
+marquee-play-count	设置内容移动多少次
+marquee-speed	设置内容滚动得多快
+marquee-style	设置移动内容的样式
