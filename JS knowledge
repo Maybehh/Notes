@@ -53,4 +53,44 @@ document.write(5 + 6);
 使用警告框来显示数据window.alert(5 + 6);
 使用 console.log() 方法来显示数据。请通过 F12 来激活浏览器控制台，并在菜单中选择“控制台”
 
- 
+JavaScript 语句是由 web 浏览器“执行”的“指令”
+JavaScript 会忽略多个空格。您可以向脚本添加空格，以增强可读性
+JavaScript 关键词指的是保留的单词。保留词无法用作变量名
+
+JavaScript 语句定义两种类型的值：混合值和变量值。混合值被称为字面量（literal）。变量值被称为变量
+"Bill" + " " + "Gates"，计算为 "Bill Gates"（没引号的是变量名，+是拼接符）
+
+JavaScript 关键词用于标识被执行的动作，var 关键词告知浏览器创建新的变量
+JavaScript 中不能使用连字符。它是为减法预留的（下划线或驼峰）
+
+单行注释以 // 开头。任何位于 // 与行末之间的文本都会被 JavaScript 忽略（不会执行）
+多行注释以 /* 开头，以 */ 结尾。任何位于 /* 和 */ 之间的文本都会被 JavaScript 忽略
+多行注释（注释块），注释块常用于官方声明
+/*
+ 下面的代码会改变
+ 网页中
+ id = "myH" 的标题
+ 以及 id = "myP" 的段落：
+*/
+
+JavaScript 变量必须以唯一的名称的标识。这些唯一的名称称为标识符
+标识符用于命名变量（以及关键词、函数和标签），首字符必须是字母、下划线（-）或美元符号（$）
+JavaScript 标识符对大小写敏感，JavaScript 中的“等于”运算符是 ==
+字符串被包围在双引号或单引号中。数值不用引号。如果把数值放在引号中，会被视作文本字符串
+声明之后，变量是没有值的。（技术上，它的值是 undefined。）
+var carName = "porsche";
+document.getElementById("demo").innerHTML = carName; 
+以逗号分隔变量var person = "Bill Gates", carName = "porsche", price = 15000;
+
+如果再次声明某个 JavaScript 变量，将不会丢它的值。
+var carName = "porsche";
+var carName;
+在这两条语句执行后，变量 carName 的值仍然是 "porsche"
+
+字符串也可以使用加号，但是字符串将被级联（拼接）
+var x = "8" + 3 + 5; 结果是835（一个是字符就会从这个字符开始之后全部当成字符，前面的依然是算数运算）
+var x = 3 + 5 + "8";结果是88
+z = "Hello" + 7;结果是Hello7 对数字和字符串相加，结果将是字符串！仅一个数字，遵从下面的括号
+（第一个引号前的是数值，其后的全是字符）
+z = 7 + 8 + "Hello" + 7;结果是15Hello7
+
