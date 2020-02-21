@@ -1,1 +1,56 @@
 JavaScript 对网页行为进行编程
+JavaScript 的核心 ECMAScript 描述了该语言的语法和基本对象；
+DOM 描述了处理网页内容的方法和接口；
+BOM 描述了与浏览器进行交互的方法和接口；
+
+尽管 ECMAScript 是一个重要的标准，但它并不是 JavaScript 唯一的部分，当然，也不是唯一被标准化的部分。
+实际上，一个完整的 JavaScript 实现是由以下 3 个不同部分组成的：
+核心（ECMAScript）
+文档对象模型（DOM）
+浏览器对象模型（BOM）
+ECMAScript 可以为不同种类的宿主环境提供核心的脚本编程能力，因此核心的脚本语言是与任何特定的宿主环境分开进行规定的
+ECMAScript 描述了以下内容：语法，类型，语句，关键字，保留字，运算符，对象
+
+DOM（文档对象模型）是 HTML 和 XML 的应用程序接口（API）。DOM 将把整个页面规划成由节点层级构成的文档。HTML 或 XML 页面的每个部分都是一个节点的衍生物
+DOM Level 1 是 W3C 于 1998 年 10 月提出的。它由两个模块组成，即 DOM Core 和 DOM HTML。
+前者提供了基于 XML 的文档的结构图，以便访问和操作文档的任意部分；后者添加了一些 HTML 专用的对象和方法，从而扩展了 DOM Core
+
+ BOM（浏览器对象模型），可以对浏览器窗口进行访问和操作。使用 BOM，开发者可以移动窗口、改变状态栏中的文本以及执行其他与页面内容不直接相关的动作
+ 使 BOM 独树一帜且又常常令人怀疑的地方在于，它只是 JavaScript 的一个部分，没有任何相关的标准
+ 
+ type 属性不是必需的。JavaScript 是 HTML 中的默认脚本语言
+ 脚本可被放置与 HTML 页面的 <body> 或 <head> 部分中，或兼而有之
+ 把脚本置于 <body> 元素的底部，可改善显示速度，因为脚本编译会拖慢显示
+ <script src="myScript.js"></script> 外部脚本不能包含 <script> 标签。
+ 在外部文件中放置脚本有如下优势：
+分离了 HTML 和代码
+使 HTML 和 JavaScript 更易于阅读和维护
+已缓存的 JavaScript 文件可加速页面加载
+
+输出：
+innerHTML 属性定义 HTML 内容
+document.getElementById("demo").innerHTML = 5 + 6;
+在 HTML 文档完全加载后使用 document.write() 将删除所有已有的 HTML
+<!DOCTYPE html>
+<html>
+<body>
+<h1>我的第一张网页</h1>
+<p>我的第一个段落</p>
+<script>
+document.write(5 + 6);
+</script>
+</body>
+</html> （全部显示）我的。。我的。。11
+<!DOCTYPE html>
+<html>
+<body>
+<h1>我的第一张网页</h1>
+<p>我的第一个段落</p>
+<button onclick="document.write(5 + 6)">试一试</button>
+</body>
+</html>（全部显示我的。。我的。。按钮）点击后只显示11
+
+使用警告框来显示数据window.alert(5 + 6);
+使用 console.log() 方法来显示数据。请通过 F12 来激活浏览器控制台，并在菜单中选择“控制台”
+
+ 
