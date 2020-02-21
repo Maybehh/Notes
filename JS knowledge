@@ -140,3 +140,32 @@ typeof 运算符把对象、数组或 null 返回 object
 typeof {name:'Bill', age:62} // 返回 "object"
 typeof function myFunc(){}   // 返回 "function"
 
+() 运算符调用函数,toCelsius 引用的是函数对象，而 toCelsius() 引用的是函数结果
+不使用 () 访问函数将返回函数声明而不是函数结果：function toCelsius(f) { return (5/9) * (f-32); }
+document.getElementById("demo").innerHTML = toCelsius;
+
+对象也是变量。但是对象包含很多值,（JavaScript 对象中的）名称:值对被称为属性
+方法以函数定义被存储在属性中:
+var person = {
+  firstName: "Bill",
+  lastName : "Gates",
+  id       : 678,
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+
+在函数定义中，this 引用该函数的“拥有者”。
+在上面的例子中，this 指的是“拥有” fullName 函数的 person 对象。换言之，this.firstName 的意思是 this 对象的 firstName 属性
+能够以两种方式访问属性：objectName.propertyName或者objectName["propertyName"]
+person.lastName;或者person["lastName"];
+能够通过如下语法访问对象方法：objectName.methodName()； name = person.fullName();
+不使用 () 访问 fullName 方法，则将返回函数定义
+方法实际上是以属性值的形式存储的函数定义
+
+如果通过关键词 "new" 来声明 JavaScript 变量，则该变量会被创建为对象：
+var x = new String();        // 把 x 声明为 String 对象
+var y = new Number();        // 把 y 声明为 Number 对象
+var z = new Boolean();       //	把 z 声明为 Boolean 对象
+请避免字符串、数值或逻辑对象。他们会增加代码的复杂性并降低执行速度
+
