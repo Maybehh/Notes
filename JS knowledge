@@ -94,3 +94,49 @@ z = "Hello" + 7;结果是Hello7 对数字和字符串相加，结果将是字符
 （第一个引号前的是数值，其后的全是字符）
 z = 7 + 8 + "Hello" + 7;结果是15Hello7
 
+系数运算符（%）返回除法的余数
+取幂运算符（**）将第一个操作数提升到第二个操作数的幂，x ** y 产生的结果与 Math.pow(x,y) 相同
+var x = 5;
+var z = x ** 2;          // 结果是 25
+
+当多个运算拥有相同的优先级时（比如加法和减法），对它们的计算是从左向右的
+
+JavaScript 变量能够保存多种数据类型：数值、字符串值、数组、对象等等：
+var length = 7;                             // 数字
+var lastName = "Gates";                      // 字符串
+var cars = ["Porsche", "Volvo", "BMW"];         // 数组
+var x = {firstName:"Bill", lastName:"Gates"};    // 对象 
+
+小数点.00不会显示出来
+超大或超小的数值可以用科学计数法来写
+var y = 123e5;      // 12300000
+var z = 123e-5;     // 0.00123
+数组索引基于零，这意味着第一个项目是 [0]，第二个项目是 [1]，以此类推
+
+JavaScript 对象用花括号来书写。对象属性是 name:value 对，由逗号分隔
+var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
+上例中的对象（person）有四个属性：firstName、lastName、age 以及 eyeColor
+
+typeof 运算符返回变量或表达式的类型
+typeof ""                  // 返回 "string"
+typeof "Bill"              // 返回 "string"
+typeof 0                   // 返回 "number"
+typeof 314                 // 返回 "number"
+typeof 运算符对数组返回 "object"，因为在 JavaScript 中数组属于对象
+JavaScript 中，没有值的变量，其值是 undefined。typeof 也返回 undefined
+空值与 undefined 不是一回事。空的字符串变量既有值也有类型  var car = "";                // 值是 ""，类型是 "string"
+在 JavaScript 中，null 是 "nothing"。它被看做不存在的事物。不幸的是，在 JavaScript 中，null 的数据类型是对象
+var person = null;           // 值是 null，但是类型仍然是对象（object)
+可以通过设置值为 null 清空对象,也可以通过设置值为 undefined 清空对象
+Undefined 与 null 的值相等，但类型不相等
+null === undefined            // false(类型和值都等）
+null == undefined             // true（值）
+
+原始数据：原始数据值是一种没有额外属性和方法的单一简单数据值
+typeof true                // 返回 "boolean"
+string，number，undefined，boolean
+复杂数据：function，object
+typeof 运算符把对象、数组或 null 返回 object
+typeof {name:'Bill', age:62} // 返回 "object"
+typeof function myFunc(){}   // 返回 "function"
+
