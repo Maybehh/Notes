@@ -212,4 +212,40 @@ lastIndexOf() 方法返回指定文本在字符串中最后一次出现的索引
 var str = "The full name of China is the People's Republic of China.";
 var pos = str.lastIndexOf("China");（最后一个China的C出现的位置）
 如果未找到文本， indexOf() 和 lastIndexOf() 均返回 -1
+两种方法都接受作为检索起始位置的第二个参数
+lastIndexOf() 方法向后进行检索（从尾到头），这意味着：假如第二个参数是 50，则从位置 50 开始检索，直到字符串的起点，位置 50 指的是从开头算起的位置 50
+var pos = str.lastIndexOf("China", 50); 前面的最后一个（也就是从后往前第一个）
 
+indexOf() 与 search()，是相等的
+search() 方法无法设置第二个开始位置参数
+indexOf() 方法无法设置更强大的搜索值（正则表达式）
+
+slice() 提取字符串的某个部分并在新字符串中返回被提取的部分
+该方法设置两个参数：起始索引（开始位置），终止索引（结束位置）
+如果某个参数为负，则从字符串的结尾开始计数（最后一个是-1，倒数第二个是-2，slice(-13,-1),从-2开始到-13，共12个）
+slice(2，7)从3开始到7
+如果省略第二个参数，则该方法将裁剪字符串的剩余部分
+var res = str.slice(7);从8到最后
+var res = str.slice(-13);从-13到-1
+都是从左到右到最后一个字符
+
+substring() 类似于 slice()。不同之处在于 substring() 无法接受负的索引
+substr() 类似于 slice()。不同之处在于第二个参数规定被提取部分的长度，如果省略第二个参数，则该 substr() 将裁剪字符串的剩余部分
+第二个参数不能为负，因为它定义的是长度
+规则同slice()
+
+replace() 方法用另一个值替换在字符串中指定的值，replace() 方法不会改变调用它的字符串。它返回的是新字符串，replace() 对大小写敏感
+默认地，replace() 只替换首个匹配（从左到右）
+var n = str.replace("Microsoft", "W3School"); W3School替换Microsoft
+如需执行大小写不敏感的替换，请使用正则表达式 /i（大小写不敏感）：var n = str.replace(/MICROSOFT/i, "W3School");（字母对就行）
+如需替换所有匹配，请使用正则表达式的 g 标志（用于全局搜索）：var n = str.replace(/Microsoft/g, "W3School");
+
+通过 toUpperCase() 把字符串转换为大写：var text2 = text1.toUpperCase();
+通过 toLowerCase() 把字符串转换为小写
+
+concat() 连接两个或多个字符串，下面两行是等效的：
+var text = "Hello" + " " + "World!";
+var text = "Hello".concat(" ","World!");
+所有字符串方法都会返回新字符串。它们不会修改原始字符串
+
+trim() 方法删除字符串两端的空白符：var str = "       Hello World!        ";  alert(str.trim());
