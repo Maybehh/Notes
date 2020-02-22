@@ -249,3 +249,27 @@ var text = "Hello".concat(" ","World!");
 所有字符串方法都会返回新字符串。它们不会修改原始字符串
 
 trim() 方法删除字符串两端的空白符：var str = "       Hello World!        ";  alert(str.trim());
+charAt() 方法返回字符串中指定下标（位置）的字符串:(从0开始，找不到返回空字符串）
+var str = "HELLO WORLD";
+str.charAt(0);            // 返回 H
+charCodeAt() 方法返回字符串中指定索引的字符 unicode 编码：
+var str = "HELLO WORLD";
+str.charCodeAt(0);         // 返回 72
+
+对字符串的属性访问 [ ]：
+var str = "HELLO WORLD";
+str[0];                   // 返回 H
+找不到字符，[ ] 返回 undefined
+它是只读的。str[0] = "A" 不会产生错误（但也不会工作！）
+
+可以通过 split() 将字符串转换为数组：
+var txt = "a,b,c,d,e";   // 字符串
+txt.split(",");          // 用逗号分隔 数组元素是 a b c d e ,a[0]是
+txt.split(" ");          // 用空格分隔 数组元素是 a,b,c,d,e
+txt.split("|");          // 用竖线分隔
+（遇到分隔符算一个元素）
+var str = "a,b,c,d,e,f";
+var arr = str.split(",");  数组元素是 a b c d e f ,arr[0]是a
+var arr = str.split(" ");  数组元素是 a,b,c,d,e,f ,arr[0]是a,b,c,d,e,f(只有一个元素）
+如果省略分隔符split()，则arr[0]等于全部
+如果分隔符是 ""，则一个字符是一个数组元素
