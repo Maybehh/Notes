@@ -345,3 +345,15 @@ parseInt("10 20 30");   // 返回 10
 parseInt("10 years");   // 返回 10
 parseInt("years 10");   // 返回 NaN
 如果无法转换为数值，则返回 NaN (Not a Number)
+
+数值属性
+MAX_VALUE 返回 JavaScript 中可能的最大数字 var x = Number.MAX_VALUE;
+MIN_VALUE 返回 JavaScript 中可能的最小数字
+var x = Number.POSITIVE_INFINITY;  返回Infinity
+var x = Number.NEGATIVE_INFINITY;  返回-Infinity
+var x = Number.NaN; 返回NaN  尝试使用非数字字符串进行算术运算（- * / %等）将导致 NaN（非数字）
+
+数字属性不可用于变量
+数字属性属于名为 number 的 JavaScript 数字对象包装器。
+这些属性只能作为 Number.MAX_VALUE 访问。
+使用 myNumber.MAX_VALUE，其中 myNumber 是变量、表达式或值，将返回 undefined
