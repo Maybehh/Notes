@@ -662,3 +662,15 @@ atan2(y,x)	返回从 x 轴到点 (x,y) 的角度
 exp(x)	返回 Ex 的值
 log(x)	返回 x 的自然对数（底为e）
 tan(x)	返回角的正切
+
+Math.floor(Math.random() * 10);		// 返回 0 至 9 之间的数
+Math.floor(Math.random() * 11);		// 返回 0 至 10 之间的数
+Math.floor(Math.random() * 100);	// 返回 0 至 99 之间的数
+Math.floor(Math.random() * 10) + 1;	// 返回 1 至 10 之间的数
+始终返回介于 min（包括）和 max（不包括）之间的随机数:Math.floor(Math.random() * (max - min) ) + min;
+始终返回介于 min 和 max（都包括）之间的随机数:Math.floor(Math.random() * (max - min + 1) ) + min;
+
+Boolean() 函数来确定表达式（或变量）是否为真
+Boolean(10 > 9)        // 返回 true
+具有“真实”值的即为 True
+不具有“真实”值的即为 False 0,-0,""(空值),undefined,null,false,NaN
