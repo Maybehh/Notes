@@ -536,6 +536,7 @@ start	可选。从哪里开始搜索。负值将从结尾开始的给定位置�
 开始查找的位置。如果该索引值大于或等于数组长度，意味着不会在数组里查找，返回-1。如果参数中提供的索引值是一个负值，则将其作为数组末尾的一个抵消，
 即-1表示从最后一个元素开始查找，-2表示从倒数第二个元素开始查找 ，以此类推。 注意：如果参数中提供的索引值是一个负值，并不改变其查找顺序，
 查找顺序仍然是从前向后查询数组。如果抵消后的索引值仍小于0，则整个数组都将会被查询。其默认值为0
+从当前位置向后找，找到就返回索引（0，1，2，3...)，数组结束就停止，不循环
 如果未找到项目，Array.indexOf() 返回 -1。如果项目多次出现，则返回第一次出现的位置
 array.lastIndexOf(item, start)(从后往前）
 item	必需。要检索的项目。
@@ -545,3 +546,111 @@ find() 方法返回通过测试函数的第一个数组元素的值
 该函数接受 3 个参数：项目值|项目索引|数组本身
 findIndex() 方法返回通过测试函数的第一个数组元素的索引
 该函数接受 3 个参数：项目值|项目索引|数组本身
+
+new Date(year, month, ...) 用指定日期和时间创建新的日期对象
+7个数字分别指定年、月、日、小时、分钟、秒和毫秒（按此顺序）（其他省略的默认是默认值）
+您不能省略月份。如果只提供一个参数，则将其视为毫秒
+一个参数会被解释为：new Date(milliseconds)。
+Thu Jan 01 1970 08:00:02 GMT+0800 (中国标准时间)
+显示的日期是起始日期距今2018毫秒（默认是1970年）
+
+一位和两位数年份将被解释为 19xx 年：var d = new Date(99, 11, 24); var d = new Date(9, 11, 24);
+new Date(dateString) 从日期字符串创建一个新的日期对象：var d = new Date("October 13, 2014 11:13:00");
+JavaScript 将日期存储为自 1970 年 1 月 1 日 00:00:00 UTC（协调世界时）以来的毫秒数。零时间是 1970 年 1 月 1 日 00:00:00 UTC
+1970 年 1 月 1 日减去 100 000 000 000 毫秒大约是 1966 年 10 月 31 日：var d = new Date(-100000000000);
+一天（24 小时）是 86 400 000 毫秒
+
+JavaScript（默认情况下）将以全文本字符串格式输出日期：Wed Mar 25 2015 08:00:00 GMT+0800 (中国标准时间)
+在 HTML 中显示日期对象时，会使用 toString() 方法自动转换为字符串
+toUTCString() 方法将日期转换为 UTC 字符串（一种日期显示标准）
+toDateString() 方法将日期转换为更易读的格式：document.getElementById("demo").innerHTML = d.toDateString();
+
+四种 JavaScript 日期输入格式：
+ISO 日期	"2018-02-19" （国际标准）
+短日期	"02/19/2018" 或者 "2018/02/19"
+长日期	"Feb 19 2018" 或者 "19 Feb 2019"
+完整日期	"Monday February 25 2015"
+ISO 格式遵守 JavaScript 中的严格标准
+
+ISO 8601 是表现日期和时间的国际标准
+var d = new Date("2018-02-19"); 计算的日期相对于您的时区。根据您的时区，上面的结果将在 2 月 18 日至 2 月 19 日之间变化
+写日期也可以添加时、分和秒 (YYYY-MM-DDTHH:MM:SS)：var d = new Date("2018-02-19T12:00:00");日期和时间通过大写字母 T 来分隔
+UTC 时间通过大写字母 Z 来定义，希望修改相对于 UTC 的时间，请删除 Z 并用 +HH:MM 或 -HH:MM 代替
+var d = new Date("2018-02-19T12:00:00-08:30");
+UTC（Universal Time Coordinated）等同于 GMT（格林威治时间）
+
+短日期：var d = new Date("02/19/2018");
+某些浏览器中，不带前导零的月或其会产生错误
+长日期：var d = new Date("Feb 19 2018"); 月和天能够以任意顺序出现，var d = new Date("19 Feb 2018");
+月能够以全称 (January) 或缩写 (Jan) 来写，逗号会被忽略，且对大小写不敏感
+完整日期：var d = new Date("Mon Feb 19 2018 06:55:23 GMT+0100 (W. Europe Standard Time)");
+JavaScript 会忽略日期名称和时间括号中的错误
+
+getTime() 方法返回自 1970 年 1 月 1 日以来的毫秒数
+getFullYear() 方法以四位数字形式返回日期年份
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getFullYear();
+getMonth() 以数字（0-11）返回日期的月份：在 JavaScript 中，第一个月（1 月）是月号 0，因此 12 月返回月号 11
+使用名称数组，并使用 getMonth() 将月份作为名称返回：
+var d = new Date();
+var months = 
+            [
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+            ];
+document.getElementById("demo").innerHTML = months[d.getMonth()];
+
+getDate() 方法以数字（1-31）返回日期的日
+getHours() 方法以数字（0-23）返回日期的小时数
+getMinutes() 方法以数字（0-59）返回日期的分钟数
+getSeconds() 方法以数字（0-59）返回日期的秒数
+getMilliseconds() 方法以数字（0-999）返回日期的毫秒数
+getDay() 方法以数字（0-6）返回日期的星期名（weekday）（方法同getMonth())
+UTC 日期方法用于处理 UTC 日期（通用时区日期，Univeral Time Zone dates）:
+getUTCDate()	等于 getDate()，但返回 UTC 日期 以此类推
+
+setFullYear() 方法设置日期对象的年份：
+var d = new Date();
+d.setFullYear(2020);
+setFullYear() 方法可以选择设置月和日：d.setFullYear(2020, 11, 3);
+
+setMonth() 方法设置日期对象的月份（0-11）
+
+setDate() 方法设置日期对象的日（1-31）
+setDate() 方法也可用于将天数添加到日期
+d.setDate(d.getDate() + 50); 如果添加天数，切换月份或年份，则更改将由 Date 对象自动处理
+
+setHours() 方法设置日期对象的小时（0-23）
+setMinutes() 方法设置日期对象的分钟（0-59）
+setSeconds() 方法设置日期对象的秒数（0-59）
+
+someday.setFullYear(2049, 0, 16);2049 年 1 月 16 日
+if (someday > today) {
+  text = "今天在 2049 年 1 月 16 日之前";
+} 
+JavaScript 从 0 到 11 计数月份。1 月是 0。12 月是 11
+
+Math.PI;            // 返回 3.141592653589793
+Math.round(x) 的返回值是 x 四舍五入为最接近的整数
+Math.pow(x, y) 的返回值是 x 的 y 次幂
+Math.sqrt(x) 返回 x 的平方根
+Math.abs(x) 返回 x 的绝对（正）值
+Math.ceil(x) 的返回值是 x 上舍入最接近的整数（上取整）：Math.ceil(6.4);     // 返回 7
+Math.floor(x) 的返回值是 x 下舍入最接近的整数（下取整）
+Math.sin(x) 返回角 x（以弧度计）的正弦（介于 -1 与 1 之间的值），希望使用角度替代弧度，则需要将角度转换为弧度
+Math.sin(90 * Math.PI / 180);     // 返回 1（90 度的正弦）
+Math.cos(x) 返回角 x（以弧度计）的余弦（介于 -1 与 1 之间的值）
+Math.min() 和 Math.max() 可用于查找参数列表中的最低或最高值
+Math.random() 返回介于 0（包括） 与 1（不包括） 之间的随机数
+
+Math.E          // 返回欧拉指数（Euler's number）
+Math.PI         // 返回圆周率（PI）
+Math.SQRT2      // 返回 2 的平方根
+Math.SQRT1_2    // 返回 1/2 的平方根
+Math.LN2        // 返回 2 的自然对数
+Math.LN10       // 返回 10 的自然对数
+Math.LOG2E      // 返回以 2 为底的 e 的对数（约等于 1.414）
+Math.LOG10E     // 返回以 10 为底的 e 的对数（约等于0.434）
+
+与其他全局对象不同，Math对象没有构造函数(new后面的)。方法和属性是静态的
+可以在不首先创建Math对象的情况下使用所有方法和属性（常量）
