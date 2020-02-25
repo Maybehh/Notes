@@ -820,4 +820,43 @@ JavaScript 将数字存储为 64 位浮点数，但所有按位运算都以 32 �
 parseInt(bin, 2).toString(10);  bin以二进制解析取整后转换为十进制
 
 正则表达式是构成搜索模式的字符序列。该搜索模式可用于文本搜索和文本替换操作
+语法：/pattern/modifiers;
+/w3school/i 是一个正则表达式。
+w3school 是模式（pattern）（在搜索中使用）。
+i 是修饰符（把搜索修改为大小写不敏感）
 
+使用正则表达式执行搜索字符串中 "w3school" 的大小写不敏感的搜索：
+var str = "Visit W3School";
+var n = str.search(/w3school/i); 
+n 中的结果将是：6
+使用大小写不明的正则表达式以 W3school 来替换字符串中的 Microsoft：
+var str = "Visit Microsoft!";
+var res = str.replace(/microsoft/i, "W3School"); 
+res 的结果将是：Visit W3School!
+正则表达式可以使您的搜索更强大（例如，不区分大小写）
+修饰符可用于大小写不敏感的更全局的搜素：
+修饰符	描述
+i	执行对大小写不敏感的匹配  var patt1 = /w3school/i;  var result = str.match(patt1);
+g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）var patt1 = /is/g;  var result = str.match(patt1);
+m	执行多行匹配  var patt1 = /^is/m;  在字符串中每行的开头对“is”进行多行搜索 (^是每行开头第一个（第一个字符或单词）的意思)
+                      /^i/m;  找的是每行第一个字符是i
+括号用于查找一定范围的字符串：
+表达式	描述
+[abc]	查找方括号之间的任何字符  var patt1 = /[h]/g; 所有的h都会显示出来   ，分隔开
+[0-9]	查找任何从 0 至 9 的数字  var patt1 = /[1-4]/g;  1,2,3,4
+(x|y)	查找由 | 分隔的任何选项（找x和y)  var patt1 = /(red|green)/g;  字符中所有的red和green都会显示出来
+元字符（Metacharacter）是拥有特殊含义的字符：
+元字符	描述
+\d	查找数字    var patt1 = /\d/g;  字符串中所有数字都会显示出来   ，分隔开
+\s	查找空白字符   var patt1 = /\s/g;  默认显示空格数减一个，
+\b	匹配单词边界    var patt1 = /\bW3/g;  在字符串中单词的开头或结尾处对“W3”进行全局搜索(W3CHH可以，DW3不可以）
+\uxxxx	查找以十六进制数 xxxx 规定的 Unicode 字符  var patt1 = /\u0057/g;  全局搜索字符串中的十六进制数0057（W）
+Quantifiers 定义量词：
+量词	描述
+n+	匹配任何包含至少一个 n 的字符串   var patt1 = /o+/g;  每一段有多少个o都显示出来（只显示o）   ，分隔开   ooo,o,o,oo(下面的字符串)
+n*	匹配任何包含零个或多个 n 的字符串   
+var str = "Hellooo World! Hello W3School!"; var patt1 = /lo*/g;
+全局搜索“l”，后跟零个或多个“o”字符：l,looo,l,l,lo,l
+n?	匹配任何包含零个或一个 n 的字符串（跟0或不跟0就会显示，只显示跟的那一个0)
+var str = "1, 100 or 1000?";  var patt1 = /10?/g;
+全局搜索“1”，后跟零或一个“0”字符：1,10,10
