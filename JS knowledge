@@ -206,7 +206,7 @@ var y = new String("Bill");
 通过 JavaScript，方法和属性也可用于原始值，因为在执行方法和属性时 JavaScript 将原始值视为对象
 length 属性返回字符串的长度：var sln = txt.length;
 字符串方法：
-indexOf() 方法返回字符串中指定文本首次出现的索引（位置）：var pos = str.indexOf("China");（C刚出现的位置）
+indexOf() 方法返回字符串中指定文本首次出现的索引（位置）：var pos = str.indexOf("China");（C刚出现的位置）(字符中有China就可以，Chinas也可以)
 JavaScript 从零计算位置。0 是字符串中的第一个位置，1 是第二个，2 是第三个 ...
 lastIndexOf() 方法返回指定文本在字符串中最后一次出现的索引
 var str = "The full name of China is the People's Republic of China.";
@@ -744,3 +744,65 @@ list: {
     text += cars[5] + "<br>"; 
 }代码块指的是 { 与 } 直接的代码片段
 
+JavaScript 中有五种可包含值的数据类型：
+字符串（string）
+数字（number）
+布尔（boolean）
+对象（object）
+函数（function）
+有三种对象类型：
+对象（Object）
+日期（Date）
+数组（Array）
+同时有两种不能包含值的数据类型：
+null
+undefined
+
+NaN 的数据类型是数值
+数组的数据类型是对象
+日期的数据类型是对象
+null 的数据类型是对象
+未定义变量的数据类型是 undefined
+尚未赋值的变量的数据类型也是 undefined
+
+typeof 运算符不是变量。它属于运算符。运算符（比如 + - * /）没有数据类型
+constructor 属性返回所有 JavaScript 变量的构造器函数
+"Bill".constructor                 // 返回 "function String()  { [native code] }"
+(3.14).constructor                 // 返回 "function Number()  { [native code] }"
+false.constructor                  // 返回 "function Boolean() { [native code] }"
+[1,2,3,4].constructor              // 返回 "function Array()   { [native code] }"
+{name:'Bill', age:62}.constructor  // 返回" function Object()  { [native code] }"
+new Date().constructor             // 返回 "function Date()    { [native code] }"
+function () {}.constructor         // 返回 "function Function(){ [native code] }"
+可以通过检查 constructor 属性来确定某个对象是否为数组（包含单词 "Array"）
+function isArray(myArray) {
+    return myArray.constructor.toString().indexOf("Array") > -1;
+}
+或者更简单，您可以检查对象是否是数组函数：
+function isArray(myArray) {
+    return myArray.constructor === Array;
+}
+
+全局方法 String() 能够把数字、文字、变量、表达式或方法等转换为字符串
+全局方法 Number() 可把字符串转换为数字
+Number("3.14")    // 返回 3.14
+Number(" ")       // 返回 0
+Number("")        // 返回 0
+Number("99 88")   // 返回 NaN
+全局方法 Number() 也可把布尔转换为数字
+
+一元的 + 运算符可用于把变量转换为数字：
+var y = "5";      // y 是字符串
+var x = + y;      // x 是数字
+如果无法转换变量，则仍会成为数字，但是值为 NaN（Not a number）：
+var y = "Bill";   // y 是字符串
+var x = + y;      // x 是数字 (NaN)
+
+5 + null    // 返回 5         因为 null 被转换为 0
+"5" + null  // 返回 "5null"   因为 null 被转换为  "null"
+"5" + 2     // 返回 52        因为 2 被转换为 "2"
+"5" - 2     // 返回 3         因为 "5" 被转换为 5
+"5" * "2"   // 返回 10        因为 "5" 和 "2" 被转换为 5 和 2
+
+如果 myVar = {name:"Fjohn"}  // toString 转换为 "[object Object]"    (花括号不管内部写什么，包括不写都是显示为[object Object]）
+详细见w3cschool js类型转换最后的转换表（有收藏）
