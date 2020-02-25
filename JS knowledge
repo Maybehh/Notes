@@ -605,7 +605,7 @@ getHours() 方法以数字（0-23）返回日期的小时数
 getMinutes() 方法以数字（0-59）返回日期的分钟数
 getSeconds() 方法以数字（0-59）返回日期的秒数
 getMilliseconds() 方法以数字（0-999）返回日期的毫秒数
-getDay() 方法以数字（0-6）返回日期的星期名（weekday）（方法同getMonth())
+getDay() 方法以数字（0-6）返回日期的星期名（weekday）（方法同getMonth())(Sunday=0, Monday=1, Tuesday=2 ..)
 UTC 日期方法用于处理 UTC 日期（通用时区日期，Univeral Time Zone dates）:
 getUTCDate()	等于 getDate()，但返回 UTC 日期 以此类推
 
@@ -674,3 +674,73 @@ Boolean() 函数来确定表达式（或变量）是否为真
 Boolean(10 > 9)        // 返回 true
 具有“真实”值的即为 True
 不具有“真实”值的即为 False 0,-0,""(空值),undefined,null,false,NaN
+
+布尔可以是对象
+var x = false;
+var y = new Boolean(false);
+// typeof x 返回 boolean
+// typeof y 返回 object
+
+不要创建布尔对象。它会拖慢执行速度。new 关键词会使代码复杂化，并产生某些意想不到的结果
+!==	值不相等或类型不相等
+===	值相等并且类型相等
+
+字符串与数字进行比较，那么在做比较时 JavaScript 会把字符串转换为数值。空字符串将被转换为 0。非数值字符串将被转换为始终为 false 的 NaN
+比较两个字符串时，"2" 大于 "12"，因为（按照字母排序）1 小于 2。为了确保正确的结果，在比较值前应该把变量转换为合适的类型
+age = Number(age);
+if (isNaN(age)) {
+    voteable = "输入错误";
+}
+
+if 使用小写字母。大学字母（IF 或 If）会产生 JavaScript 错误
+默认的 case 不必是 switch 代码块中最后一个 case
+switch (new Date().getDay()) {
+    default: 
+        text = "期待周末！";
+         break;
+    case 6:
+        text = "今天是周六";
+        break; 
+    case 0:
+        text = "今天是周日";
+} 
+如果 default 不是 switch 代码块中最后一个 case，请记得用 break 结束默认 case
+
+多种 case 匹配一个 case 值，则选择第一个 case。如果未找到匹配的 case，程序将继续使用默认 label。如果未找到默认 label，程序将继续 switch 后的语句
+Switch case 使用严格比较（===）
+var x = "0";
+switch (x) {
+  case 0:
+    text = "Off";
+    break;
+  case 1:
+    text = "On";
+    break;
+  default:
+    text = "No value found";
+}不匹配
+
+for/in 语句遍历对象的属性：
+var person = {fname:"Bill", lname:"Gates", age:62}; 
+var text = "";
+var x;
+for (x in person) {
+    txt += person[x] + " ";
+}输出：Bill Gates 62
+
+JavaScript 标签：如需标记 JavaScript 语句，请将标签名和冒号置于语句之前：
+label:statements
+break labelname; continue labelname;（break和continue跳出label指定的代码块）
+continue 语句（不论有无标签引用）只能用于跳过一个迭代。
+break 语句，如果没有标签引用，只能用于跳出一个循环或一个 switch。如果有标签引用，则 break 语句可用于跳出任意代码块
+var  cars = ["BMW", "Volvo", "Saab", "Ford"];
+list: {
+    text += cars[0] + "<br>"; 
+    text += cars[1] + "<br>"; 
+    text += cars[2] + "<br>"; 
+    break list;
+    text += cars[3] + "<br>"; 
+    text += cars[4] + "<br>"; 
+    text += cars[5] + "<br>"; 
+}代码块指的是 { 与 } 直接的代码片段
+
