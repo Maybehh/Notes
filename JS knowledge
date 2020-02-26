@@ -860,3 +860,121 @@ var str = "Hellooo World! Hello W3School!"; var patt1 = /lo*/g;
 n?	匹配任何包含零个或一个 n 的字符串（跟0或不跟0就会显示，只显示跟的那一个0)
 var str = "1, 100 or 1000?";  var patt1 = /10?/g;
 全局搜索“1”，后跟零或一个“0”字符：1,10,10
+
+使用 RegExp 对象
+在 JavaScript 中，RegExp 对象是带有预定义属性和方法的正则表达式对象
+
+test() 是一个正则表达式方法。它通过模式来搜索字符串，然后根据结果返回 true 或 false。
+下面的例子搜索字符串中的字符 "e":
+var patt = /e/;
+patt.test("The best things in life are free!"); 返回true
+简写：/e/.test("The best things in life are free!");
+
+exec() 方法是一个正则表达式方法。它通过指定的模式（pattern）搜索字符串，并返回已找到的文本。如果未找到匹配，则返回 null。
+下面的例子搜索字符串中的字符 "e"：
+/e/.exec("The best things in life are free!");
+由于字符串中有一个 "e"，以上代码的输出将是：e
+
+try 语句使您能够测试代码块中的错误
+catch 语句允许您处理错误
+throw 语句允许您创建自定义错误
+finally 使您能够执行代码，在 try 和 catch 之后，无论结果如何
+
+try 语句允许您定义一个代码块，以便在执行时检测错误
+catch 语句允许你定义一个要执行的代码块，如果 try 代码块中发生错误。
+JavaScript 语句 try 和 catch 成对出现：
+try {
+     供测试的代码块
+}
+ catch(err) {(错误发生时的应执行的代码块)
+     处理错误的代码块
+} 
+
+当发生错误时，JavaScript 通常会停止并产生错误消息
+技术术语是这样描述的：JavaScript 将抛出异常（抛出错误）
+JavaScript 实际上会创建带有两个属性的 Error 对象：name 和 message
+
+throw 语句允许您创建自定义错误。从技术上讲您能够抛出异常（抛出错误）。异常可以是 JavaScript 字符串、数字、布尔或对象：
+throw "Too big";    // 抛出文本
+throw 500;          //抛出数字
+
+try { (err=throw抛出的内容)
+        if(x == "") throw "空的";
+         if(isNaN(x)) throw "不是数字";
+         x = Number(x);
+        if(x < 5) throw  "太小";
+        if(x > 10) throw "太大";
+    }
+catch(err) {
+        message.innerHTML = "输入是 " + err;
+    }
+    
+finally 语句允许您在 try 和 catch 之后执行代码，无论结果：finally {无论 try / catch 结果如何都执行的代码块}(放在try和catch之后）
+
+JavaScript 拥有当错误发生时提供错误信息的内置 error 对象。error 对象提供两个有用的属性：name 和 message
+name	设置或返回错误名
+message	设置或返回错误消息（一条字符串）
+
+name 属性可返回六个不同的值：
+catch(err) {
+    document.getElementById("demo").innerHTML = err.name;
+} 
+EvalError 指示 eval() 函数中的错误。更新版本的 JavaScript 不会抛出任何 EvalError。请使用 SyntaxError 代替
+RangeError 会在您使用了合法值的范围之外的数字时抛出
+假如您使用（引用）了尚未声明的变量，则 ReferenceError 会被抛出
+假如您计算带语法错误的代码，会 SyntaxError 被抛出
+假如您使用的值不在期望值的范围之内，则 TypeError 被抛出（类型错误）
+假如您在 URI 函数中使用非法字符，则 URIError 被抛出
+
+非标准的 Error 对象属性
+Mozilla 和 Microsoft 定义了非标准的 error 对象属性：
+fileName (Mozilla)
+lineNumber (Mozilla)
+columnNumber (Mozilla)
+stack (Mozilla)
+description (Microsoft)
+number (Microsoft)
+请勿在公共网站使用这些属性。它们并不会在所有浏览器中工作
+
+作用域指的是您有权访问的变量集合
+JavaScript 中有两种作用域类型：
+局部作用域
+全局作用域
+
+JavaScript 函数中声明的变量，会成为函数的局部变量。局部变量的作用域是局部的：只能在函数内部访问它们
+函数之外声明的变量，会成为全局变量
+在 JavaScript 中，对象和函数也是变量
+如果您为尚未声明的变量赋值，此变量会自动成为全局变量
+myFunction();
+// 此处的代码能够使用 carName 变量
+function myFunction() {
+    carName = "porsche";
+}
+在“严格模式”中不会自动创建全局变量
+在 HTML 中，全局作用域是 window。所有全局变量均属于 window 对象
+var carName = "porsche";
+document.getElementById("demo").innerHTML = "我可以显示 " + window.carName;
+
+JavaScript 变量的有效期始于其被创建时。局部变量会在函数完成时被删除。全局变量会在您关闭页面是被删除
+
+Hoisting 是 JavaScript 将所有声明提升到当前作用域顶部的默认行为（提升到当前脚本或当前函数的顶部）
+用 let 或 const 声明的变量和常量不会被提升！
+JavaScript 只提升声明（var x;)，而非初始化（var x = 7;)(使用一个值前必须得有初始化，即赋值）
+严格模式中的 JavaScript 不允许在未被声明的情况下使用变量
+
+"use strict"; 定义 JavaScript 代码应该以“严格模式”执行，它不算一条语句，而是一段文字表达式
+在脚本或函数的开头添加 "use strict"; 来声明严格模式
+在脚本开头进行声明，拥有全局作用域（脚本中的所有代码均以严格模式来执行）：
+"use strict";
+x = 3.14;       // 这会引发错误，因为 x 尚未声明
+在函数中声明严格模式，拥有局部作用域（只有函数中的代码以严格模式执行）
+"use strict"; 只会对“理解”其含义的新编译器产生影响
+在普通 JavaScript 中，如果向不可写属性赋值，开发者不会得到任何错误反馈
+在严格模式中，向不可写的、只能读取的、不存在的属性赋值，或者向不存在的变量或对象赋值，将抛出错误
+
+对象也是变量，在不声明对象的情况下使用对象也是不允许的
+删除变量（或对象）是不允许的：
+"use strict";
+var x = 3.14;
+delete x;                // 这将引发错误
+
