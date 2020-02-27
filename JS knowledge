@@ -1048,6 +1048,13 @@ var person2 = {
 person1.fullName.call(person2);  // 会返回 "Bill Gates"
 
 通过 var 关键词声明的变量没有块作用域。在块 {} 内声明的变量可以从块之外进行访问
+var x = 10;
+// 此处 x 为 10
+{ 
+  var x = 6;
+  // 此处 x 为 6
+}
+// 此处 x 为 6
 使用 let 关键词声明拥有块作用域的变量。在块 {} 内声明的变量无法从块外访问：
 { 
   let x = 10;
@@ -1200,10 +1207,61 @@ document.getElementbyId("demo").innerHTML = x;
 
 请始终使用对代码块缩进使用 4 个空格
 请不要对缩进使用制表符。不同的编辑器对 tab 的解释也不尽相同
-对象属性之间用，分隔开
+对象属性之间用，分隔开 数组元素之间用，分隔开
 变量和函数名以驼峰大小写来写
 全局变量使用大写（我们不这样做，但是相当普遍）
 常量（比如 PI）使用大写
 JavaScript 命名不允许使用连字符
 JavaScript 命名请不要以 $ 符号开头。此举会引起 JavaScript 库名称冲突
 使用小写文件名
+
+避免全局变量，全局变量和函数可被其他脚本覆盖。请使用局部变量替代，并学习如何使用闭包
+局部变量必须通过 var 关键词来声明，否则它们将变成全局变量。严格模式不允许未声明的变量
+默认地，JavaScript 会将所有声明移至顶部（JavaScript hoisting）
+不要声明数值、字符串或布尔对象，请始终将数值、字符串或布尔值视作原始值，如果把这些类型声明为对象，会拖慢执行速度，并产生讨厌的副作用
+
+请使用 {} 来代替 new Object()
+请使用 "" 来代替 new String()
+请使用 0 来代替 new Number()
+请使用 false 来代替 new Boolean()
+请使用 [] 来代替 new Array()
+请使用 /()/ 来代替 new RegExp()
+请使用 function (){}来代替 new Function()
+var x1 = {};           // 新对象
+var x2 = "";           // 新的原始字符串值
+var x3 = 0;            // 新的原始数值
+var x4 = false;        // 新的原始布尔值
+var x5 = [];           // 新的数组对象
+var x6 = /()/;         // 新的正则表达式
+var x7 = function(){}; // 新的函数对象
+
+字符串减去字符串，不会产生错误而是返回 NaN（Not a Number）
+如果调用函数时缺少一个参数，那么这个缺失参数的值会被设置为 undefined。undefined 值会破坏您的代码。为参数设置默认值是一个好习惯。
+function myFunction(x, y) {
+    if (y === undefined) {
+        y = 0;
+    }
+}
+避免使用 eval()，eval() 函数用于将文本作为代码来允许。在几乎所有情况下，都没有必要使用它。因为允许任意代码运行，它同时也意味着安全问题
+
+有一个常见的错误是忘记在 switch 语句中使用严格比较
+JavaScript 中的数字均保存为 64 位的浮点数（Floats）。所有编程语言，包括 JavaScript，都存在处理浮点值的困难
+为了解决上面的问题，请使用乘除运算
+在一行的结尾自动关闭语句是默认的 JavaScript 行为。JavaScript 会在行末关闭 return 语句，因为它本身就是一条完整的语句。
+所以，绝不要对 return 语句进行换行（一行中完整语句会自动加分号，var不是完整语句，JavaScript 将通过读取下一行来完成这条语句，因此可以换行）
+
+用逗号来结束定义，对象和数组定义中的尾随逗号在 ECMAScript 5 中是合法的，Internet Explorer 8 会崩溃。JSON 不允许尾随逗号
+points = [35, 450, 2, 7, 30, 16,];（最好不用）
+
+JavaScript 对象、变量、属性和方法可以是未定义的  
+空的 JavaScript 对象的值可以为 null(也可以是undefined)，会使测试对象是否为空变得有点困难。您可以通过测试类型是否为 undefined，来测试对象是否存在
+if (typeof myObj === "undefined")(其实==就可以了）
+无法测试对象是否为 null，因为如果对象未定义，将抛出错误（测值是不是null):if (myObj == null)
+在测试非 null 之前，必须先测试未定义：if (typeof myObj !== "undefined" && myObj !== null)
+document.getElementById("demo").innerHTML = typeof myObj !== "undefined" && myObj !== null;（返回布尔值）
+
+for (var i = 0; i < 10; i++) {
+  // some code
+}
+document.getElementById("demo").innerHTML = i; 显示10； var可以，let,const不可以
+
