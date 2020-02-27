@@ -189,13 +189,23 @@ document.getElementById("demo").innerHTML =
 "Hello Kitty.";  正确
 可以在字符串中换行，通过一个反斜杠即可：
 document.getElementById("demo").innerHTML = "Hello \
-Kitty!";
+Kitty!";正确
+\ 方法可能没有得到普遍的支持。较旧的浏览器可能会以不同的方式处理反斜杠周围的空格。一些旧的浏览器不允许 \ 字符后面的空格
 对长字符串换行的最安全做法（但是有点慢）是使用字符串加法：
 document.getElementById("demo").innerHTML = "Hello" + 
 "Kitty!";
 不能通过反斜杠对代码行进行换行：
 document.getElementById("demo").innerHTML = \ 
 "Hello Kitty!"; 错误
+document.getElementById("demo").innerHTML = 
+"Hello 
+Kitty!"; 错误
+document.getElementById("demo").innerHTML = 
+"Hello \
+Kitty!"; 正确
+document.getElementById("demo").innerHTML = 
+"Hello +
+Kitty!"; 正确
 
 字符串也可通过关键词 new 定义为对象：var firstName = new String("Bill")
 两个对象无法比较，都会返回false：
@@ -1319,11 +1329,58 @@ person = {
 }
 Internet Explorer 8 将崩溃。JSON 不允许使用尾随逗号
 
+ECMAScript 5允许保留字作为属性名称：var obj = {name: "Bill", new: "yes"}
+
+ES6 允许函数参数具有默认值
+function myFunction(x, y = 10) {
+  // y is 10 if not passed or undefined
+  return x + y;
+}
+myFunction(5); // 将返回 15（只给一个参数，另一个是undefined，会出错，有了默认值就不会）
+
+ES6 将以下属性添加到 Number 对象：
+EPSILON 2.220446049250313e-16
+MIN_SAFE_INTEGER -9007199254740991
+MAX_SAFE_INTEGER 9007199254740991
+
+如果参数是整数，则 Number.isInteger() 方法返回 true
+安全整数是可以精确表示为双精度数的整数。如果参数是安全整数，则 Number.isSafeInteger() 方法返回 true
+安全整数指的是从 -9007199254740991 到 9007199254740991 的所有整数
+
+如果参数为 Infinity 或 NaN，则全局 isFinite() 方法返回 false，否则返回 true
+如果参数是 NaN，则全局 isNaN() 方法返回 true。否则返回 false
+
+箭头函数允许使用简短的语法来编写函数表达式。您不需要 function 关键字、return 关键字以及花括号
+const x = (x, y) => x * y;
+箭头功能没有自己的 this。它们不适合定义对象方法。箭头功能未被提升。它们必须在使用前进行定义。
+使用 const 比使用 var 更安全，因为函数表达式始终是常量值。
+如果函数是单个语句，则只能省略 return 关键字和花括号。因此，保留它们可能是一个好习惯：
+const x = (x, y) => { return x * y };
+
+JSON 是存储和传输数据的格式。JSON 经常在数据从服务器发送到网页时使用
+JSON 指的是 JavaScript Object Notation
+JSON 的语法是来自 JavaScript 对象符号的语法，但 JSON 格式是纯文本。读取和生成 JSON 数据的代码可以在任何编程语言编写的
+JSON 语法规则
+数据是名称/值对
+数据由逗号分隔
+花括号保存对象
+方括号保存数组
+"firstName":"Bill" JSON 名称需要双引号。JavaScript 名称不需要
+数组：
+"employees":[
+    {"firstName":"Bill", "lastName":"Gates"}, 
+    {"firstName":"Steve", "lastName":"Jobs"}, 
+    {"firstName":"Alan", "lastName":"Turing"}
+]
+
 JSON.parse()
 JSON 的一个常见用途是从 Web 服务器接收数据。
 想象一下，您从Web服务器收到这条文本字符串：
 '{"name":"Bill", "age":62, "city":"Seatle"}'
 JavaScript 函数 JSON.parse() 用于将文本转换为 JavaScript 对象：var obj = JSON.parse('{"name":"Bill", "age":62, "city":"Seatle"}');
+obj = JSON.parse(text);
+document.getElementById("demo").innerHTML =
+obj.employees[1].firstName + " " + obj.employees[1].lastName;
 
 JSON.stringify()
 JSON 的一个常见用途是将数据发送到Web服务器。
