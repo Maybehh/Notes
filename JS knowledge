@@ -395,7 +395,7 @@ new 关键词只会使代码复杂化。它还会产生某些不可预期的结�
 假如删除其中一个元素会怎么样？var points = new Array(40);       // 创建包含 40 个未定义元素的数组！！！
 
 如何识别数组：
-document.getElementById("demo").innerHTML = Array.isArray(fruits);    // 返回 true
+Array.isArray()：document.getElementById("demo").innerHTML = Array.isArray(fruits);    // 返回 true
 创建您自己的 isArray() 函数以解决此问题：
 function isArray(x) {
     return x.constructor.toString().indexOf("Array") > -1;
@@ -541,6 +541,7 @@ start	可选。从哪里开始搜索。负值将从结尾开始的给定位置�
 array.lastIndexOf(item, start)(从后往前）
 item	必需。要检索的项目。
 start	可选。从哪里开始搜索。负值将从结尾开始的给定位置开始，并搜索到开头
+都返回数组元素在数组中的位序
 
 find() 方法返回通过测试函数的第一个数组元素的值
 该函数接受 3 个参数：项目值|项目索引|数组本身
@@ -586,7 +587,11 @@ UTC（Universal Time Coordinated）等同于 GMT（格林威治时间）
 完整日期：var d = new Date("Mon Feb 19 2018 06:55:23 GMT+0100 (W. Europe Standard Time)");
 JavaScript 会忽略日期名称和时间括号中的错误
 
+Date.now() 返回自零日期（1970 年 1 月 1 日 00:00:00:00）以来的毫秒数
 getTime() 方法返回自 1970 年 1 月 1 日以来的毫秒数
+document.getElementById("demo1").innerHTML = Date.now();
+var d = new Date();
+document.getElementById("demo2").innerHTML = d.getTime();
 getFullYear() 方法以四位数字形式返回日期年份
 var d = new Date();
 document.getElementById("demo").innerHTML = d.getFullYear();
@@ -1265,3 +1270,65 @@ for (var i = 0; i < 10; i++) {
 }
 document.getElementById("demo").innerHTML = i; 显示10； var可以，let,const不可以
 
+减少循环中的活动
+差的代码：
+var i;
+for (i = 0; i < arr.length; i++) {
+更好的代码：
+var i;
+var l = arr.length;
+for (i = 0; i < l; i++) {
+循环每次迭代时，坏代码就会访问数组的 length 属性。好代码在循环之外访问 length 属性，使循环更快
+
+减少 DOM 访问
+与其他 JavaScript 相比，访问 HTML DOM 非常缓慢。假如您期望访问某个 DOM 元素若干次，那么只访问一次，并把它作为本地变量来使用：
+var obj;
+obj = document.getElementById("demo");
+obj.innerHTML = "Hello"; 
+之后都可以用obj. 来说明内容（减少document.的使用）
+
+缩减 DOM 规模
+请尽量保持 HTML DOM 中较少的元素数量。这么做总是会提高页面加载，并加快渲染（页面显示），尤其是在较小的设备上
+
+避免不必要的变量请不要创建不打算存储值的新变量。
+通常您可以替换代码：
+var fullName = firstName + " " + lastName;
+document.getElementById("demo").innerHTML = fullName; 
+用这段代码：document.getElementById("demo").innerHTML = firstName + " " + lastName
+
+把脚本放在页面底部，使浏览器首先加载页面
+脚本在下载时，浏览器不会启动任何其他的下载。此外所有解析和渲染活动都可能会被阻塞
+HTTP 规范定义浏览器不应该并行下载超过两种要素。
+一个选项是在 script 标签中使用 defer="true"。defer 属性规定了脚本应该在页面完成解析后执行，但它只适用于外部脚本。
+如果可能，您可以在页面完成加载后，通过代码向页面添加脚本：
+<script>
+window.onload = downScripts;
+function downScripts() {
+    var element = document.createElement("script");
+    element.src = "myScript.js";
+    document.body.appendChild(element);
+}
+</script>
+
+避免使用 with 关键词。它对速度有负面影响。它也将混淆 JavaScript 作用域。严格模式中不允许 with 关键词
+ECMAScript 5 允许在对象和数组定义中使用尾随逗号
+person = {
+  firstName: "Bill",
+  lastName: " Gates",
+  age: 62,
+}
+Internet Explorer 8 将崩溃。JSON 不允许使用尾随逗号
+
+JSON.parse()
+JSON 的一个常见用途是从 Web 服务器接收数据。
+想象一下，您从Web服务器收到这条文本字符串：
+'{"name":"Bill", "age":62, "city":"Seatle"}'
+JavaScript 函数 JSON.parse() 用于将文本转换为 JavaScript 对象：var obj = JSON.parse('{"name":"Bill", "age":62, "city":"Seatle"}');
+
+JSON.stringify()
+JSON 的一个常见用途是将数据发送到Web服务器。
+将数据发送到 Web 服务器时，数据必须是字符串。
+想象一下，我们在 JavaScript 中有这个对象：
+var obj = {"name":"Bill", "age":62, "city":"Seatle"};
+请使用 JavaScript 函数 JSON.stringify() 将其转换为字符串。
+var myJSON = JSON.stringify(obj);结果将是遵循 JSON 表示法的字符串
