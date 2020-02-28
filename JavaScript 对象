@@ -62,4 +62,105 @@ delete 操作符不应被用于预定义的 JavaScript 对象属性。这样做�
 值是属性的特性之一。其他特性包括：可列举、可配置、可写。这些特性定义了属性被访问的方式（是可读的还是可写的？）
 在 JavaScript 中，所有属性都是可读的，但是只有值是可修改的（只有当属性为可写时）
 
-JavaScript 对象继承了它们的原型的属性。delete 关键词不会删除被继承的属性，但是如果您删除了某个原型属性，则将影响到所有从原型继承的对象
+JavaScript 对象继承了它们的原型的属性。delete 关键词不会删除被继承的属性（只会在当前的对象里删除属性，他的原型对象是不会被删的）
+但是如果您删除了某个原型属性，则将影响到所有从原型继承的对象
+具体看csdn博客看原型等知识
+
+方法是存储为对象属性的函数
+在 JavaScript 中，被称为 this 的事物，指的是拥有该 JavaScript 代码的对象。this 的值，在函数中使用时，是“拥有”该函数的对象。
+请注意 this 并非变量。它是关键词。您无法改变 this 的值（记得是对象）
+
+创建对象方法：methodName : function() { 代码行 }
+访问对象方法：objectName.methodName()
+fullName() 描述为 person 对象的方法，把 fullName 描述为属性。fullName 属性在被通过 () 调用后会以函数形式执行
+访问 fullName 属性时没有使用 ()，则将返回函数定义
+向对象添加方法是在构造器函数内部完成的
+
+JavaScript对象访问器（Getter 和 Setter），Getter 和 Setter 允许您定义对象访问器（被计算的属性）(对属性作用）
+JavaScript Getter（get 关键词），用 lang 属性来获取 language 属性的值：
+// 创建对象：
+var person = {
+  firstName: "Bill",
+  lastName : "Gates",
+  language : "en",
+  get lang() {
+    return this.language;
+  }
+};
+// 使用 getter 来显示来自对象的数据：
+document.getElementById("demo").innerHTML = person.lang;
+
+JavaScript Setter（set 关键词），用 lang 属性来设置 language 属性的值：
+var person = {
+  firstName: "Bill",
+  lastName : "Gates",
+  language : "",
+  set lang(lang) {
+    this.language = lang;(括号内的lang，lang属性的值)
+  }
+};
+// 使用 setter 来设置对象属性：
+person.lang = "en";
+// 显示来自对象的数据：
+document.getElementById("demo").innerHTML = person.language;
+
+使用 getter 和 setter 时，JavaScript 可以确保更好的数据质量
+为什么使用 Getter 和 Setter？
+它提供了更简洁的语法
+它允许属性和方法的语法相同
+它可以确保更好的数据质量
+有利于后台工作
+
+一个计数器例子：
+var obj = {
+  counter : 0,
+  get reset() {
+    this.counter = 0;
+  },
+  get increment() {
+    this.counter++;
+  },
+  get decrement() {
+    this.counter--;
+  },
+  set add(value) {
+    this.counter += value;
+  },
+  set subtract(value) {
+    this.counter -= value;
+  }
+};
+// 操作计数器：
+obj.reset;
+obj.add = 5;
+obj.subtract = 1;
+obj.increment;
+obj.decrement;
+Object.defineProperty()
+
+Object.defineProperty() 方法也可用于添加 Getter 和 Setter：
+// 定义对象
+var obj = {counter : 0};
+// 定义 setters
+Object.defineProperty(obj, "reset", {
+  get : function () {this.counter = 0;}
+});
+Object.defineProperty(obj, "increment", {
+  get : function () {this.counter++;}
+});
+Object.defineProperty(obj, "decrement", {
+  get : function () {this.counter--;}
+});
+Object.defineProperty(obj, "add", {
+  set : function (value) {this.counter += value;}
+});
+Object.defineProperty(obj, "subtract", {
+  set : function (value) {this.counter -= value;}
+});
+// 操作计数器：
+obj.reset;
+obj.add = 5;
+obj.subtract = 1;
+obj.increment;
+obj.decrement;
+
