@@ -122,3 +122,43 @@ person.fullName.call(person1, "Seattle", "USA");（第一个是this指向的对�
 apply() 方法与 call() 方法非常相似，不同之处是：call() 方法分别接受参数。apply() 方法接受数组形式的参数。
 如果要使用数组而不是参数列表，则 apply() 方法非常方便
 var x = person.fullName.apply(person1, ["Seatle", "USA"]); 
+Math.max.apply(null, [1,2,3]); // 也会返回 3（Math.max没有this，所以可以指向null)
+Math.max.apply(Math, [1,2,3]); // 也会返回 3
+Math.max.apply(" ", [1,2,3]); // 也会返回 3
+Math.max.apply(0, [1,2,3]); // 也会返回 3
+
+在 JavaScript 严格模式下，如果 apply() 方法的第一个参数不是对象，则它将成为被调用函数的所有者（对象）。在“非严格”模式下，它成为全局对象
+
+全局变量能够通过闭包实现局部（私有）
+函数能够访问函数内部定义的所有变量，但是函数也能访问函数外部定义的变量(全局变量)
+在网页中，全局变量属于 window 对象。全局变量能够被页面中（以及窗口中）的所有脚本使用和修改
+局部变量只能用于其被定义的函数内部。对于其他函数和脚本代码来说它是不可见的。拥有相同名称的全局变量和局部变量是不同的变量。修改一个，不会改变其他
+不通过关键词 var 创建的变量总是全局的，即使它们在函数中创建
+
+全局变量活得和您的应用程序（窗口、网页）一样久。局部变量活得不长。它们在函数调用时创建，在函数完成后被删除
+在 JavaScript 中，所有函数都有权访问它们“上面”的作用域。JavaScript 支持嵌套函数。嵌套函数可以访问其上的作用域。（多层也可以）
+在本例中，内部函数 plus() 可以访问父函数中的 counter 计数器变量：
+function add() {
+    var counter = 0;
+    function plus() {counter += 1;}
+    plus();     
+    return counter; 
+}
+
+var add = (function () {
+  var counter = 0;
+  return function () {counter += 1; return counter;}
+})();
+
+function myFunction(){
+  document.getElementById("demo").innerHTML = add();
+}
+调用函数后，return的是function () {return counter += 1;}
+即 document.getElementById("demo").innerHTML = function () {counter += 1; return counter;}
+由于是以上类型，于是函数会继续执行（其他的就不一定，如var x = function () {counter += 1; return counter;}; 这时候函数就不会执行，得再次调用才会
+执行，x();)
+最后的结果为counter为1，这个时候counter=1就变成全局变量了，就可以一直保留和使用
+而之后函数内定义的counter随函数结束而消失，最后只有全局变量的counter留下来(因为return只有函数，则counter只能用全局变量counter=1）
+这被称为 JavaScript 闭包。它使函数拥有“私有”变量成为可能
+闭包指的是有权访问父作用域的函数（上例中是return的函数），即使在父函数关闭之后
+csdn有博客收藏
