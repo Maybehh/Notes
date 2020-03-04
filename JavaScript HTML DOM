@@ -1,1 +1,43 @@
+DOM 定义了访问文档的标准：“W3C 文档对象模型（DOM）是中立于平台和语言的接口，它允许程序和脚本动态地访问、更新文档的内容、结构和样式。”
+W3C DOM 标准被分为 3 个不同的部分：
+Core DOM - 所有文档类型的标准模型
+XML DOM - XML 文档的标准模型
+HTML DOM - HTML 文档的标准模型
 
+HTML DOM 是 HTML 的标准对象模型和编程接口。它定义了：
+作为对象的 HTML 元素
+所有 HTML 元素的属性
+访问所有 HTML 元素的方法
+所有 HTML 元素的事件
+换言之：HTML DOM 是关于如何获取、更改、添加或删除 HTML 元素的标准
+
+在 DOM 中，所有 HTML 元素都被定义为对象
+
+innerHTML 属性
+获取元素内容最简单的方法是使用 innerHTML 属性。
+innerHTML 属性可用于获取或替换 HTML 元素的内容。
+innerHTML 属性可用于获取或改变任何 HTML 元素，包括 <html> 和 <body>
+
+HTML DOM 文档对象是您的网页中所有其他对象的拥有者
+HTML DOM Document 对象 
+文档对象代表您的网页。如果您希望访问 HTML 页面中的任何元素，那么您总是从访问 document 对象开始
+document.getElementsByTagName(name)	通过标签名来查找元素
+element.innerHTML = new html content	改变元素的 inner HTML
+element.attribute = new value	改变 HTML 元素的属性值
+element.setAttribute(attribute, value)	改变 HTML 元素的属性值
+element.style.property = new style	改变 HTML 元素的样式
+
+document.createElement(element)	创建 HTML 元素
+document.removeChild(element)	删除 HTML 元素
+document.appendChild(element)	添加 HTML 元素
+document.replaceChild(element)	替换 HTML 元素
+document.write(text)	写入 HTML 输出流
+
+document.documentElement	返回 <html> 元素
+document.documentMode	返回浏览器使用的模式
+document.implementation	返回 DOM 实现
+document.inputEncoding	返回文档的编码（字符集）
+document.lastModified	返回文档更新的日期和时间
+document.readyState	返回文档的（加载）状态
+document.referrer	返回引用的 URI（链接文档）
+document.strictErrorChecking	返回是否强制执行错误检查
