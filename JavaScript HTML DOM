@@ -41,3 +41,9 @@ document.lastModified	返回文档更新的日期和时间
 document.readyState	返回文档的（加载）状态
 document.referrer	返回引用的 URI（链接文档）
 document.strictErrorChecking	返回是否强制执行错误检查
+
+通过 id 查找 HTML 元素
+通过标签名查找 HTML 元素
+通过类名查找 HTML 元素
+通过 CSS 选择器查找 HTML 元素
+通过 HTML 对象集合查找 HTML 元素
