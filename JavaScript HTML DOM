@@ -47,3 +47,22 @@ document.strictErrorChecking	返回是否强制执行错误检查
 通过类名查找 HTML 元素
 通过 CSS 选择器查找 HTML 元素
 通过 HTML 对象集合查找 HTML 元素
+
+var myElement = document.getElementById("intro");
+如果元素被找到，此方法会以对象返回该元素（在 myElement 中），如果未找到元素，myElement 将包含 null
+var y = x.getElementsByTagName("p"); 
+变量y会是p对象数组，y[0]是第一个p元素对象（通过类名获取也相同）
+
+querySelectorAll() 方法
+本例返回 class="intro" 的所有 <p> 元素列表：var x = document.querySelectorAll("p.intro");
+
+通过 HTML 对象选择器查找 HTML 对象
+本例查找 id="frm1" 的 form 元素，在 forms 集合中，然后显示所有元素值：
+var x = document.forms["frm1"];（x是form标签内的所有内容）
+for (i = 0; i < x.length; i++) {
+    text += x.elements[i].value + "<br>";
+}
+id为“frm1”的form元素的所有子元素的数组对象（因为是x.element)
+详见谷歌收藏的JS HTML DOM 文档
+
+在 JavaScript 中，document.write() 可用于直接写入 HTML 输出流：<script>document.write(Date());</script>
