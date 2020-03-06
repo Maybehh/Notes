@@ -66,3 +66,5 @@ id为“frm1”的form元素的所有子元素的数组对象（因为是x.eleme
 详见谷歌收藏的JS HTML DOM 文档
 
 在 JavaScript 中，document.write() 可用于直接写入 HTML 输出流：<script>document.write(Date());</script>
+千万不要在文档加载后使用 document.write()。这么做会覆盖文档
+
