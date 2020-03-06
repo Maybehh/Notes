@@ -68,3 +68,8 @@ id为“frm1”的form元素的所有子元素的数组对象（因为是x.eleme
 在 JavaScript 中，document.write() 可用于直接写入 HTML 输出流：<script>document.write(Date());</script>
 千万不要在文档加载后使用 document.write()。这么做会覆盖文档
 
+创建动画容器：所有动画都应该与容器元素关联
+为元素添加样式：应该通过 style = "position: relative" 创建容器元素。应该通过 style = "position: absolute" 创建动画元素。
+
+document.getElementById("myBtn").onclick = displayDate;
+不可以写成document.getElementById("myBtn").onclick = displayDate();因为带括号就会先执行一次了，结果会马上出来，不用点击
