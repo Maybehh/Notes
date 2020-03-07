@@ -73,3 +73,130 @@ id为“frm1”的form元素的所有子元素的数组对象（因为是x.eleme
 
 document.getElementById("myBtn").onclick = displayDate;
 不可以写成document.getElementById("myBtn").onclick = displayDate();因为带括号就会先执行一次了，结果会马上出来，不用点击
+
+当用户进入后及离开页面时，会触发 onload 和 onunload 事件
+onload 事件可用于检测访问者的浏览器类型和浏览器版本，然后基于该信息加载网页的恰当版本
+onload 和 onunload 事件可用于处理 cookie：
+<body onload="checkCookies()">
+function checkCookies() {
+  var text = "";
+  if (navigator.cookieEnabled == true) {
+    text = "Cookie 已启用";
+  } else {
+    text = "Cookie 未启用";
+  }
+  document.getElementById("demo").innerHTML = text;
+}
+
+onchange 事件经常与输入字段验证结合使用，当用户改变输入字段内容时（从无到有也会改变），会调用相关函数
+onmousedown, onmouseup 以及 onclick 事件构成了完整的鼠标点击事件。
+首先当鼠标按钮被点击时，onmousedown 事件被触发；然后当鼠标按钮被释放时，onmouseup 事件被触发；
+最后，当鼠标点击完成后（按下放开后），onclick 事件被触发
+onmousemove在进入内容和在内容里移动都会触发事件，而onmouseover只有在进入内容会触发内容
+
+addEventListener() 方法为元素附加事件处理程序而不会覆盖已有的事件处理程序
+您能够向一个元素添加多个事件处理程序。您能够向一个元素添加多个相同类型的事件处理程序，例如两个 "click" 事件。
+您能够向任何 DOM 对象添加事件处理程序而非仅仅 HTML 元素，例如 window 对象
+addEventListener() 方法使我们更容易控制事件如何对冒泡作出反应
+能够通过使用 removeEventListener() 方法轻松地删除事件监听器
+
+element.addEventListener(event, function, useCapture);
+第一个参数是事件的类型（比如 "click" 或 "mousedown"）
+第二个参数是当事件发生时我们需要调用的函数（写名字，没有括号）
+第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的
+注意：请勿对事件使用 "on" 前缀；请使用 "click" 代替 "onclick"
+element.addEventListener("click", function(){ alert("Hello World!"); });
+
+element.addEventListener("click", myFunction);
+element.addEventListener("click", mySecondFunction);
+点一次后按顺序执行函数
+
+添加当用户调整窗口大小时触发的事件监听器：
+window.addEventListener("resize", function(){
+    document.getElementById("demo").innerHTML = sometext;
+});
+
+当传递参数值时，请以参数形式使用调用指定函数的“匿名函数”：
+var p1 = 5; var p2 = 7;
+element.addEventListener("click", function(){ myFunction(p1, p2); });
+
+在 HTML DOM 中有两种事件传播的方法：冒泡和捕获
+事件传播是一种定义当发生事件时元素次序的方法。假如 <div> 元素内有一个 <p>，然后用户点击了这个 <p> 元素，应该首先处理哪个元素“click”事件？
+在冒泡中，最内侧元素的事件会首先被处理，然后是更外侧的：首先处理 <p> 元素的点击事件，然后是 <div> 元素的点击事件。
+在捕获中，最外侧元素的事件会首先被处理，然后是更内侧的：首先处理 <div> 元素的点击事件，然后是 <p> 元素的点击事件。
+在 addEventListener() 方法中，你能够通过使用“useCapture”参数来规定传播类型：
+addEventListener(event, function, useCapture);
+默认值是 false，将使用冒泡传播，如果该值设置为 true，则事件使用捕获传播
+
+removeEventListener() 方法会删除已通过 addEventListener() 方法附加的事件处理程序：
+document.getElementById("myDIV").addEventListener("mousemove", myFunction);
+document.getElementById("myDIV").removeEventListener("mousemove", myFunction);
+
+IE 8、Opera 6.0 及其更早版本不支持 addEventListener() 和 removeEventListener() 方法。
+不过，对于这些特殊的浏览器版本，您可以使用 attachEvent() 方法向元素添加事件处理程序，并由 detachEvent() 方法删除：
+element.attachEvent(event, function);
+element.detachEvent(event, function);
+event使用onclick
+跨浏览器解决方案：
+var x = document.getElementById("myBtn");
+if (x.addEventListener) {                    // 针对主流浏览器，除了 IE 8 及更正版本
+    x.addEventListener("click", myFunction);
+} else if (x.attachEvent) {                  // 针对 IE 8 及更早版本
+    x.attachEvent("onclick", myFunction);
+} 
+
+根据 W3C HTML DOM 标准，HTML 文档中的所有事物都是节点：
+整个文档是文档节点
+每个 HTML 元素是元素节点
+HTML 元素内的文本是文本节点
+每个 HTML 属性是属性节点
+所有注释是注释节点
+
+在节点树中，顶端节点被称为根（根节点）（html文档中根节点为html）
+
+通过 JavaScript，您可以使用以下节点属性在节点之间导航：
+parentNode
+childNodes[nodenumber]
+firstChild
+lastChild
+nextSibling
+previousSibling
+
+DOM 处理中的一种常见错误是认为元素节点中包含文本(文本节点，内容（也就是平常所说的文本）是文本节点的值)
+元素节点 <title> 不包含文本。它包含了值为 "DOM 教程" 的文本节点
+文本节点的值能够通过节点的 innerHTML 属性进行访问，var myTitle = document.getElementById("demo").innerHTML;（demo的文本结点的值）
+访问 innerHTML 属性等同于访问首个子节点的 nodeValue：var myTitle = document.getElementById("demo").firstChild.nodeValue;
+也可以这样访问第一个子节点：var myTitle = document.getElementById("demo").childNodes[0].nodeValue;
+
+使用 innerHTML 取回 HTML 元素的内容（元素里的所有内容）
+document.body - 文档的 body 返回<body>标签
+document.documentElement - 完整文档 返回<html>标签
+
+nodeName 属性规定节点的名称
+nodeName 是只读的
+元素节点的 nodeName 等同于标签名
+属性节点的 nodeName 是属性名称
+文本节点的 nodeName 总是 #text
+文档节点的 nodeName 总是 #document
+注释：nodeName 总是包含 HTML 元素的大写标签名(总是返回标签的大写)
+
+nodeValue 属性规定节点的值
+元素节点的 nodeValue 是 undefined
+文本节点的 nodeValue 是文本文本
+属性节点的 nodeValue 是属性值
+
+nodeType 属性返回节点的类型。nodeType 是只读的，返回的是数字
+节点           类型  例子
+ELEMENT_NODE	1	<h1 class="heading">W3School</h1>
+ATTRIBUTE_NODE	2	class = "heading" （弃用）
+TEXT_NODE	3	W3School
+COMMENT_NODE	8	<!-- 这是注释 -->
+DOCUMENT_NODE	9	HTML 文档本身（<html> 的父）
+DOCUMENT_TYPE_NODE	10	<!Doctype html>
+Type 2 在 HTML DOM 中已弃用。XML DOM 中未弃用
+
+创建文本节点。这段代码创建了一个文本节点：var node = document.createTextNode("这是一个新段落。");
+向 <p> 元素追加这个文本节点：para.appendChild(node);
+
+appendChild() 方法，追加新元素作为父的最后一个子元素
+
