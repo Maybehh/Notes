@@ -51,7 +51,7 @@ document.strictErrorChecking	返回是否强制执行错误检查
 var myElement = document.getElementById("intro");
 如果元素被找到，此方法会以对象返回该元素（在 myElement 中），如果未找到元素，myElement 将包含 null
 var y = x.getElementsByTagName("p"); 
-变量y会是p对象数组，y[0]是第一个p元素对象（通过类名获取也相同）
+变量y会是HTMLCollection对象，y[0]是第一个p元素对象（通过类名获取也相同）
 
 querySelectorAll() 方法
 本例返回 class="intro" 的所有 <p> 元素列表：var x = document.querySelectorAll("p.intro");
@@ -62,7 +62,7 @@ var x = document.forms["frm1"];（x是form标签内的所有内容）
 for (i = 0; i < x.length; i++) {
     text += x.elements[i].value + "<br>";
 }
-id为“frm1”的form元素的所有子元素的数组对象（因为是x.element)
+id为“frm1”的form元素的所有子元素的对象（因为是x.element)
 详见谷歌收藏的JS HTML DOM 文档
 
 在 JavaScript 中，document.write() 可用于直接写入 HTML 输出流：<script>document.write(Date());</script>
@@ -199,4 +199,39 @@ Type 2 在 HTML DOM 中已弃用。XML DOM 中未弃用
 向 <p> 元素追加这个文本节点：para.appendChild(node);
 
 appendChild() 方法，追加新元素作为父的最后一个子元素
+element.insertBefore(para, child);  element是要插入结点的父节点，para是要插入的新节点，child是参考节点，para插在child前面
+para和child是element的子节点
+需删除某个 HTML 元素，您需要知晓该元素的父：
+var parent = document.getElementById("div1");
+var child = document.getElementById("p1");
+parent.removeChild(child);
+这是一种常见的解决方法：找到你想要删除的子，并利用其 parentNode 属性找到父：
+var child = document.getElementById("p1");
+child.parentNode.removeChild(child);
+
+node.remove() 是在 DOM 4 规范中实现的。但是由于糟糕的浏览器支持，不应该使用该方法
+
+如需替换元素的，请使用 replaceChild() 方法：parent.replaceChild(para,child); (para是新节点，child是原结点）
+
+getElementsByTagName() 方法返回 HTMLCollection 对象，HTMLCollection 对象是类数组的 HTML 元素列表（集合）
+length 属性定义了 HTMLCollection 中元素的数量，length 属性在您需要遍历集合中元素时是有用的
+想要改变需要一个一个遍历，整个不能直接改
+HTMLCollection 也许看起来像数组，但并非数组。您能够遍历列表并通过数字引用元素（就像数组那样）。
+不过，您无法对 HTMLCollection 使用数组方法，比如 valueOf()、pop()、push() 或 join()
+
+NodeList 对象是从文档中提取的节点列表（集合）。NodeList 对象与 HTMLCollection 对象几乎相同。
+如使用 getElementsByClassName() 方法，某些（老的）浏览器会返回 NodeList 对象而不是 HTMLCollection。
+所有浏览器都会为 childNodes 属性返回 NodeList 对象。
+大多数浏览器会为 querySelectorAll() 方法返回 NodeList 对象
+length 属性定义节点列表中的节点数
+
+HTMLCollection 是 HTML 元素的集合。NodeList 是文档节点的集合。NodeList 和 HTML 集合几乎完全相同。
+HTMLCollection 和 NodeList 对象都是类数组的对象列表（集合）。它们都有定义列表（集合）中项目数的 length 属性。
+它们都可以通过索引 (0, 1, 2, 3, 4, ...) 像数组那样访问每个项目。
+访问 HTMLCollection 项目，可以通过它们的名称(name属性)、id 或索引号。访问 NodeList 项目，只能通过它们的索引号。
+HTMLCollection.namedItem(name或id)或HTMLCollection[name或id]
+例：var x = document.getElementsByTagName("p")["myElement"]; 或 var x = document.getElementsByTagName("p").namedItem("myElement");
+只有 NodeList 对象能包含属性节点和文本节点。
+节点列表不是数组！节点数组看起来像数组，但并不是。您能够遍历节点列表并像数组那样引用其节点。
+不过，您无法对节点列表使用数组方法，比如 valueOf()、push()、pop() 或 join()
 
