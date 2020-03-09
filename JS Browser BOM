@@ -109,3 +109,65 @@ window.prompt() 方法可以不带 window 前缀来编写：prompt("请输入您
 
 如需在弹出框中显示折行，请在反斜杠后面加一个字符 n：alert("Hello\nHow are you?");
 alert, confirm, prompt中的提示文本都会折行，但prompt的输入框的默认值不会折行，会在文本中的换行处多一个符号(换行符）
+
+JavaScript 可以在时间间隔内执行。这就是所谓的定时事件（ Timing Events）
+setTimeout(function, milliseconds)在等待指定的毫秒数后执行函数。
+setInterval(function, milliseconds)等同于 setTimeout()，但持续重复执行该函数
+setTimeout() 和 setInterval() 都属于 HTML DOM Window 对象的方法
+
+单击按钮。等待 3 秒，然后页面会提示 "Hello"：<button onclick="setTimeout(myFunction, 3000)">试一试</button>
+clearTimeout() 方法停止执行 setTimeout() 中规定的函数。window.clearTimeout(timeoutVariable)
+window.clearTimeout() 方法可以不带 window 前缀来写。
+clearTimeout() 使用从 setTimeout() 返回的变量：
+myVar = setTimeout(function, milliseconds);
+clearTimeout(myVar);
+<button onclick="myVar = setTimeout(myFunction, 3000)">试一试</button>
+<button onclick="clearTimeout(myVar)">停止执行</button>
+
+本例每秒执行一次函数 "myTimer"（就像数字手表）：
+var myVar = setInterval(myTimer, 1000);
+function myTimer() {
+  var d = new Date();
+  document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+} 显示为 下午11：17：22（当时的时间，像正常的时钟一样，会走）
+
+一秒有 1000 毫秒
+
+clearInterval() 方法使用从 setInterval() 返回的变量：
+myVar = setInterval(function, milliseconds);
+clearInterval(myVar);
+
+Cookie 让您在网页中存储用户信息
+Cookie 是在您的计算机上存储在小的文本文件中的数据。
+当 web 服务器向浏览器发送网页后，连接被关闭，服务器会忘记用户的一切
+Cookie 是为了解决“如何记住用户信息”而发明的：
+当用户访问网页时，他的名字可以存储在 cookie 中。
+下次用户访问该页面时，cookie 会“记住”他的名字
+
+Cookie 保存在名称值对中，如：username = Bill Gates
+当浏览器从服务器请求一个网页时，将属于该页的 cookie 添加到该请求中。这样服务器就获得了必要的数据来“记住”用户的信息。
+如果浏览器已关闭本地 cookie 支持，则无法工作
+
+JavaScript 可以用 document.cookie 属性创建、读取、删除 cookie。
+通过 JavaScript，可以这样创建 cookie：document.cookie = "username=Bill Gates";
+您还可以添加有效日期（UTC 时间）。默认情况下，在浏览器关闭时会删除 cookie：
+document.cookie = "username=John Doe; expires=Sun, 31 Dec 2017 12:00:00 UTC";
+通过 path 参数，您可以告诉浏览器 cookie 属于什么路径。默认情况下，cookie 属于当前页。
+document.cookie = "username=Bill Gates; expires=Sun, 31 Dec 2017 12:00:00 UTC; path=/";
+
+通过 JavaScript，可以这样读取 cookie：var x = document.cookie;
+document.cookie 会在一条字符串中返回所有 cookie，比如：cookie1=value; cookie2=value; cookie3=value;
+
+通过使用 JavaScript，你可以像你创建 cookie 一样改变它：
+document.cookie = "username=Steve Jobs; expires=Sun, 31 Dec 2017 12:00:00 UTC; path=/"; 旧 cookie 被覆盖。
+
+删除 cookie 非常简单。删除 cookie 时不必指定 cookie 值：直接把 expires 参数设置为过去的日期即可：
+document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+您应该定义 cookie 路径以确保删除正确的 cookie。如果你不指定路径，一些浏览器不会让你删除 cookie
+
+document.cookie 属性看起来像一个正常的文本字符串。但它不是。
+即使你向 document.cookie 写一份完整的 cookie 字符串，当再次读取时，你只能看到它的名称-值对
+如果设置了新 cookie，则旧的 cookie 不会被覆盖。新的 Cookie 会被添加到 document.cookie，所以如果你读取 document.cookie，你得到的东西会像这样：
+cookie1 = value; cookie2 = value;
+显示所有 cookie 创建 cookie 1 创建 cookie 2 删除 cookie 1 删除 cookie 2
+如果你想找到一个指定 cookie 的值，你必须编写 JavaScript 函数来搜索 cookie 字符串中的 cookie 值
