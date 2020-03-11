@@ -171,3 +171,4 @@ document.cookie 属性看起来像一个正常的文本字符串。但它不是�
 cookie1 = value; cookie2 = value;
 显示所有 cookie 创建 cookie 1 创建 cookie 2 删除 cookie 1 删除 cookie 2
 如果你想找到一个指定 cookie 的值，你必须编写 JavaScript 函数来搜索 cookie 字符串中的 cookie 值
+具体cookie见csdn收藏
