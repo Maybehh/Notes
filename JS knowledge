@@ -414,6 +414,7 @@ function isArray(x) {
 假如对象由给定的构造器创建，则 instanceof 运算符返回 true：
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 document.getElementById("demo").innerHTML = fruits instanceof Array;     // 返回 true
+instanceof见csdn，另外有3种判断方法可以看一下
 
 数组方法：
 toString() 把数组转换为数组值（逗号分隔）的字符串
@@ -890,6 +891,10 @@ exec() 方法是一个正则表达式方法。它通过指定的模式（pattern
 下面的例子搜索字符串中的字符 "e"：
 /e/.exec("The best things in life are free!");
 由于字符串中有一个 "e"，以上代码的输出将是：e
+
+正则表达式^和$不一定要配对，只是作为开头和结尾的一个标识
+RegExp对象是正则表达式的缩写，有两种，字面量和new，所以定义var ttt=正则表达式(字面量形式)也是RegExp对象，可以用Reg.$1等方法
+具体的正则见csdn收藏
 
 try 语句使您能够测试代码块中的错误
 catch 语句允许您处理错误
@@ -1390,3 +1395,6 @@ JSON 的一个常见用途是将数据发送到Web服务器。
 var obj = {"name":"Bill", "age":62, "city":"Seatle"};
 请使用 JavaScript 函数 JSON.stringify() 将其转换为字符串。
 var myJSON = JSON.stringify(obj);结果将是遵循 JSON 表示法的字符串
+
+原型适合封装方法，如果每个对象都有一个方法，一个方法复制很多次，一个对象分配一个，就会占空间
+具体的原型和构造函数等见csdn收藏
