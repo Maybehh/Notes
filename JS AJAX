@@ -196,4 +196,3 @@ str 变量保存了输入字段的内容
 asp：xmlhttp.open("GET", "gethint.asp?q=" + str, true);
 
 AJAX 可用于同数据库进行交互式通信
-
