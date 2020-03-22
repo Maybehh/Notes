@@ -155,3 +155,44 @@ xhttp.onreadystatechange = function() {
   }
 };
 
+AJAX 可用于同 XML 文件进行交互式通信
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function() {
+    if (this.readyState  == 4 && this.status == 200) {
+    myFunction(this);
+     }
+  };
+  xhttp.open("GET", "music_list.xml", true);
+  xhttp.send();
+}
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>艺术家</th><th>曲目</th></tr>";
+  var x = xmlDoc.getElementsByTagName("TRACK");
+  for (i = 0; i <x.length;  i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue  +
+    "</td><td>" +
+    x[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue  +
+    "</td></tr>";
+  }
+   document.getElementById("demo").innerHTML = table;
+} 
+具体nodeValue知识见csdn收藏夹
+
+AJAX 用于创建更具交互性的应用程序
+<input type="text" onkeyup="showHint(this.value)">
+php：xmlhttp.open("GET", "gethint.php?q=" + str, true);
+首先，检查输入字段是否为空（str.length == 0），如果是，清空 txtHint 占位符的内容并退出函数。
+不过，如果输入字段不为空，则进行如下：
+创建 XMLHttpRequest 对象
+创建当服务器响应就绪时执行的函数
+发送请求到服务器上的 PHP 文件（gethint.php）
+请注意添加到 gethint.php 的 q 参数
+str 变量保存了输入字段的内容
+
+asp：xmlhttp.open("GET", "gethint.asp?q=" + str, true);
+
+AJAX 可用于同数据库进行交互式通信
