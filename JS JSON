@@ -135,3 +135,9 @@ obj.age = eval("(" + obj.age + ")");
 document.getElementById("demo").innerHTML = obj.name + ", " +  obj.age();
 您应该避免在 JSON 中使用函数，函数会丢失它们的作用域，而且您还需要使用 eval() 把它们转换回函数
 eval函数见谷歌收藏
+
+在向 web 服务器发送数据时，数据必须是字符串
+在 JSON 中，不允许日期对象。JSON.stringify() 函数将把任何日期转换为字符串
+在 JSON 中，不允许函数作为对象值。JSON.stringify() 函数将从 JavaScript 对象删除任何函数，包括键(属性)和值
+如果您在运行 JSON.stringify() 函数前已将函数转换为字符串，这个环节可以省略
+
