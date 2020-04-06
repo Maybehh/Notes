@@ -53,3 +53,85 @@ null
 undefined
 
 在 JSON 中，字符串值必须由双引号编写，在 JavaScript 中，您可以书写使用双引号或单引号的字符串值
+JSON 文件的文件类型是 ".json"
+JSON 文本的 MIME 类型是 "application/json"
+
+JSON 和 XML 均可用于从 web 服务器接收数据
+JSON 和 XML 都能被 XMLHttpRequest 读取
+XML 必须使用 XML 解析器进行解析。而 JSON 可通过标准的 JavaScript 函数进行解析
+
+XML 比 JSON 更难解析。
+JSON 被解析为可供使用的 JavaScript 对象。
+对于 AJAX 应用程序，JSON 比 XML 更快更易用：
+使用 XML：
+读取 XML 文档
+使用 XML DOM 遍历文档
+提取变量中存储的值
+使用 JSON：
+读取 JSON 字符串
+JSON.Parse JSON 字符串
+
+{ "name":"John" }
+{ "age":30 }
+{"employee":{ "name":"Bill Gates", "age":62, "city":"Seattle" }}
+{"employees":[ "Bill", "Steve", "David" ]}
+{ "sale":true }
+{ "middlename":null }
+
+在从 web 服务器接收数据时，数据永远是字符串
+<script>
+var text = '{"employees":[' +
+'{"firstName":"Bill","lastName":"Gates" },' +
+'{"firstName":"Steve","lastName":"Jobs" },' +
+'{"firstName":"Elon","lastName":"Musk" }]}';
+
+obj = JSON.parse(text);
+document.getElementById("demo").innerHTML =
+obj.employees[1].firstName + " " + obj.employees[1].lastName;
+</script>
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function()  {
+    if (this.readyState == 4 && this.status == 200) {
+        myObj =  JSON.parse(this.responseText);
+        document.getElementById("demo").innerHTML  = myObj.name;
+    }
+};
+xmlhttp.open("GET", "json_demo.txt", true);
+xmlhttp.send();
+
+在对衍生自数组的 JSON 使用 JSON.parse() 后，此方法将返回 JavaScript 数组，而不是 JavaScript 对象
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function()  {
+    if (this.readyState == 4 && this.status == 200) {
+        myArr =  JSON.parse(this.responseText);
+        document.getElementById("demo").innerHTML  = myArr[0];
+    }
+};
+xmlhttp.open("GET", "json_demo_array.txt", true);
+xmlhttp.send();
+
+JSON 中不允许日期对象。如果您需要包含日期，请写为字符串。之后您可以将其转换回日期对象：
+var text =  '{ "name":"Bill Gates", "birth":"1955-10-28", "city":"Seattle"}';
+var obj = JSON.parse(text);
+obj.birth = new Date(obj.birth);（数字，变量名做参数不加引号，字符串要加引号，2019-02-34含有非数字也要加引号）
+document.getElementById("demo").innerHTML = obj.name + ", " + obj.birth;
+
+或者您可以已使用 JSON.parse() 函数的第二个参数，被称为 reviver
+这个 reviver 参数是函数，在返回值之前，它会检查每个属性
+var text =  '{ "name":"Bill Gates", "birth":"1955-10-28", "city":"Seattle"}';
+var obj = JSON.parse(text, function (key, value) {
+    if  (key == "birth") {
+        return new Date(value);
+    } else {
+         return value;
+   }});
+document.getElementById("demo").innerHTML = obj.name + ", " + obj.birth;
+
+JSON 中不允许函数，如果您需要包含函数，请把它写作字符串。稍后您可以把它转换回函数：
+var text =  '{ "name":"Bill Gates", "age":"function () {return 62;}", "city":"Seattle"}';
+var obj = JSON.parse(text);
+obj.age = eval("(" + obj.age + ")");
+document.getElementById("demo").innerHTML = obj.name + ", " +  obj.age();
+您应该避免在 JSON 中使用函数，函数会丢失它们的作用域，而且您还需要使用 eval() 把它们转换回函数
+eval函数见谷歌收藏
