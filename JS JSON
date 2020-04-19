@@ -180,7 +180,7 @@ $myObj->city = "Seattle";
 
 $myJSON = json_encode($myObj);
 
-echo $myJSON;//显示$myJSON
+echo $myJSON;//返回$myJSON JSON
 ?>
 
 在使用 PHP 函数 json_encode() 时，PHP 中的数组也将被转换为 JSON：
