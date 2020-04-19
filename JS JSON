@@ -152,3 +152,50 @@ var fct2 = eval(fctStr2)  // 返回一个函数
 在 JSON 中，不允许函数作为对象值。JSON.stringify() 函数将从 JavaScript 对象删除任何函数，包括键(属性)和值
 如果您在运行 JSON.stringify() 函数前已将函数转换为字符串，这个环节可以省略
 
+您能够通过使用 for-in 遍历对象属性：
+myObj =  { "name":"Bill Gates", "age":62, "car":null };
+for (x in myObj) {
+   document.getElementById("demo").innerHTML  += x;
+}输出的是属性名
+在 for-in 循环中，请使用括号标记法(不可以用.属性)来访问属性值：document.getElementById("demo").innerHTML  += myObj[x]; 输出的是属性值
+myObj.cars.car2 = "Mercedes Benz";
+for (i in myObj.cars) {
+  x += myObj.cars[i] + "<br>";
+}(x += myObj.cars.i + "<br>";输出的全部是undefined)
+for (i in myObj.cars)中x的属性值不可以用.x访问值，必须用[x]访问，其他的可以用.属性  
+txt += myObj[x].name + "<br>";是可以的 name是x属性值的name属性
+
+使用 delete 关键词来删除 JSON 对象的属性：delete myObj.cars.car1;
+
+可以通过使用 for-in 循环来访问数组值：
+for (i in myObj.cars) {
+     x  += myObj.cars[i];
+}
+
+通过使用 PHP 函数 json_encode()，PHP 中的对象可转换为 JSON:
+<?php
+$myObj->name = "Bill Gates";
+$myObj->age = 62;
+$myObj->city = "Seattle";
+
+$myJSON = json_encode($myObj);
+
+echo $myJSON;//显示$myJSON
+?>
+
+在使用 PHP 函数 json_encode() 时，PHP 中的数组也将被转换为 JSON：
+<?php
+$myArr = array("Bill Gates", "Steve Jobs", "Elon Musk");
+
+$myJSON = json_encode($myArr);
+
+echo $myJSON;
+?>
+将请求转换为对象，使用 PHP 函数 json_decode()
+
+在向服务器发送数据时，通常最好是使用 HTTP POST 方法。如需使用 POST 方法来发送 AJAX 请求，请指定该方法和正确的头部。
+发送到服务器的数据现在必须是 .send() 方法的参数：
+xmlhttp.open("POST", "demo_json_db.php", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam);
+
