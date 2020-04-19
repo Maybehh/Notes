@@ -199,3 +199,25 @@ xmlhttp.open("POST", "demo_json_db.php", true);
 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xmlhttp.send("x=" + dbParam);
 
+JSONP 是一种无需考虑跨域问题即可传送 JSON 数据的方法。JSONP 不使用 XMLHttpRequest 对象。JSONP 使用 <script> 标签取而代之
+JSONP 指的是 JSON with Padding。从另一个域请求文件会引起问题，由于跨域政策。从另一个域请求外部脚本没有这个问题。
+JSONP 利用了这个优势，并使用 script 标签替代 XMLHttpRequest 对象
+（就是把用AJAX访问改成了用<script src = ....>访问）
+
+s.src = "jsonp_demo_db.php?x="  + JSON.stringify(obj); 与用户交互地访问服务器
+
+<?php
+$myJSON = '{ "name":"Bill Gates", "age":62, "city":"Seattle" }';
+echo "myFunc(".$myJSON.");";
+?>
+结果返回对名为 "myFunc" 的函数的调用，其中的 JSON 数据为参数。请确保客户端存在该函数
+
+回调函数：
+如果您无法控制服务器文件，那么如何使服务器文件调用正确的函数呢？有时服务器文件提供回调函数作为参数：
+PHP 文件会调用您作为回调参数传递的函数：
+function clickButton() {
+    var s = document.createElement("script");
+    s.src = "jsonp_demo_db.php?callback=myDisplayFunction";
+    document.body.appendChild(s);
+}
+返回的时候用myDisplayFunction函数，函数参数为服务器文件写好的返回的函数的参数
