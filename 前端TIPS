@@ -5,3 +5,5 @@
       Google chrome   Webkit/blink
              Safari   Webkit
              Opera    presto
+加载网页的时候html和css等是异步加载的（同时加载的）
+!important>行间>id>class|[]   class和[]（属性选择器）同一优先级，看写的位置，越晚写越优先
