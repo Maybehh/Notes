@@ -1068,3 +1068,5 @@ Saturation 是百分比值；0% 意味着灰色，而 100% 是全彩。Lightness
 HSLA 颜色值是 HSL 颜色值的扩展，带有一个 alpha 通道 - 它规定了对象的不透明度
 17 种标准色是 aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red, silver, teal, white, yellow
 听觉参考手册，字体参考手册，颜色手册
+
+line-height:单行文本的高度（由字体和上下间隙组成）设置单行高度和line-height相等，就垂直居中了
