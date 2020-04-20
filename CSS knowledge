@@ -71,6 +71,16 @@ input[type="button"]
 [attribute$=value]	匹配属性值以指定值结尾的每个元素。
 [attribute*=value]	匹配属性值中包含指定值的每个元素。
 
+选择器有权重：!important infinity
+             行间样式    1000
+             id         100
+	     class|属性|伪类   10
+	     标签|伪元素  1
+	     通配符      0
+权重的值是256进制
+权重一样后写的覆盖
+在css中infinity+1>infinity ，总的来说infinity也是一个值在css中
+
 CSS样式继承同时有三种：不同属性都会继承，相同属性按照就近原则
 
 background-image 属性为元素设置背景图像，元素的背景占据了元素的全部尺寸，包括内边距和边框，但不包括外边距
@@ -264,7 +274,7 @@ font-style
 font-variant
 font-weight
 font-size/line-height
-font-family
+font-family（arial字体是乔布斯发明的）
 可以不设置其中的某个值，比如 font:100% verdana; 也是允许的。未设置的属性会使用其默认值
 font还有可能的值：
 caption	定义被标题控件（比如按钮、下拉列表等）使用的字体。
@@ -746,6 +756,7 @@ a[href="http://www.w3school.com.cn/about_us.asp"] {color: red;}
 后代选择器中，规则左边的选择器一端包括两个或多个用空格分隔的选择器。选择器之间的空格是一种结合符（combinator）
 每个空格结合符可以解释为“... 在 ... 找到”、“... 作为 ... 的一部分”、“... 作为 ... 的后代”，但是要求必须从右向左读选择器
 两个元素之间的层次间隔可以是无限的，例如，如果写作 ul em，这个语法就会选择从 ul 元素继承的所有 em 元素，而不论 em 的嵌套层次多深
+多层遍历是自右向左，如：section ul li em 从em开始找，然后li，最后看是哪几个em符合条件
 
 子元素选择器（Child selectors）只能选择作为某元素子元素的元素（第一层）
 h1 > strong {color:red;}
@@ -763,6 +774,10 @@ li+li+li{...} 作用从左到右一层一层，作用的元素只有一个（最
 +必须紧接着出现，中间不可以穿插其他元素（h1和p之间不可以插一个h2之类的其他元素）（必须是相邻的兄弟）
 ~中间可以穿插其他元素（是兄弟就可以）
 都必须是之后的元素，对前面的元素无效
+
+并列选择器 
+<div class="demo"> 选择该元素用 div.demo{}不加空格地写在一起，可以任意的选择器写在一起并列，还可以div[class="demo"]{}
+标签选择器和类选择器写在一起时，不可换顺序，.demodiv{}会被认为是class="demodiv"的元素（id有#可以分开,所以可以任意顺序）
 
 CSS 伪类用于向某些选择器添加特殊的效果
 伪类的语法：selector : pseudo-class {property: value}
@@ -1041,6 +1056,7 @@ pc	12 点活字 (1 pc 等于 12 点)（12个像素点）
 px	像素 (计算机屏幕上的一个点)
 
 十六进制颜色是这样规定的：#RRGGBB，其中的 RR（红色）、GG（绿色）、BB（蓝色）十六进制整数规定了颜色的成分。所有值必须介于 0 与 FF 之间
+（RGB每一部分相同就可简写：#ff4400就可简写#f40(淘宝红),#ff4500就不可以简写）
 HSL 指的是 hue（色调）、saturation（饱和度）、lightness（亮度） - 表示颜色柱面坐标表示法
 HSL 颜色值是这样规定的：hsl(hue, saturation, lightness)
 Hue 是色盘上的度数（从 0 到 360）       0 (或 360) 是红色，120 是绿色，240 是蓝色。
@@ -1048,3 +1064,8 @@ Saturation 是百分比值；0% 意味着灰色，而 100% 是全彩。Lightness
 HSLA 颜色值是 HSL 颜色值的扩展，带有一个 alpha 通道 - 它规定了对象的不透明度
 17 种标准色是 aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red, silver, teal, white, yellow
 听觉参考手册，字体参考手册，颜色手册
+
+字体设置的是高度（如果设置宽度，那么不同字就会不同高度）
+画三角形、箭头可以用border：div的width,height等于0，border=10px，就会出现一个正方形按对角线均等划分的四个区域，每一个区域就是一个三角形（箭头）
+例如微信的对话，箭头就是由这样实现的，一个text文本框和一个宽高为0的div(或其他，是个元素就可以）的border不为0，其他三区域的色为transparent，
+文本框和div拼接起来就可以了
