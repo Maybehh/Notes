@@ -238,7 +238,7 @@ lighter	定义更细的字符
 定义由粗到细的字符。400 等同于 normal，而 700 等同于 bold
 加粗设置为 bolder，浏览器会设置比所继承值更粗的一个字体加粗。与此相反，关键词 lighter 会导致浏览器将加粗度下移而不是上移
 
-font-size 属性可设置字体的尺寸
+font-size 属性可设置字体的尺寸 字体设置的是高度（如果设置宽度，那么不同字就会不同高度，就会出现有的字大，有的小）
 实际上它设置的是字体中字符框的高度；实际的字符字形可能比这些框高或矮（通常会矮）
 xx-small
 x-small
@@ -498,6 +498,10 @@ p {border-style: solid solid solid none;}
 p {border-style: solid; border-left-style: none;}
 注意：如果要使用第二种方法，必须把单边属性放在简写属性之后。因为如果把单边属性放在 border-style 之前，简写属性的值就会覆盖单边值 none
 
+border（每两边的交界处：把交界处的小正方形按对角线分成两半，所以变大后就可以成为三角形，可以做箭头）
+画三角形、箭头可以用border：div的width,height等于0，border=10px，就会出现一个正方形按对角线均等划分的四个区域，每一个区域就是一个三角形（箭头）
+例如微信的对话，箭头就是由这样实现的，一个text文本框和一个宽高为0的div(或其他，是个元素就可以）的border不为0，其他三区域的色为transparent，
+文本框和div拼接起来就可以了
 border-width 简写属性为元素的所有边框设置宽度，或者单独地为各边边框设置宽度
 只有当边框样式不是 none 时才起作用。如果边框样式是 none，边框宽度实际上会重置为 0。不允许指定负长度值
 thin	定义细的边框。
@@ -1064,8 +1068,3 @@ Saturation 是百分比值；0% 意味着灰色，而 100% 是全彩。Lightness
 HSLA 颜色值是 HSL 颜色值的扩展，带有一个 alpha 通道 - 它规定了对象的不透明度
 17 种标准色是 aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red, silver, teal, white, yellow
 听觉参考手册，字体参考手册，颜色手册
-
-字体设置的是高度（如果设置宽度，那么不同字就会不同高度）
-画三角形、箭头可以用border：div的width,height等于0，border=10px，就会出现一个正方形按对角线均等划分的四个区域，每一个区域就是一个三角形（箭头）
-例如微信的对话，箭头就是由这样实现的，一个text文本框和一个宽高为0的div(或其他，是个元素就可以）的border不为0，其他三区域的色为transparent，
-文本框和div拼接起来就可以了
