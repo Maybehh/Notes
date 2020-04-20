@@ -1,0 +1,7 @@
+前端打交道最多是浏览器
+主流浏览器：shell(外壳）有自己的内核
+现阶段有如下：IE的内核：trident
+            Firefox   Gecko
+      Google chrome   Webkit/blink
+             Safari   Webkit
+             Opera    presto
