@@ -1177,3 +1177,36 @@ float最初用来实现报纸格局（图片设置成float就可以了，图片�
 }
 多行文本不做处理，只截断，多的直接不显示（要算好height和单行文本的高line-height,才能刚好显示)
 百度是直接把数据传到后台后根据算法算出从哪开始截断，把截断舍弃的文本改成...（纯文本）后把数据返回，页面就直接把文本写上去就可以了
+
+padding有background-color 也有background-image，平时定义了一个元素的background-color和background-image，都是从padding开始渲染的
+（因为定义一个元素的样式（当然width和height指的是内容区，不是指整个盒子）实际是定义一个盒子，padding属于盒子的一部分，所以也会渲染）
+padding只可以加样式（包括背景图片）不能加内容（内容是加在内容区的）
+
+网速不好时会舍弃css和js，优先加载html,好的企业会做到只有html时也能把功能完善（如没有图片就用文字代替等手法）
+当淘宝网的淘宝logo不能加载图片的样式（没有css时），就会显示出在html中的文字，还是可以点击的
+<a href="www.taobao.com">淘宝网</a>
+第一种： 
+a{
+  display: inline-block;
+  text-direction: none;
+  height: 90px;
+  width: 190px;
+  background-size: 190px 90px;
+  background-image: url(...);
+  color: #424242;
+  text-indent: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+第二种：
+a{
+  display: inline-block;
+  text-direction: none;
+  height: 0px;
+  width: 190px;
+  padding-top: 90px;(这时淘宝网三个字在a元素的外面，logo图的下面)
+  overflow: hidden;
+  background-size: 190px 90px;
+  background-image: url(...);
+  color: #424242;
+}
