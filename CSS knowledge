@@ -13,7 +13,7 @@ CSS 对大小写不敏感。不过存在一个例外：如果涉及到与 HTML �
 <img>
 <img>
 <img>
-隔行写（相当于留了一个空格）就会有留缝隙(6px左右，看具体系统)，写在一行就没有了（<img><img><img>）
+隔行写（相当于留了一个空格（计算机中叫文本分隔符））就会有留缝隙(6px左右，看具体系统)，写在一行就没有了（<img><img><img>）
 不带margin叫盒子，带外边距的叫盒子模型，求盒子宽高是不带外边距的
 body的margin是8px
 
@@ -1115,19 +1115,31 @@ position脱离文档流之后，就会相对原文档进行位置的确定，没
 （就有层了，在脱离的时候都是游走的，没有在哪一层之说，只有当在原文档中落地了（当然设置po，不设置top等，就在原位置，也是已经落地了），才会有层次之说）
 
 两个经典bug：
-1. margin塌陷
+一. margin塌陷
 父元素的上边框对子元素来说是不存在的
 假设父元素position: relative;子元素position: absolute;设置子元素的margin-top是无效的，只有设置到大于父元素的margin-top才会有移动
 并且是带着父元素一起移动的，如父：margin-top：20px; 子：margin-top：15px; 都不移动
 父：margin-top：20px; 子：margin-top：20px; 都不移动
 父：margin-top：20px; 子：margin-top：25px; 父元素和子元素的相对位置仍不变，但是都距离父元素的margin的参照物top的距离是25px。
 解决方法：1. 给父元素设置border-top,此时就恢复正常了（不专业，有时会加了其他元素，不符合实际,实际中不允许用的）
-2. BFC（block format context)（可以改变盒子的渲染规则）
-
-
-
+2. BFC（block format context)（可以改变盒子的渲染规则）（只改css)
+在父元素加上触发bfc的四个条件即可（看情况而定决定加哪一个）
 如何触发bfc：
 1. position：absolute;
 2. display：inline-block；
 3. overflow：hidden;
 4. float: left/right;
+
+二、margin合并
+<div class="demo1">
+<div class="demo2">
+设置demo1的margin-bottom为100px,设置demo2的margin-top为100px，两者之间的距离是100px而不是200px;
+设置demo1的margin-bottom为100px,设置demo2的margin-top为200px，两者之间的距离是200px而不是300px;（取两者大的作为两者的间距）
+解决：给父级加bfc条件，不过得给demo1和demo2各加一个父级元素（html,css都改,隔断两个demo1和demo2的直接接触）
+<div class="wrapper">
+  <div class="demo1"></div>
+</div>
+<div class="wrapper">
+  <div class="demo2"></div>
+</div>
+但实际开发中是不能随便加html的,会破坏结构，因此不解决，把 demo1的margin-bottom或demo2的margin-top的大小 二选一写成实际要的大小就可以了
