@@ -64,7 +64,7 @@ spread	可选。阴影的尺寸
 color	可选。阴影的颜色。请参阅 CSS 颜色值
 inset	可选。将外部阴影 (outset) 改为内部阴影
 
-background-size 属性规定背景图像的尺寸
+background-size 属性规定背景图像的尺寸 background-image:url(....)(不用加引号）
 length	设置背景图像的高度和宽度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 "auto"。
 percentage	以父元素的百分比来设置背景图像的宽度和高度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 "auto"。
 cover 把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。背景图像的某些部分也许无法显示在背景定位区域中。
@@ -73,6 +73,9 @@ contain	把图像图像扩展至最大尺寸，以使其宽度和高度完全适
 cover：图片宽高比不变、铺满整个容器的宽高，而图片多出的部分则会被截掉；
 contain:图片自身的宽高比不变，缩放至图片自身能完全显示出来，所以容器会有留白区域；
 在repeat情况下：cover:与上述相同；contain:容器内至少有一张完整的图，容器留白区域则平铺背景图，铺不下的再裁掉
+
+background-position：left top(左上)|left center(左中)...
+百分比的话就不一样了，50% 50% 相当于center center就直接居中了（按中心算的），不像position（是按边算的）
 
 background-origin 属性规定 background-position 属性相对于什么位置来定位
 注释：如果背景图像的 background-attachment 属性为 "fixed"，则该属性没有效果
