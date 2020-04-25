@@ -1213,4 +1213,6 @@ a{
 
 行内元素内只能嵌套行内元素，块级元素内可以嵌套任何元素
 特别规定：p中不能嵌套div 根据浏览器内核处理原则div会把p变成两个p, <p><div></div></p> 会变成<p></p><div></div><p></p>
-a标签内不能嵌套a标签
+<p class="nn">bbb<div>hhhh</div>kkk</p>会变成<p class="nn">bbb</p><div>hhhh</div>kkk<p></p> bbb在第一个p中,hhhh仍在div中
+kkk则以单独的文本(text)显示，第二个p中没内容，class在第一个p中
+a标签内不能嵌套a标签，不知道跳转哪一个
