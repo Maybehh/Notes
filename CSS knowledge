@@ -1110,4 +1110,24 @@ div只设边框，再设border-radius（50%）和width可做圆环
    height: 100px;
    margin-left: 100px;
 }
-   
+
+position脱离文档流之后，就会相对原文档进行位置的确定，没有赋top等属性就不会动（在出生地不动），多个position元素的话，后写的会遮挡先写的
+（就有层了，在脱离的时候都是游走的，没有在哪一层之说，只有当在原文档中落地了（当然设置po，不设置top等，就在原位置，也是已经落地了），才会有层次之说）
+
+两个经典bug：
+1. margin塌陷
+父元素的上边框对子元素来说是不存在的
+假设父元素position: relative;子元素position: absolute;设置子元素的margin-top是无效的，只有设置到大于父元素的margin-top才会有移动
+并且是带着父元素一起移动的，如父：margin-top：20px; 子：margin-top：15px; 都不移动
+父：margin-top：20px; 子：margin-top：20px; 都不移动
+父：margin-top：20px; 子：margin-top：25px; 父元素和子元素的相对位置仍不变，但是都距离父元素的margin的参照物top的距离是25px。
+解决方法：1. 给父元素设置border-top,此时就恢复正常了（不专业，有时会加了其他元素，不符合实际,实际中不允许用的）
+2. BFC（block format context)（可以改变盒子的渲染规则）
+
+
+
+如何触发bfc：
+1. position：absolute;
+2. display：inline-block；
+3. overflow：hidden;
+4. float: left/right;
