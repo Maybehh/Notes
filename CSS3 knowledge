@@ -552,4 +552,3 @@ input:disabled{background:#dddddd;}
 :checked 选择器匹配每个已被选中的 input 元素（只用于单选按钮和复选框）只有 Opera 支持 :checked 选择器
 :not(selector) 选择器匹配非指定元素/选择器的每个元素，设置非 <p> 元素的所有元素的背景色:not(p){ background-color: #ff0000;}
 ::selection 选择器匹配被用户选取的选取是部分，只能向 ::selection 选择器应用少量 CSS 属性：color、background、cursor 以及 outline
-
