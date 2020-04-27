@@ -1226,7 +1226,8 @@ a标签内不能嵌套a标签，不知道跳转哪一个
 			 2. 父级没有设置text-align:center; 最后一行如果有文本不满一行，则最后一行文本会从左开始
 		      二、设置了宽度的文本
 		         1. 把文本内容设置为block, 此时设置宽度后，使用margin: 0 auto;
-			 2. 把文本内容设置为inline-block，这个时候因为有inline的特性，因此不能设置宽度
+			 2. 把文本内容设置为inline-block，此时设置宽度后，使用margin: 0 auto;会失效，
+			    只能使用分开的margin-left等，
 用一个div包住，然后设置该div为inline-block,就可以设置text-align:center;
 块级水平居中（定宽）：设置margin: 0 auto;
 块级水平居中（不定宽）：
