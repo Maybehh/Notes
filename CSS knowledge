@@ -1106,7 +1106,7 @@ position脱离文档流之后，就会相对原文档进行位置的确定，没
 （就有层了，在脱离的时候都是游走的，没有在哪一层之说，只有当在原文档中落地了（当然设置po，不设置top等，就在原位置，也是已经落地了），才会有层次之说）
 
 两个经典bug：
-一. margin塌陷
+一. margin塌陷（父子级都是块元素之间才会）
 父元素的上边框对子元素来说是不存在的
 假设父元素position: relative;子元素position: absolute;设置子元素的margin-top是无效的，只有设置到大于父元素的margin-top才会有移动
 并且是带着父元素一起移动的，如父：margin-top：20px; 子：margin-top：15px; 都不移动
@@ -1226,8 +1226,17 @@ a标签内不能嵌套a标签，不知道跳转哪一个
 			 2. 父级没有设置text-align:center; 最后一行如果有文本不满一行，则最后一行文本会从左开始
 		      二、设置了宽度的文本
 		         1. 把文本内容设置为block, 此时设置宽度后，使用margin: 0 auto;
-			 2. 把文本内容设置为inline-block，此时设置宽度后，使用margin: 0 auto;会失效，
-			    只能使用分开的margin-left等，
-用一个div包住，然后设置该div为inline-block,就可以设置text-align:center;
+			 2. 把文本内容设置为inline-block，此时设置宽度后，使用margin: 0 auto;会失效，只能使用分开的margin-left等
+			    (auto在inline时（包括inline和inline-block)auto都是设置为0的
+			     解决方法：1、改为block
+			              2、父元素position：relative;
+				         子元素position：absolute；
+					       top: 0;
+					       bottom: 0;
+					       left: 0;
+					       right: 0;
+					 这个时候margin: 0 auto;实现水平居中
+					        margin: auto; 实现水平垂直都居中
+			     )
 块级水平居中（定宽）：设置margin: 0 auto;
 块级水平居中（不定宽）：
