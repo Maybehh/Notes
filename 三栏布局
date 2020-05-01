@@ -1,0 +1,194 @@
+1、流式布局
+<div>
+    <div class = "left"></div>
+    <div class = "right"></div>
+    <div class = "content"></div>
+</div>
+.left{
+   float: left;
+   width: 100px;
+   height: 100px;
+   background-color: blueviolet;
+}
+.right{
+   float: right;
+   width: 100px;
+   height: 100px;
+   background-color: brown;
+}
+.content{
+   margin-left: 100px;
+   margin-right: 100px;
+   height: 100px;
+   background-color: cyan;
+}
+
+2、BFC布局
+<div>
+    <div class = "left"></div>
+    <div class = "right"></div>
+    <div class = "content"></div>
+</div>
+.left{
+   float: left;
+   width: 100px;
+   height: 100px;
+   background-color: blueviolet;
+}
+.right{
+   float: right;
+   width: 100px;
+   height: 100px;
+   background-color: brown;
+}
+.content{
+   overflow: hidden;
+   height: 100px;
+   background-color: cyan;
+}
+BFC是为了content不与其他两块重叠，自动设置了margin: 0 100px; 因此要加间隔，必须设置： margin: 0 110px; 大于100px的外边距，110间隔是10px
+
+BFC和流体布局都是后渲染内容，性能不高（content必须写在最后面，反过来写在上面的情况下是不能浮动到content上的
+设置margin-left = -100%; 或者给BFC方法content加上margin: 0 100px;
+都只能在content下一层浮动，因为浮动是从出生点开始浮动的，content是普通流，不是浮动流,上不去的）
+
+3、绝对定位布局
+<div class = "container">
+    <div class = "left"></div>
+    <div class = "right"></div>
+    <div class = "content"></div>
+</div>
+.container{position: relative;}
+.left{
+   position: absolute;
+   width: 100px;
+   height: 100px;
+   background-color: blueviolet;
+}
+.right{
+   position: absolute;
+   width: 100px;
+   height: 100px;
+   right: 0;
+   background-color: brown;
+}
+.content{
+   margin: 0 100px;
+   height: 100px;
+   background-color: cyan;
+}
+如果要把内容写到最前，就设置.right{top: 0;} .left{top: 0;}
+
+4、双飞翼布局
+<div class = "container">
+   <div class = "content"></div>
+</div>
+<div class = "left"></div>
+<div class = "right"></div>
+.container{
+   float: left;
+   width: 100%;(一定要设，不然就崩了,因为设置了float: left; 隐式转换成inline-block了，宽度高度没有初设所以就由内容撑开了）
+}
+.left{
+   float: left;
+   margin-left: -100%;
+   width: 100px;
+   height: 100px;
+   background-color: blueviolet;
+}
+.right{
+   float: left;
+   margin-left: -100px;
+   width: 100px;
+   height: 100px;
+   background-color: brown;
+}
+.content{
+   margin: 0 100px;
+   height: 100px;
+   background-color: cyan;
+}
+内容可以先渲染
+
+5、圣杯布局
+<div class = "container">
+    <div class = "left"></div>
+    <div class = "right"></div>
+    <div class = "content"></div>
+</div>
+.container{
+     margin-left: 100px;
+     margin-right: 100px;
+}
+.left{
+     float: left;
+     margin-left: -100%;
+     position: relative;
+     left: -100px;
+     width: 100px;
+     height: 100px;
+     background-color: blueviolet;
+}
+.right{
+     float: left;
+     margin-left: -100px;
+     position: relative;
+     right: -100px;
+     width: 100px;
+     height: 100px;
+     background-color: brown;
+}
+.content{
+     float: left;
+     width: 100%;
+     height: 100px;
+     background-color: cyan;
+}
+和双飞翼布局很像，优先加载主体
+浮动元素C前面的元素D移走之后C会自动补位，一个浮动元素A移动后覆盖到了浮动元素B，B是不会让位的（原地不动），A覆盖B
+
+6、flex布局
+<div class = "container">
+    <div class = "left"></div>
+    <div class = "right"></div>
+    <div class = "content"></div>
+</div>
+.container{display: flex;}
+.left{
+   order: -1;
+   flex: 0 1 100px;
+   height: 100px;
+   background-color: blueviolet;
+}
+.right{
+   flex: 0 1 100px;
+   height: 100px;
+   background-color: brown;
+}
+.content{
+   flex-grow: 1;
+   height: 100px;
+   background-color: cyan;
+}
+flex布局见csdn收藏：《css三栏布局 圣杯布局 双飞翼 flex》中的链接
+BFC原理也同上
+flex: 1; 也见csdn收藏《flex: 1;详解》
+grid布局也见csdn收藏《前端基础知识(grid布局)》
+
+7、网格布局
+<div class = "container">
+    <div class="left"></div>
+    <div class="content"></div>
+    <div class="right"></div>
+</div>
+.container{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 100px auto 100px;
+    grid-template-rows: 100px;
+}
+.right{background-color: darkgoldenrod;}
+.left{background-color: rgb(11, 184, 40);}
+.content{background-color: rgb(190, 53, 129);}
+
+8、table布局
