@@ -183,12 +183,40 @@ grid布局也见csdn收藏《前端基础知识(grid布局)》
 </div>
 .container{
     display: grid;
-    width: 100%;
+    width: 100%;（可省）
     grid-template-columns: 100px auto 100px;
     grid-template-rows: 100px;
 }
 .right{background-color: darkgoldenrod;}
 .left{background-color: rgb(11, 184, 40);}
 .content{background-color: rgb(190, 53, 129);}
+缺点：内容没有最先加载
 
 8、table布局
+<div class = "container">
+     <div class="left"></div>
+     <div class="content"></div>
+     <div class="right"></div>
+</div>
+.container{
+    display: table;
+    width: 100%;
+}
+.right{
+    display: table-cell;
+    width: 100px;
+    height: 100px;
+    background-color: darkgoldenrod;
+}
+.left{
+    display: table-cell;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(11, 184, 40);
+}
+.content{
+    display: table-cell;
+    background-color: rgb(190, 53, 129);
+}
+缺点也是内容不能最先渲染
+table布局见csdn,uc收藏
