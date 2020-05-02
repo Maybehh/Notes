@@ -1158,7 +1158,7 @@ position脱离文档流之后，就会相对原文档进行位置的确定，没
 div::after{
   content:"";
   clear: both;
-  display: block;
+  display: block;（因为要使clear: both;生效只能是块级元素）
 }
 
 一个块上去后，如果div中的是文本，那么该文本可以感知到浮动元素的存在，此时div和浮动照片在同一行（div感知不到），文本紧贴着浮动照片的右边（文本可以知道）
