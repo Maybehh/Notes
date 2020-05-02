@@ -200,7 +200,7 @@ grid布局也见csdn收藏《前端基础知识(grid布局)》
 </div>
 .container{
     display: table;
-    width: 100%;
+    width: 100%;（table必须要设置宽度）
 }
 .right{
     display: table-cell;
@@ -219,4 +219,6 @@ grid布局也见csdn收藏《前端基础知识(grid布局)》
     background-color: rgb(190, 53, 129);
 }
 缺点也是内容不能最先渲染
-table布局见csdn,uc收藏
+table布局（主要利用其宽度自适应）见csdn,uc收藏
+父级display: table; 子元素display: table-cell; 可以实现导航栏，不用设置每一项的大小，会自动等分
+table-cell会使float position等失效（可以看见他们，具体的不清楚，有待学习）
