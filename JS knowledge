@@ -149,7 +149,7 @@ JavaScript 对象用花括号来书写。对象属性是 name:value 对，由逗
 var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
 上例中的对象（person）有四个属性：firstName、lastName、age 以及 eyeColor
 
-typeof 运算符返回变量或表达式的类型
+typeof 运算符返回变量或表达式的类型（6种，number,string,boolean,undefined,object,function)
 typeof ""                  // 返回 "string"
 typeof "Bill"              // 返回 "string"
 typeof 0                   // 返回 "number"
@@ -163,6 +163,7 @@ var person = null;           // 值是 null，但是类型仍然是对象（obje
 Undefined 与 null 的值相等，但类型不相等
 null === undefined            // false(类型和值都等）
 null == undefined             // true（值）
+null最早是用来占空对象的，所以typeof是object
 
 原始数据：原始数据值是一种没有额外属性和方法的单一简单数据值
 typeof true                // 返回 "boolean"
@@ -364,6 +365,7 @@ var x = 123;
 x.toString();            // 从变量 x 返回 123
 (123).toString();        // 从文本 123 返回 123
 (100 + 23).toString();   // 从表达式 100 + 23 返回 123
+undefined和null可以用String()方法，但是不能用toString(),会报错
 
 toExponential() 返回字符串值，它包含已被四舍五入并使用指数计数法的数字。参数定义小数点后的字符数，该参数是可选的。
 如果您没有设置它，JavaScript 不会对数字进行舍入
@@ -385,6 +387,10 @@ Number(x);        // 返回 NaN
 x = true;
 Number(x);        // 返回 1
 Number("John");   //返回NaN
+Number("123");   //返回123
+Number("-123");   //返回-123
+Number(null);   //返回0
+Number(undefined);  //返回NaN
 Number() 还可以把日期转换为数字：Number(new Date("2019-04-15"));    // 返回 1506729600000
 Number() 方法返回 1970 年 1 月 1 日至今的毫秒数
 
@@ -393,7 +399,15 @@ parseInt("10.33");      // 返回 10
 parseInt("10 20 30");   // 返回 10
 parseInt("10 years");   // 返回 10
 parseInt("years 10");   // 返回 NaN
+parseInt(true);   // 返回 NaN
+parseInt(false);   // 返回 NaN
+parseInt(null);   // 返回 NaN
 如果无法转换为数值，则返回 NaN (Not a Number)
+parseInt(num,radix)，第二个参数表示把num当成是radix进制数来解析，以十进制返回，如parseInt(10,16),把10是16进制，代表十进制16，结果返回16
+二进制如果写3，即parseInt(3,2),返回NaN
+parseFloat()没有第二个参数
+
+二进制转十六进制： 先用a = parseInt(num,2)转成十进制，再用a.toString(16)转成十六进制
 
 数值属性
 MAX_VALUE 返回 JavaScript 中可能的最大数字 var x = Number.MAX_VALUE;
@@ -819,7 +833,9 @@ NaN 的数据类型是数值
 日期的数据类型是对象
 null 的数据类型是对象
 未定义变量的数据类型是 undefined
-尚未赋值的变量的数据类型也是 undefined
+尚未赋值的已定义变量的数据类型也是 undefined
+undefined的数据类型是undefined
+typeof()返回的是6种值全是string类型的，typeof(typeof())得到的结果是string
 
 typeof 运算符不是变量。它属于运算符。运算符（比如 + - * /）没有数据类型
 constructor 属性返回所有 JavaScript 变量的构造器函数
@@ -1455,4 +1471,42 @@ undefined,null,"",NaN,0,false 转换为布尔值都是false
 1、a && b; 看a转化成布尔值，如果是false,就直接返回a的值，如果a是true，然后返回b的值(只有两个数a,b，所以一定返回b）
 2、a && b + 1; 同样先看a的布尔值，false就变成a;  如果a是true,就变成b + 1; （算术运算符优先级大于逻辑，因此先算b+1，b+1是一个整体）
 3、a && b && c; 从左到右一次判定，规则同上
-如果满足第一个就执行第二个的判断作用：2>1 && document.write("hello");
+短路语句：如果&&前面的是false就不执行&&后面的：2>1 && document.write("hello");
+相当于if的作用
+
+||和上面的&&一样，通常用作兼容
+！逻辑运算符是先转成布尔值，再作运算，返回的是布尔值
+注释： html<!--      -->  
+      css/* */   
+      js //或/*  */
+ 
+var i = 0; while(1){document.write(i);i++;} 结果是什么都不打印，一直在加载页面那里转圈
+浏览器会先算一下要输出什么，然后再进行渲染，结果一直算不出来，就一直在加载
+
+i % 7 == 0 || i % 10 == 7 模7和带7
+js天生是浮点型的，var i = 1/3输出是0.33333333
+判断质数：从2开始到根号下自己（包括2和根号下自己），能被整除的次数只有一次（即自己）
+
+可以同一个switch中的case写不同类型，如
+switch(1){
+   case 1: alert("q"); 
+   case "o": alert("o"); 
+   case true: alert("t"); 
+}
+记得加break;
+
+js既面向过程（分解成一步一步）又面向对象（找谁做）
+
+隐式转换：
+isNaN(): 先进行Number()再和NaN进行比对看看是不是NaN，返回布尔值
+a++: 先Number()再++
++/-表正负: 同上， 如a = +"123"; 先Number()后赋给a,typeof(a)是number
++-*%/: 都是先进行Number()
++号两边有一个是字符串：另一个String(),然后拼接
+&& || !: 转换成布尔值
+< > <= >= : 其中有一个是数字，另一个就会隐式转换成数字(NaN和任何东西比都是false),两个都是布尔值也会隐式转换成数字（即Number()）
+== !=: 同<，特例：null == undefined      null == 0 false  null<0 false null>0 false      undefined和0比较 同 null和0比较（系统规定的）
+=== !==： 不发生隐式类型转换   NaN === NaN  false
+
+typeof(a): 其中a是未定义过的，不会报错，打印出来是字符串类型的undefined，因此再typeof()一次，结果是string
+typeof()返回的6个值都是字符串类型的
