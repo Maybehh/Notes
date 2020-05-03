@@ -1502,6 +1502,8 @@ isNaN(): 先进行Number()再和NaN进行比对看看是不是NaN，返回布尔
 a++: 先Number()再++
 +/-表正负: 同上， 如a = -"123"; 先将"123"Number()后再加上-赋给a,typeof(a)是number
                    a = +"123"; 先将"123"Number()后再加上+赋给a
+		   Number()后是NaN，+NaN 和 -NaN结果仍是NaN
+		   NaN加数字仍是NaN
 +-*%/: 都是先进行Number()
 +号两边有一个是字符串：另一个String(),然后拼接
 && || !: 转换成布尔值
@@ -1513,3 +1515,5 @@ typeof(a): 其中a是未定义过的，不会报错，打印出来是字符串�
 typeof()返回的6个值都是字符串类型的
 typeof两种用法：typeof(123);或者typeof 123; 加空格的不常用
 arr = [1,23,4,5]; 输出arr[4]是undefined
+非字符串+""就把非字符串变成字符串了
+if(undefined) undefined转化成布尔值是false，因此不执行
