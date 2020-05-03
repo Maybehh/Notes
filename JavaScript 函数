@@ -1,14 +1,41 @@
+偶合就是重复的意思
+编程要高内聚，弱偶合
+
+直接document.write()函数名，输出的是function 函数名(){方法体} （就是打印整个函数）
+console.log()相当于是在body内部的最后加了个script标签，然后在里面写代码，因此可以输出页面中所有出现过的东西
+
 函数声明：function functionName(parameters) {
    要执行的代码
 }
 被声明的函数不会直接执行。它们被“保存供稍后使用”，将在稍后执行，当它们被调用时
 分号用于分隔可执行的 JavaScript 语句。由于函数声明不是可执行的语句，以分号结尾并不常见
 
-函数表达式可以在变量中存储：var x = function (a, b) {return a * b};
+函数参数的个数不必一一对应，如fn(a,b); 可以fn(1,2,3);这样就只用前两个，每个实参的类型亦可以不同（因此不能有两个同名的函数，编译不过）
+fn(a,b,c); 可以fn(1,2);因为在函数体内var abc，c没有传值，就是undefined
+利用这个特性可以写函数求得任意个数的数的总和(使用arguments)，不然就得把数字写成数组形式传入函数，在函数内再去加
+
+调用的函数传过去的实参会全部记录在函数的arguments数组里（实参列表），通过调用arguments[i]，可以获得传入的每一个实参
+fn(a,b,c)通过fn.length可以获得形参的个数，arguments.length可以获得实参的个数
+
+fn(a,b); 其中a和arguments[0]其中有任意一个变，另一个都得跟着变；a和arguments[0]不是指向同一个地址，是两个不同的地址，但是系统内有一个映射规则规定了
+一个变另一个得跟着变
+但是比如fn(a,b); fn(1); arguments里只有一个1,这个时候函数内部写b=2,arguments[1]不会变，因为压根没有，此时打印arguments[1]输出undefined
+
+函数表达式可以在变量中存储：var x = function (a, b) {return a * b};(在函数体里var了a,b两个变量，然后把参数值赋给他们）
 在变量中保存函数表达式之后，此变量可用作函数：
-var x = function (a, b) {return a * b};
+var x = function (a, b) {return a * b};（参数a,b直接写就好了，不用写int a等，js没有int等，也不用写var)
 var z = x(4, 3);
 存放在变量中的函数不需要函数名。他们总是使用变量名调用。上面的函数使用分号结尾，因为它是可执行语句的一部分
+函数表达式有两种，命名函数表达式（var test = function abc(){};）和匿名函数表达式（var x = function (a, b) {return a * b};）
+往后一般把函数表达式默认为匿名函数表达式
+var test = function abc(){} 其中abc()不能执行函数，是undefined,只能用test();   
+因为function abc(){}是函数表达式，表达式是忽略函数名的（写了会自动忽略），只能用变量名()调用
+
+函数（包括表达式和声明）有个属性，test.name打印的是abc
+demo = function(){}  demo.name打印的是demo
+function hh(){}   hh.name打印的是hh
+
+如果我们没写return的话函数自动在最后加上return;
 
 Function() 构造器：var myFunction = new Function("a", "b", "return a * b");
 大多数情况下，您可以避免在 JavaScript 中使用 new 关键词
