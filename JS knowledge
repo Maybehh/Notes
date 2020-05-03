@@ -1510,3 +1510,4 @@ a++: 先Number()再++
 
 typeof(a): 其中a是未定义过的，不会报错，打印出来是字符串类型的undefined，因此再typeof()一次，结果是string
 typeof()返回的6个值都是字符串类型的
+typeof两种用法：typeof(123);或者typeof 123; 加空格的不常用
