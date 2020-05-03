@@ -20,6 +20,7 @@ fn(a,b,c)通过fn.length可以获得形参的个数，arguments.length可以获�
 fn(a,b); 其中a和arguments[0]其中有任意一个变，另一个都得跟着变；a和arguments[0]不是指向同一个地址，是两个不同的地址，但是系统内有一个映射规则规定了
 一个变另一个得跟着变
 但是比如fn(a,b); fn(1); arguments里只有一个1,这个时候函数内部写b=2,arguments[1]不会变，因为压根没有，此时打印arguments[1]输出undefined
+arr = [1,2,34,5]; 输出arr[4]是undefined
 
 函数表达式可以在变量中存储：var x = function (a, b) {return a * b};(在函数体里var了a,b两个变量，然后把参数值赋给他们）
 在变量中保存函数表达式之后，此变量可用作函数：
