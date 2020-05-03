@@ -1465,7 +1465,7 @@ Infinity == Infinity + 1  true
 NaN == NaN  false(NaN不等于任何，包括自己）
 
 null才是空占位符，Null，NULL等其他的都是变量名
-undefined,null,"",NaN,0,false 转换为布尔值都是false
+undefined,null,""(是空串，不是空格串）,NaN,0,false 转换为布尔值都是false
 
 &&: 
 1、a && b; 看a转化成布尔值，如果是false,就直接返回a的值，如果a是true，然后返回b的值(只有两个数a,b，所以一定返回b）
@@ -1517,3 +1517,4 @@ typeof两种用法：typeof(123);或者typeof 123; 加空格的不常用
 arr = [1,23,4,5]; 输出arr[4]是undefined
 非字符串+""就把非字符串变成字符串了
 if(undefined) undefined转化成布尔值是false，因此不执行
+" "转化成布尔值是true, ""转化成布尔值是false
