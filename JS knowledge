@@ -1518,3 +1518,10 @@ arr = [1,23,4,5]; 输出arr[4]是undefined
 非字符串+""就把非字符串变成字符串了
 if(undefined) undefined转化成布尔值是false，因此不执行
 " "转化成布尔值是true, ""转化成布尔值是false
+
+(window.foo || (window.foo = 'bar')); 代码执行完后window.foo的值是'bar',因为先执行括号，因此window.foo = 'bar'先执行，
+因此window.foo的值是'bar'，因为是||所以不用看后面的了
+但如果是num = (window.foo || (window.foo = "")); 结果num是""，因为先执行window.foo = ""，所以第一个window.foo是false,因此看||后面的
+又执行了window.foo = ""后，就变成window.foo || window.foo 了，所以执行到||后看window.foo，是""，所以返回""
+
+document.write(window.foo = ""),输出的是"" (""赋给window.foo，然后打印window.foo）
