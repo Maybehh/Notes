@@ -260,6 +260,7 @@ A函数里定义有函数B，则在定义A的时候，系统只看得到A
 格式：(function(a,b,c){}(1,2,3)) 不用写函数名 第一个括号是形参，第二个括号是实参,参数规则同普通函数
 可以有返回值，var num = (function(){}())
 另一种写法：(function(){})();
+代码块在内存中依然存在，没有删掉，只是没有东西可以指向它（把自己的AO删了，就不会之后的GO中都带着立即函数的AO了，就可以节省空间）
 
 只有表达式才能被执行符号执行：
 function test(){}(函数声明） test();(test是表达式，因此可以执行）  表达式：abc,123,345等等都是表达式
@@ -281,7 +282,7 @@ function test(){
 function test(){
    console.log("hh");
 }
-(1,2,3,4);（这个是正确语法）
+(1,2,3,4);（这个是正确语法）（最后的结果是4，即依次执行一次，最后返回最后一个表达式的值）
 
 function test(){
    console.log("hh");
@@ -293,3 +294,32 @@ function test(){
 就会往下找A的AO，就找到了
 
 闭包会导致原有作用域链不释放，造成内存泄漏（因为原有作用域链不释放，占用内存，原有的可用的内存少了，即可用的内存变少了，漏了一部分可用的内存出去）
+function test(){
+   var arr = [];
+   for(var i = 0; i < 10; i++){
+      arr[i] = function(){（此处的函数并不会执行，只是把函数赋给arr[i]）
+            console.log(i + " ");
+      }
+   }
+   return arr;
+}
+var myArr = test();
+for(var j = 0; j < 10; j++){
+    myArr[j]();（这时候的myArr[i]上挂的是test的AO和GO和自己创建的AO，这时候test的AO上的i是10，所以就全部打印10
+}
+最后的结果是：10 10 10 10 10 10 10 10 10 10
+现在想要输出0到9：
+function test(){
+   var arr = [];
+   for(var i = 0; i < 10; i++){
+     (function(j){
+        arr[i] = function(){
+            console.log(j + " "); //这时候输出的是j,又因为在定义arr[i] = function这个函数时，前面又定义了一个function(j)函数，因此
+        }                           定义arr[i] = function这个函数的作用域链上有GO,test的AO，function(j)的AO，就把j拿到手了
+      }(i));                        又因为是立即函数，因此每次function(j)的AO都是新的，j的值也就是不同的了
+   return arr;
+}
+var myArr = test();
+for(var j = 0; j < 10; j++){
+    myArr[j]();
+}
