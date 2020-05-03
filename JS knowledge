@@ -370,7 +370,7 @@ undefined和null可以用String()方法，但是不能用toString(),会报错
 toExponential() 返回字符串值，它包含已被四舍五入并使用指数计数法的数字。参数定义小数点后的字符数，该参数是可选的。
 如果您没有设置它，JavaScript 不会对数字进行舍入
 
-toFixed() 返回字符串值，它包含了指定位数小数的数字（四舍五入） toFixed(2) 非常适合处理金钱
+toFixed(n) 返回字符串值，它包含了n位小数的数字（四舍五入） toFixed(2) 非常适合处理金钱
 toPrecision() 返回字符串值，它包含了指定长度的数字（四舍五入）整数加小数
 
 valueOf() 以数值返回数值 数字可以是原始值（typeof = number）或对象（typeof = object）(to String()也一样)
