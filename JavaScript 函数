@@ -323,6 +323,19 @@ var myArr = test();
 for(var j = 0; j < 10; j++){
     myArr[j]();
 }
+有关索引一般是闭包
+利用上述，可以实现点击一个li，打印li在它的ul中的索引：
+function test(){
+    var liCollection = document.getElementByTagName("li");
+    for(var i = 0; i < liCollection.length; i++) {
+          (function(j){
+              liCollection[j].onclick = function(){
+                    console.log(j);
+              }
+           }(i))
+    }
+}
+test();
 
 闭包实例：
 1、实现共有变量
