@@ -323,3 +323,43 @@ var myArr = test();
 for(var j = 0; j < 10; j++){
     myArr[j]();
 }
+
+闭包实例：
+1、实现共有变量
+eg:函数计数器（不依靠外部变量，执行一次函数，计数值加一）
+function add(){
+     var num;
+     function a(){
+          console.log(++num);
+     }
+     return a;
+}
+var myAdd = add();
+myAdd();
+myAdd();
+执行一次函数，num加一
+
+2、做缓冲结构(保存结果，多个函数可以使用、更改）
+（把多个函数返回出来，写对象，对象包含要返回的多个函数）
+function test(){
+    var food = "apple";
+    var obj = {
+        eatFood: function(){
+            if(food != ""){
+               console.log("I am eating " + food);
+               food = "";
+            }else{
+               console.log("There is nothing!");
+            }
+        }
+        pushFood: function(myFood){
+            food = myFood;
+        }
+    }
+    return obj;
+}
+var person = test();
+person.eatFood();
+person.eatFood();
+person.pushFood("banana");
+person.eatFood();
