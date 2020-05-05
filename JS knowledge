@@ -360,12 +360,15 @@ myNumber.toString(2);      // 返回 10000000
 var x = 123;// typeof x 返回 number
 var y = new Number(123);// typeof y 返回 object
 数字方法：
-toString() 以字符串返回数值。所有数字方法可用于任意类型的数字（字面量、变量或表达式）
+toString() 变成字符串返回。所有数字方法可用于任意类型的数字（字面量、变量或表达式）
 var x = 123;
-x.toString();            // 从变量 x 返回 123
+x.toString();            // 从变量 x 返回 123 字符串
 (123).toString();        // 从文本 123 返回 123
 (100 + 23).toString();   // 从表达式 100 + 23 返回 123
 undefined和null可以用String()方法，但是不能用toString(),会报错
+和String()差不多，就是纯数字的话可以改变进制再返回字符串（只有纯数字可以改变进制）
+"10".toString() 返回字符串10 这时候改进制，返回的仍然是字符串10 字符串可以直接"".toString()
+(10).toString() 返回字符串10 改成16进制，返回字符串a，纯数字必须加()才可以.toString()，不然会报错
 
 toExponential() 返回字符串值，它包含已被四舍五入并使用指数计数法的数字。参数定义小数点后的字符数，该参数是可选的。
 如果您没有设置它，JavaScript 不会对数字进行舍入
@@ -404,7 +407,8 @@ parseInt(false);   // 返回 NaN
 parseInt(null);   // 返回 NaN
 如果无法转换为数值，则返回 NaN (Not a Number)
 parseInt(num,radix)，第二个参数表示把num当成是radix进制数来解析，以十进制返回，如parseInt(10,16),把10是16进制，代表十进制16，结果返回16
-二进制如果写3，即parseInt(3,2),返回NaN
+二进制如果写3（除1，0以外的数字），即parseInt(3,2),返回NaN   
+parseInt(3,0)，有的浏览器返回3(原数字)，有的返回NaN
 parseFloat()没有第二个参数
 
 二进制转十六进制： 先用a = parseInt(num,2)转成十进制，再用a.toString(16)转成十六进制
