@@ -1,3 +1,8 @@
+num++;在控制台中，也是打印未加前，打印后再加1，也就是和在表达式中一样的用法
+控制台打印会返回值，打印属性就会返回属性值，如果是属性值是函数就会执行函数，打印函数里要求打印的，如果函数有写return，就会返回return的值
+如果没有return就会返回undefined（在控制台会再起一行打印返回的东西）
+字符串单双引号都可以，但后端php都是单引号，写双引号系统会自动转换成单引号，为了效率，写单引号
+
 所有 JavaScript 值，除了原始值，都是对象
 
 原始值指的是没有属性或方法的值。原始数据类型指的是拥有原始值的数据。
@@ -16,16 +21,45 @@ fullName	function() {return this.firstName + " " + this.lastName;}
 JavaScript 对象是被称为属性和方法的命名值的容器
 
 创建 JavaScript 对象：
-使用对象字面量，这是创建对象最简答的方法。使用对象文字，您可以在一条语句中定义和创建对象。
+1、使用对象字面量（或者叫对象直接量，plainObject），这是创建对象最简答的方法。使用对象文字，您可以在一条语句中定义和创建对象。
 对象文字指的是花括号 {} 中的名称:值对（比如 age:62）
 var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
 
-使用 JavaScript 关键词 new：
+2、使用 JavaScript 关键词 new：有系统给定的
+也可以自己定义(和普通函数没区别，命名用大驼峰(第一个单词首字母也大写，第一个单词首字母不大写后续单词首字母大写是小驼峰)，就是创建该对象实例的时候用new）
+如：function Car(color,name){  //用this写，可以传参
+        this.color = color; 
+        this.name = name;
+        this.health = 100;
+        this.run = function(){
+             this.health--;
+        }
+   }
+var Car = new Car(); 这样写在预编译的时候会覆盖，最后的结果看实际的程序
+
 var person = new Object();
 person.firstName = "Bill";
 person.lastName = "Gates";
 person.age = 50;
 person.eyeColor = "blue"; 
+
+构造函数原理：（有new就会发生以下步骤）
+1、会先在函数体第一行隐式创建一个this的空对象
+2、会在函数体最后隐式创建一个return this
+function Car(color,name){  //用this写，可以传参
+       //var this = {};  AO{this: {}},然后通过后续的this.往里面加属性值
+        this.color = color; 
+        this.name = name;
+        this.health = 100;
+        this.run = function(){
+             this.health--;
+        }
+       //return this;
+   }
+因此，可以不用new，只要在函数里自己显示创建一个that（不可以用关键字this，随便起个变量名字）空对象，然后that.什么的，最后 return that;
+然后直接调用函数，就可以实现构造函数的作用
+
+但是如果在构造函数里自己显式return {}; 就会得到空对象； 但是显式return其他值，就不会起作用，还是会返回正确的对象
 
 对象是易变的：它们通过引用来寻址，而非值。如果 person 是一个对象，下面的语句不会创建 person 的副本：
 var x = person;  // 这不会创建 person 的副本。
@@ -58,6 +92,7 @@ var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
 delete person.age;   // 或 delete person["age"];
 delete 关键词会同时删除属性的值和属性本身。删除完成后，属性在被添加回来之前是无法使用的。delete 操作符被设计用于对象属性。它对变量或函数没有影响。
 delete 操作符不应被用于预定义的 JavaScript 对象属性。这样做会使应用程序崩溃
+对象没有该属性会打印undefined而不是报错
 
 值是属性的特性之一。其他特性包括：可列举、可配置、可写。这些特性定义了属性被访问的方式（是可读的还是可写的？）
 在 JavaScript 中，所有属性都是可读的，但是只有值是可修改的（只有当属性为可写时）
@@ -213,15 +248,31 @@ function Person(firstName, lastName, age, eyeColor) {
 JavaScript 提供用于原始对象的构造器：
 var x1 = new Object();    // 一个新的 Object 对象
 var x2 = new String();    // 一个新的 String 对象
-var x3 = new Number();    // 一个新的 Number 对象
+var x3 = new Number();    // 一个新的 Number 对象 
+（得到的是Number对象，就可以加其他属性了，仍然可以直接作数学运算，但乘完后就变回数字了，而不是数字对象了），字符串、布尔的new一样
 var x4 = new Boolean();   // 一个新的 Boolean 对象
 var x5 = new Array();     // 一个新的 Array 对象
 var x6 = new RegExp();    // 一个新的 RegExp 对象
 var x7 = new Function();  // 一个新的 Function 对象
 var x8 = new Date();      // 一个新的 Date 对象
 Math() 对象不在此列。Math 是全局对象。new 关键词不可用于 Math
-
+undefined和null不能有属性，会报错
 无理由创建复杂的对象。原始值快得多！
+
+包装类：
+var num = 1;
+num.lenth = 3;//系统会自动new Number(1).len = 3;(和var的num不是同一个，是新建的) 然后会执行delete命令，删除系统自动创建的Number对象,因此不会报错
+console.log(num.lenth);//系统又再次创建Number(1)，然后找lenth属性，number对象是没有length属性的
+（这个是新的，上一个被自动销毁了，因此是两个不一样的Number对象，虽然值一样），但是并未给该Number对象加lenth属性，因此打印undefined
+（当然可以自加属性，但是得看程序在具体情况下判断输出的时候是否有该属性）
+
+arr = [1,2,3,4];
+arr.length = 2; //数组会被截断，变成arr = [1,2];
+
+var str = "abcd";
+str.length = 2; //系统new String("abcd").length = 2; 系统新建的String对象被截成ab,随之删除。 原来的str不变，因此再打印str结果是abcd
+console.log(str.length); 
+//系统new String("abcd").length,结果是4 字符串对象有length属性，这里的结果是新建new String("abcd")对象的length,原来的原始数据类型str是没有属性的
 
 所有 JavaScript 对象都从原型继承属性和方法
 无法为已有的对象构造器添加新属性
