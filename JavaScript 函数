@@ -208,6 +208,8 @@ js运行三部曲：
 1、创建AO对象（Activation Object 执行期上下文）
 2、找形参和变量声明（var)，将变量和形参名作为AO的属性名，值为undefined（只是挂名，var的变量的值不看，全部是先赋值undefined，重复的只挂一个）
    （只要是在函数A体里的var就算，不管是在if里的、for里的，函数A里有另一个函数B声明（或表达式）里面的var不算，因为那是属于B的AO对象里的成员）
+   var f = function b(){} 中f是变量声明，b不是函数声明，是函数表达式
+   var f = (function b(){},function c(){})(); 逗号表达式是不会预编译的，因此AO里不会有b c
    也就是说只能是第一级的var和函数声明（if、for里的var function（现在不可以function了）是第一级，function里的function和var是下一级了）
 3、将实参值和形参统一（把AO对象中的形参名属性的值改为实参传递的值）
 4、在函数体里找函数声明，值赋予函数体（将函数声明的函数名作为属性名挂在AO对象上，同样AO如果已有同样的属性名就不用写，然后把函数赋给相应的属性名，
@@ -376,3 +378,29 @@ person.eatFood();
 person.eatFood();
 person.pushFood("banana");
 person.eatFood();
+
+unicode≤255占一个字节，大于255占两个字节
+
+var f = (
+     function f() {
+        return "1";
+     },
+     function g() {
+        return 2;
+     }
+)();
+console.log(typeof(f));
+输出的结果是number   因为是，表达式，所以都执行，最后返回function g() {return 2;}，就变成var f = function g(){return 2;}();  最后的结果是f=2；
+
+var x = 1;
+if(function f(){}){
+    x += typeof f;
+}
+console.log(x);
+结果是字符串 1undefined
+function f(){}转换成布尔值是true(不是那6个值之一),因此执行x += typeof f; 
+又function f(){}被外层的数学符号()变成表达式了， 因此f已经不见了（函数声明变成表达式了，函数不存在了，所以f不存在了)
+typeof f ,f不存在了，一个从未声明也未赋值的变量，typeof结果是undefined（其他使用的结果会报错，只有typeof有结果是undefined）
+又undefined是字符串，因此结果是1undefined的字符串
+
+1 + undefined(非字符串) 的结果是NaN
