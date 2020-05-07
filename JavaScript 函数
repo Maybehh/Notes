@@ -441,7 +441,7 @@ function Person(){
            }
 }
 person = new Person(); 因此person.__proto__指向的是Person.prototype，person得到的是this对象，因此没有prototype属性
-因此在person.属性名找不到自己的，就会通过__proto__属性找到Person.prototype，然后在Person.prototype里找所需的对象
+因此在person.属性名找不到自己的，就会通过__proto__属性找到Person.prototype，然后在Person.prototype里找所需的属性
 可以更改__proto__的指向，让他指向其他的对象
 
 var obj = {name: 'a'};
@@ -462,7 +462,24 @@ Person.prototype = {name: "cherry";}
 var person = new Person();
 如果是先改后再new,打印就是cherry（因为person的__proto__指向的是后来的Person.prototype）
 
+默认的Person.prototype = {}; 又因为{}相当于 new Object(); 所以{}的__proto__为Object.prototype,因此Person.prototype指向Object.prototype
 任何构造函数的prototype无指定特殊__proto__的构造函数的prototype.__proto__ = Object.prototype;
 Object.prototype.__proto__ = null;
+Object.prototype.constructor = Object();
 
 谁调用方法，方法里的this就指向调用方法的对象
+
+Object.create(原型)可以创建__proto__为括号里参数的对象
+如：var obj = {name: "a", age: "10"}
+则var obj1 = Object.create(obj);  创建原型为obj的对象obj1，即obj1.__proto__ = obj;  (因为原型也是对象,任何对象都有可能作为一个对象的__proto__)
+Object.create()必须有参数，不然报错，参数只能是一个对象或者null，Object.create(123)是不可以的，因为123是基础值（如果是123数字对象就可以）
+Object.create(null)创建的对象的__proto__是null
+__proto__属性可以改，但是不能加（从无（__proto__ : null）到有是不可以的）
+因此绝大多数对象最终都会继承于Object.prototype（比如__proto__是null就不继承于Object.prototype)
+
+因此123.toString()是可以的，会经过包装类变成number对象，然后经过原型链找到Object的toString()
+undefined不能包装类，因此找不到原型，也就没有toString()  null同
+123.toString()不可以的原因，js中默认是浮点型的，因此被看成123.，因此可以加括号或者变成变量
+number对象的prototype有toString()，因此会调用number的prototype里的
+而Object.prototype.toString()打印的是[object 数据类型]的字符串
+document.write(a);实际是a.toString(); 所以可能有的会报错
