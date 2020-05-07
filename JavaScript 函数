@@ -400,6 +400,21 @@ person.eatFood();
 person.pushFood("banana");
 person.eatFood();
 
+3、实现变量私有化
+function test(){
+   var arr = [];
+   for(var i = 0; i < 10; i++){
+      arr[i] = function(){（此处的函数并不会执行，只是把函数赋给arr[i]）
+            console.log(i + " ");
+      }
+   }
+   return arr;
+}
+var myArr = test();
+myArr.i直接访问看不到i的，是undefined
+但只要执行myArr()就可以看得见i的值
+只有自己知道存在，别人直接访问不行，得通过一定方法才可以看见（私有化）
+
 unicode≤255占一个字节，大于255占两个字节
 
 var f = (
@@ -542,3 +557,14 @@ Target.prototype指向的是新new的F对象，F构造函数的prototype指向�
 target.__proto__ ---> new F()(new F()是对象，没有prototype，因此没有constructor).__proto__ ---> F.prototype ---> Origin.prototype
 ---> Origin()
 
+雅虎的写法：
+var inherit = (function(){
+    var F = function(){};
+    return function(Target, Origin){
+        F.prototype = Origin.prototype;
+        Target.prototype = new F();
+        Target.prototype.constructor = Target;
+        Target.prototype.uber = Origin.prototype;
+    }  
+}());
+可以实现把F函数私有化（通过.是得不到的，得通过一定调用）（闭包）
