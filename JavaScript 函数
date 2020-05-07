@@ -122,7 +122,9 @@ myObject.fullName();          // 将返回 [object Object]（拥有者对象）
 构造器调用会创建新对象。新对象会从其构造器继承属性和方法，构造器内的 this 关键词没有值。this 的值会成为调用函数时创建的新对象
 
 fullName 属性属于 person 对象的方法
-call() 方法是预定义的 JavaScript 方法。它可以用来调用所有者对象作为参数的方法(改变this的指向）
+
+function hh(){}   hh();其实等于hh.call(); 平时调用函数声明类的函数其实是函数名.call();
+call() 方法是预定义的 JavaScript 方法。它可以用来调用所有者对象作为参数的方法(改变this的指向，没写参数具体指向的，原来this该指向谁就指向谁）
 var person = {
     fullName: function() {
         return this.firstName + " " + this.lastName;
@@ -136,7 +138,10 @@ var person2 = {
     firstName:"Steve",
     lastName: "Jobs",
 }
-person.fullName.call(person1);  // 将返回 "Bill Gates" （调用person的fullName()方法，改变fullName()方法中的this的指向为person1)
+person.fullName.call(person1);  // 将返回 "Bill Gates" 
+（call改变this指向，执行fullName(),fullName()里的this指的是person1，即fullName里的this全部改为person1)
+因此借助call可以在person1中增加属性或更改属性值（借用别人的函数实现自己的功能）
+
 带参数的call()：
 var person = {
   fullName: function(city, country) {
@@ -148,6 +153,18 @@ var person1 = {
   lastName: "Gates"
 }
 person.fullName.call(person1, "Seattle", "USA");（第一个是this指向的对象,后续是fullName()方法的参数列表）
+实例：
+function Person(name,age,sex){
+     this.name = name;
+     this.age = age;
+     this.sex = sex;
+}
+function Student(name,age,sex,tel,grade){
+     //var this = {}(写个代号this1)(接下来的this都是我）
+     Person.call(this,name,age,sex);(代号this1)，因此Person里的this指向的是this1
+     this.tel = tel;(代号this1)
+     this.grade = grade;(代号this1)
+}
 
 apply() 方法与 call() 方法非常相似，不同之处是：call() 方法分别接受参数。apply() 方法接受数组形式的参数。
 如果要使用数组而不是参数列表，则 apply() 方法非常方便
@@ -483,3 +500,9 @@ undefined不能包装类，因此找不到原型，也就没有toString()  null�
 number对象的prototype有toString()，因此会调用number的prototype里的
 而Object.prototype.toString()打印的是[object 数据类型]的字符串
 document.write(a);实际是a.toString(); 所以可能有的会报错
+
+0.14*100等于14.00000000002
+js在计算小数时会精度不准（bug)
+计算两位小数*100，一般先乘以100然后再用Math.floor()取整，就不会出现.0000...的情况
+目前计算机只能正常处理小数点前16位，小数点后16位（太多位就用科学计数法表示）
+
