@@ -159,12 +159,13 @@ function Person(name,age,sex){
      this.age = age;
      this.sex = sex;
 }
-function Student(name,age,sex,tel,grade){
+function Student(name,age,sex,tel,grade){//写成这样的方法得new出来的才有意义，不然不会创建this
      //var this = {}(写个代号this1)(接下来的this都是我）
      Person.call(this,name,age,sex);(代号this1)，因此Person里的this指向的是this1
      this.tel = tel;(代号this1)
      this.grade = grade;(代号this1)
 }
+var student = new Student(.....);
 
 apply() 方法与 call() 方法非常相似，不同之处是：call() 方法分别接受参数。apply() 方法接受数组形式的参数。
 （数组传送后会进行解析，和形参一一对应，就好像是直接把实参写成arguments的形式）
@@ -507,3 +508,10 @@ js在计算小数时会精度不准（bug)
 计算两位小数*100，一般先乘以100然后再用Math.floor()取整，就不会出现.0000...的情况
 目前计算机只能正常处理小数点前16位，小数点后16位（太多位就用科学计数法表示）
 
+传统继承：原型链
+缺点：过多的继承了没用的属性
+借用构造函数：call
+缺点：不能继承借用构造函数的原型 每次构造函数都要多走一个函数
+共享原型：Son.prototype = Father.prototype; (构造函数Son的prototype指向构造函数Father的prototype,两个共用一个prototype，一个修改了另一个也会变）
+缺点：一个变另一个也会变
+圣杯模式：
