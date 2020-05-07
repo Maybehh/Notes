@@ -429,7 +429,7 @@ typeof f ,f不存在了，一个从未声明也未赋值的变量，typeof结果
 原型是function对象(函数也是对象)的一个属性，它定义了构造函数制造出的对象的公共祖先
 function Person(){
    prototype:{
-      constructor: Person();
+      constructor: Person; （不加括号，加了()执行符号就立即执行了）
       __proto__: ...;
       ....: ....;
    }
@@ -447,9 +447,19 @@ person.constructor 返回person的构造函数Person();
 构造函数A制造的对象a通过 a.属性名 可以继承访问A中的prototype的属性(a没有prototype这一属性，因此没有a.prototype这一写法）
 a.属性名 会优先访问对象自己有的，没有再去构造函数A的prototype中找
 a.属性名 只能更改和增加自己a的属性，构造函数A中的prototype中的属性a是更改不了的（a.属性名：a中没有的，就会在a中新建属性；a中有就会更改a中的属性）
-a其实可以改变A的prototype中的属性，不过只能改引用的，如A的prototype中的属性fortune是个对象，进行a.fortune.card2 = "visa";  
-则在A的prototype中的属性fortune有card2这个属性，即是在fortune这个对象里加属性，而不是基本数据类型的修改值
-即a不可以修改和增加A的prototype属性中的基本数据类型，但可以增加修改A的prototype属性的引用数据类型（.两次及以上的是在A里操作的）
+
+a其实可以改变A的prototype中的属性，不过只能改引用的
+A的prototype中的属性fortune是个对象，原本有A.prototype.fortune = {card1: "visa"}（a中没有fortune这个对象，有的话自然就只访问a的fortune了）
+1、进行a.fortune.card1 = "passport";  
+在A的prototype中的属性fortune有card1这个属性，在fortune这个对象里修改card1属性，
+A.prototype.fortune = {card1: "passport"},a中没有生成fortune对象
+2、进行a.fortune.card2 = "passport";（不管1，还是按A.prototype.fortune = {card1: "visa"}开始）
+在A的prototype中的属性fortune没有card2这个属性，在A的fortune这个对象里增加card2属性，
+A.prototype.fortune = {card1: "visa",card2 = "passport"},a中没有生成fortune对象
+delete a.fortune.card2 = "passport"; 此时A.prototype.fortune = {card1: "visa"}，即都是在A中操作，a中没有生成
+总结：a不可以修改和增加A的prototype属性中的基本数据类型，只能访问（只取值），增加和修改（赋值）只会在a中生成相应的属性
+a可以增加修改A的prototype属性的引用数据类型（.两次及以上的是在A里操作的,a中没有东西生成）
+数组也是引用类型，也都是在A中操作
 
 在开发的时候，_private这样的名字告诉同事不要动这个变量，私人的
 __private__前两杠后两杠是系统定义的尽量不更改的
@@ -514,4 +524,21 @@ js在计算小数时会精度不准（bug)
 缺点：不能继承借用构造函数的原型 每次构造函数都要多走一个函数
 共享原型：Son.prototype = Father.prototype; (构造函数Son的prototype指向构造函数Father的prototype,两个共用一个prototype，一个修改了另一个也会变）
 缺点：一个变另一个也会变
-圣杯模式：
+圣杯模式：（下面的function）
+function inherit(Target,Origin){
+    function F(){};
+    F.prototype = Origin.prototype;
+    Target.prototype = new F();
+    Target.prototype.constructor = Target;  //添加个属性记录原本的构造函数
+    Target.prototype.uber = Origin.prototype;  //添加个属性记录原本真正的继承超类（原本真正是继承谁）
+}
+
+var target = new Target();
+var origin = new Origin();
+Target.prototype指向的是新new的F对象，F构造函数的prototype指向的是和Origin.prototype同一个,
+这样在Target.prototype中加东西，就可以只加在自己的prototype（加在了F对象里）,而Origin.prototype仍不会改变
+但Target又可以通过F的prototype来继承Origin.prototype的东西
+但这时target的constructor就指向Origin()了
+target.__proto__ ---> new F()(new F()是对象，没有prototype，因此没有constructor).__proto__ ---> F.prototype ---> Origin.prototype
+---> Origin()
+
