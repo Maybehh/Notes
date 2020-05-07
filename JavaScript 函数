@@ -167,6 +167,7 @@ function Student(name,age,sex,tel,grade){
 }
 
 apply() 方法与 call() 方法非常相似，不同之处是：call() 方法分别接受参数。apply() 方法接受数组形式的参数。
+（数组传送后会进行解析，和形参一一对应，就好像是直接把实参写成arguments的形式）
 如果要使用数组而不是参数列表，则 apply() 方法非常方便
 var x = person.fullName.apply(person1, ["Seatle", "USA"]); 
 Math.max.apply(null, [1,2,3]); // 也会返回 3（Math.max没有this，所以可以指向其他)
