@@ -428,6 +428,9 @@ person.constructor 返回person的构造函数Person();
 构造函数A制造的对象a通过 a.属性名 可以继承访问A中的prototype的属性(a没有prototype这一属性，因此没有a.prototype这一写法）
 a.属性名 会优先访问对象自己有的，没有再去构造函数A的prototype中找
 a.属性名 只能更改和增加自己a的属性，构造函数A中的prototype中的属性a是更改不了的（a.属性名：a中没有的，就会在a中新建属性；a中有就会更改a中的属性）
+a其实可以改变A的prototype中的属性，不过只能改引用的，如A的prototype中的属性fortune是个对象，进行a.fortune.card2 = "visa";  
+则在A的prototype中的属性fortune有card2这个属性，即是在fortune这个对象里加属性，而不是基本数据类型的修改值
+即a不可以修改和增加A的prototype属性中的基本数据类型，但可以增加修改A的prototype属性的引用数据类型（.两次及以上的是在A里操作的）
 
 在开发的时候，_private这样的名字告诉同事不要动这个变量，私人的
 __private__前两杠后两杠是系统定义的尽量不更改的
@@ -461,3 +464,5 @@ var person = new Person();
 
 任何构造函数的prototype无指定特殊__proto__的构造函数的prototype.__proto__ = Object.prototype;
 Object.prototype.__proto__ = null;
+
+谁调用方法，方法里的this就指向调用方法的对象
