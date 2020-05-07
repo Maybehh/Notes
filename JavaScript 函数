@@ -407,8 +407,18 @@ typeof f ,f不存在了，一个从未声明也未赋值的变量，typeof结果
 
 1 + undefined(非字符串) 的结果是NaN
 
+原型是function对象(函数也是对象)的一个属性，它定义了构造函数制造出的对象的公共祖先
+function Person(){
+   prototype:{
+      constructor: ...;
+      _proto_: ...;
+      ....: ....;
+   }
+   ...
+}
 person = new Person();
 原型也是对象,Person.prototype = {}
 person.constructor 返回person的构造函数Person();
 系统会自动给原型增加一个constructor和_proto_两个属性（浅粉色，自己手动增加的属性是深粉色）都可以进行手动更改
 通过构造函数Person的prototype可以更改constructor
+构造函数制造的对象通过 对象名.prototype.属性名 继承访问
