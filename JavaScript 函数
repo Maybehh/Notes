@@ -410,8 +410,8 @@ typeof f ,f不存在了，一个从未声明也未赋值的变量，typeof结果
 原型是function对象(函数也是对象)的一个属性，它定义了构造函数制造出的对象的公共祖先
 function Person(){
    prototype:{
-      constructor: ...;
-      _proto_: ...;
+      constructor: Person();
+      __proto__: ...;
       ....: ....;
    }
    ...
@@ -428,3 +428,36 @@ person.constructor 返回person的构造函数Person();
 构造函数A制造的对象a通过 a.属性名 可以继承访问A中的prototype的属性(a没有prototype这一属性，因此没有a.prototype这一写法）
 a.属性名 会优先访问对象自己有的，没有再去构造函数A的prototype中找
 a.属性名 只能更改和增加自己a的属性，构造函数A中的prototype中的属性a是更改不了的（a.属性名：a中没有的，就会在a中新建属性；a中有就会更改a中的属性）
+
+在开发的时候，_private这样的名字告诉同事不要动这个变量，私人的
+__private__前两杠后两杠是系统定义的尽量不更改的
+
+function Person(){
+     //隐式var this = {
+               __proto__: Person.prototype;
+           }
+}
+person = new Person(); 因此person.__proto__指向的是Person.prototype，person得到的是this对象，因此没有prototype属性
+因此在person.属性名找不到自己的，就会通过__proto__属性找到Person.prototype，然后在Person.prototype里找所需的对象
+可以更改__proto__的指向，让他指向其他的对象
+
+var obj = {name: 'a'};
+var obj1 = obj;
+obj = {name: 'b'}
+则obj1 = {name: 'a'}; 
+因为obj = {name: 'b'}是重新赋值，创建了一个新的地址，然后obj指向。如果是obj.name = 'b'; 就是在原来的地址上改，那这时obj1 = {name: 'b'}; 
+因此：
+Person.prototype.name = "sunny";
+var person = new Person();
+Person.prototype.name = "cherry";
+person.name打印的是cherry
+如果Person.prototype = {name: "cherry";}
+person.name打印的是sunny(因为person的__proto__指向的是原来的Person.prototype)
+
+Person.prototype.name = "sunny";
+Person.prototype = {name: "cherry";}
+var person = new Person();
+如果是先改后再new,打印就是cherry（因为person的__proto__指向的是后来的Person.prototype）
+
+任何构造函数的prototype无指定特殊__proto__的构造函数的prototype.__proto__ = Object.prototype;
+Object.prototype.__proto__ = null;
