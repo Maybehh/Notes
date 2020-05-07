@@ -417,8 +417,14 @@ function Person(){
    ...
 }
 person = new Person();
+new后，Person中除prototype属性，其他的属性都会在对象person中创建。Person的prototype属性可以被person通过person.属性名直接访问
+（person没有prototype这一属性，因此没有person.prototype这一写法）
+
 原型也是对象,Person.prototype = {}
 person.constructor 返回person的构造函数Person();
 系统会自动给原型增加一个constructor和_proto_两个属性（浅粉色，自己手动增加的属性是深粉色）都可以进行手动更改
 通过构造函数Person的prototype可以更改constructor
-构造函数制造的对象通过 对象名.prototype.属性名 继承访问
+
+构造函数A制造的对象a通过 a.属性名 可以继承访问A中的prototype的属性(a没有prototype这一属性，因此没有a.prototype这一写法）
+a.属性名 会优先访问对象自己有的，没有再去构造函数A的prototype中找
+a.属性名 只能更改和增加自己a的属性，构造函数A中的prototype中的属性a是更改不了的（a.属性名：a中没有的，就会在a中新建属性；a中有就会更改a中的属性）
