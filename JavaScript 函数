@@ -621,6 +621,15 @@ var obj = {
 for(var key in obj){（会把obj中的属性名依次传给key，第一次是a,第二次是b,第三次是c，因此用于遍历对象的属性）
     obj[key]++;
 }
+for(var key in obj){
+    obj.key++;
+}结果会变成
+var obj = {
+   a: 1,
+   b: 2,
+   c: 3，
+   key: NaN
+}
 
 var obj = {
     name: "a",
@@ -632,3 +641,40 @@ for(var prop in obj){（typeof(prop)结果是string）
 }结果打印3个undefined，因为obj.prop被隐式转换成obj['prop'],就变成了打印obj的prop属性，由于obj中没有prop属性，因此打印3次undefined
 改成obj[prop]就可以了，此时prop是变量，每一次的值是属性名（字符串）
 
+var obj = {
+    name: "a",
+    age: 12,
+    height: 180,
+    __proto__: {
+        lastName: "deng"
+    }
+}
+这样子遍历的时候会把lastName一起拿出来，即会把从原型继承的属性也一起遍历出来
+for(var prop in obj){（typeof(prop)结果是string）
+   if(obj.hasOwnProperty(prop){ 判断属性是否是自己的（不包括继承的），过滤不是自己的属性
+      console.log(obj[prop]);
+   }
+}
+
+for in 循环会沿着原型链一直往上遍历
+for in 循环不会遍历到系统自带的属性，Object的属性
+（系统自带的属性不会遍历到（如prototype,__proto__等），但是自己手动在里面加的也会遍历，Object.prototype.abc = "123"; 则也会遍历到属性abc）
+
+in： "height" in obj 判断obj能不能调用height属性（自己和原型链上的），记得一定是 属性字符串 in 对象，没加""就是变量了，会报错
+hasOwnProperty()只判断是不是自己的（不包括原型链上的）
+
+B.prototype也是个对象，因此它也有__proto__，这样就形成了原型链
+有prototype的只有构造函数，普通对象只有__proto__属性
+A instanceof B 看A对象的原型链上是否有B的原型(B.prototype)
+数组也是对象  [] instanceof Array 返回true
+
+可以在控制台写[] instanceof Array 结果是true
+但不可以写{} instanceof Object 会报错  var Obj = {}  obj instanceof Object 就可以
+
+判断是数组还是对象：
+1、arr.constructor
+2、arr instanceof Array
+3、Object.prototype.toString.call(arr);
+Object.prototype.toString.call([]); 结果是"[object Array]"
+Object.prototype.toString.call(123); 结果是"[object Number]"
+Object.prototype.toString.call({}); 结果是"[object Object]"
