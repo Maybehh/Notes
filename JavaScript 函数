@@ -668,8 +668,8 @@ B.prototype也是个对象，因此它也有__proto__，这样就形成了原型
 A instanceof B 看A对象的原型链上是否有B的原型(B.prototype)
 数组也是对象  [] instanceof Array 返回true
 
-可以在控制台写[] instanceof Array 结果是true
-但不可以写{} instanceof Object 会报错  var Obj = {}  obj instanceof Object 就可以
+可以在控制台写[] instanceof Array 结果是true  因为[]不可能是变量名，因此直接写就是数组数据类型了
+但不可以写{} instanceof Object 会报错（系统规定）  var Obj = {}  obj instanceof Object 就可以
 
 判断是数组还是对象：
 1、arr.constructor
@@ -681,3 +681,4 @@ Object.prototype.toString.call({}); 结果是"[object Object]"
 
 null instanceof Object 返回false, null原本是设计作Object空占位符，因此typeof(null)是"object"
 但本质上null并不是Object数据类型，因此null instanceof Object 返回false
+null没有prototype，因此null instanceof null报错
