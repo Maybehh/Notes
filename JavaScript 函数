@@ -569,3 +569,66 @@ var inherit = (function(){
 }());
 可以实现把F函数私有化（通过.是得不到的，得通过一定调用）（闭包）
 建议写雅虎的
+
+命名空间：自己写的放到一个对象里，避免冲突，现在不这么用了
+闭包的解决方式：
+var init = (function(){
+     var name = 123;
+     function callName(){
+        console.log(name);
+     }
+     return function(){
+        callName();
+     }
+}());
+init(); 这样子就可以打印出name  把功能写在一个函数里，执行函数就可以执行对应的功能，而且不与全局变量冲突，不与其他人的代码同名冲突
+（init是初始化的意思，经常用此作为入口函数）
+
+函数默认返回undefined
+var deng = {
+    smoke: function(){
+        console.log("smoking cool");
+        return this;
+    },
+    drink: function(){
+        console.log("drinking cool");
+        return this;
+    },
+    perm: function(){
+        console.log("perming cool");
+        return this;
+    }
+}
+这样子就可以连续调用了，deng.smoke().drink().perm().smoke();
+
+obj.name会被隐式转换成obj['name']
+var deng = {
+     wife1: {name: "a"},
+     wife2: {name: "b"},
+     wife3: {name: "c"},
+     sayWife: function(num){
+         return this['wife'+num];
+     }
+}
+deng.sayWife(1);
+
+对象枚举(enum)(也就是遍历）：
+var obj = {
+   a: 1,
+   b: 2,
+   c: 3
+}
+for(var key in obj){（会把obj中的属性名依次传给key，第一次是a,第二次是b,第三次是c，因此用于遍历对象的属性）
+    obj[key]++;
+}
+
+var obj = {
+    name: "a",
+    age: 12,
+    height: 180
+}
+for(var prop in obj){（typeof(prop)结果是string）
+    console.log(obj.prop);
+}结果打印3个undefined，因为obj.prop被隐式转换成obj['prop'],就变成了打印obj的prop属性，由于obj中没有prop属性，因此打印3次undefined
+改成obj[prop]就可以了，此时prop是变量，每一次的值是属性名（字符串）
+
