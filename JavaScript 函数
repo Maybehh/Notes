@@ -171,11 +171,11 @@ apply() 方法与 call() 方法非常相似，不同之处是：call() 方法分
 （数组传送后会进行解析，和形参一一对应，就好像是直接把实参写成arguments的形式）
 如果要使用数组而不是参数列表，则 apply() 方法非常方便
 var x = person.fullName.apply(person1, ["Seatle", "USA"]); 
-Math.max.apply(null, [1,2,3]); // 也会返回 3（Math.max没有this，所以可以指向其他)
+Math.max.apply(null, [1,2,3]); // 也会返回 3
 Math.max.apply(Math, [1,2,3]); // 也会返回 3
 Math.max.apply(" ", [1,2,3]); // 也会返回 3
 Math.max.apply(0, [1,2,3]); // 也会返回 3
-详见uc收藏
+call的this参数为null等值时指向详见uc收藏
 
 在 JavaScript 严格模式下，如果 apply() 方法的第一个参数不是对象，则它将成为被调用函数的所有者（对象）。在“非严格”模式下，它成为全局对象
 call调用方法给call里的对象用（因为this指向了它，方法里有this），call里的对象本来可以没有那个方法，见w3c，apply类似
