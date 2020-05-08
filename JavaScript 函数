@@ -678,3 +678,6 @@ A instanceof B 看A对象的原型链上是否有B的原型(B.prototype)
 Object.prototype.toString.call([]); 结果是"[object Array]"
 Object.prototype.toString.call(123); 结果是"[object Number]"
 Object.prototype.toString.call({}); 结果是"[object Object]"
+
+null instanceof Object 返回false, null原本是设计作Object空占位符，因此typeof(null)是"object"
+但本质上null并不是Object数据类型，因此null instanceof Object 返回false
