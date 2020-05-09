@@ -49,7 +49,7 @@ person.eyeColor = "blue";
 1、会先在函数体第一行隐式创建一个this的空对象
 2、会在函数体最后隐式创建一个return this
 function Car(color,name){  //用this写，可以传参
-       //var this = {};  AO{this: {}},然后通过后续的this.往里面加属性值
+       //var this = Object.create(Car.prototype);  AO{this: {__proto__: Car.prototype}, ...., ....},然后通过后续的this.往里面加属性值
         this.color = color; 
         this.name = name;
         this.health = 100;
