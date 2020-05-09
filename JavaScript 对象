@@ -341,4 +341,28 @@ get: function() { return language }
 // 定义 setter
 set: function(value) { language = value }
 
+浅层克隆：
+var obj = {
+   name: 'abc',
+   age: 12,
+   sex: 'female',
+   card: ['visa', 'unionpay']
+}
+var obj1 = {};
+function clone(origin, target){
+     var target = target || {}; //用户没传target时，以空对象作为target
+     for(var prop in origin){
+         target[prop] = origin[prop];
+     }
+     return target;
+}
+clone(obj, obj1);
+obj1的card改了之后obj也会改（引用类型的复制是在栈中复制地址，所以指向同一个）
+
+instanceof 和 constructor 在有父子域的html(html里有其他的页面)的时候会失效
+深层克隆：（原始值和引用值都是各自独立的，另一个改了，我的不会变）
+1、判断是原始值
+2、判断是数组还是对象
+3、建立相应的数组或对象
+4、递归
 
