@@ -251,7 +251,14 @@ function test(){
 b是没有声明就赋值的，因此b是全局变量，是属于GO对象的
 test的AO对象里只有a, GO对象里只有b
 
-用一个变量时AO中找不到就找上一层AO，一层一层，最后到GO的（全局变量），找不到就是undefined
+用一个变量时AO中找不到就找上一层AO，一层一层，最后到GO的（全局变量），找不到就是报错，错误类型是xx is undefined
+function print(){
+     console.log(foo); //undefined
+     var foo = 2;  
+     console.log(foo);  //2
+     console.log(hello);  //报错，hello is undefined
+}
+print();
 但是如果是给变量赋值就不找了，因为暗示性全局变量，就直接变成全局变量，去GO了
 
 在父函数中函数声明（或表达式）的子函数可以访问父函数的变量，但如果子函数B是父函数A调用其他的与父函数无父子关系的函数，B就不可访问A的变量
