@@ -386,3 +386,6 @@ function deepClone(origin, target){
       }
       return target;
 }//赋的都是原始值，因此更改后另一个不会跟着改
+
+三目运算符：A ? B : C; 如果A是true，执行B后返回B，C就不用看了（如果是表达式的话就不会计算）
+但是不管A true or false,B是一定要执行的，从左到右
