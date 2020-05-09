@@ -365,4 +365,24 @@ instanceof 和 constructor 在有父子域的html(html里有其他的页面)的�
 2、判断是数组还是对象
 3、建立相应的数组或对象
 4、递归
-
+数组也可以用for in，这时候的prop是索引
+function deepClone(origin, target){
+      var target = target || {};
+      toStr = Object.prototype.toString;
+      arrStr = "[object, Array]";
+      for(var prop in origin){
+            if(origin.hasOwnProperty(prop)){
+                if(origin[prop] !== null && typeof(origin[prop]) == "object"){
+                     if(toStr.call(origin[prop]) == arrStr){
+                           target[prop] = [];
+                     } else {
+                           target[prop] = {};
+                     }
+                     deepClone(origin[prop], target[prop]);
+                 } else {
+                     target[prop] = origin[prop];
+                 }
+            }
+      }
+      return target;
+}//赋的都是原始值，因此更改后另一个不会跟着改
