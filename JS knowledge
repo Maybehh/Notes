@@ -1548,15 +1548,74 @@ function isNaN(num){
 null == undefined true
 null === undefined false (===比的是类型和值都得等)
 
-在预编译的时候：
+在函数预编译的时候：
 AO{//会有arguments，this(this在new函数的时候会被替换)
  arguments: [1,2,...],
  this: window,
  ....
 }
+function test(){
+   this.foo = 1;
+}//此时的this指向window
+test(); this还是指向window
+new test(); 预编译this指向window，执行时this被覆盖，因为new会var this = {}
 
 this:
 函数预编译过程：this --> window
 全局作用域里：this --> window
 call/apply可以改变函数运行时的this指向
 obj.func(): func()里面的this指向obj
+
+var name = "222";
+var a = {
+    name: "111",
+    say: function(){
+        console.log(this.name);
+    }
+}
+var b = {
+    name: "333",
+    say: function(fun){
+        fun();2
+    }
+}
+b.say(a.say); --> b.say(function(){console.log(this.name);}) --> 执行function(){console.log(this.name);}函数 --> 
+这时候function(){console.log(this.name);}函数没有人调用它执行，写出执行上下文是全局，指向window，输出222
+
+arguments.callee结果是arguments所属构造函数(指向函数自身引用)
+function test(){
+     console.log(arguments.callee);
+}
+结果是function test(){console.log(arguments.callee);}
+arguments.callee == test; 返回true(指向的是同一个)
+
+var num = (function(n){
+     if(n == 1) return 1;
+     return n * arguments.callee(n - 1);
+}(100));
+
+function test(){
+    console.log(arguments.callee);//打印test函数
+    function demo(){
+        console.log(arguments.callee);//打印demo函数
+    }
+    demo();
+}
+test();
+
+func.caller（func函数所在的执行环境）
+function test(){
+    demo();
+}
+function demo(){
+    console.log(demo.caller);打印test函数
+}
+test();
+严格模式下arguments.callee和func.caller不让用
+
+var foo = 123;
+function print(){
+    this.foo = 234;
+    console.log(foo);
+}
+new print(); AO{this:{foo: 234}},print函数里没有foo,因此找GO，打印123
