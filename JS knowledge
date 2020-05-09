@@ -160,11 +160,11 @@ JavaScript 中，没有值的变量，其值是 undefined。typeof 也返回 und
 在 JavaScript 中，null 是 "nothing"。它被看做不存在的事物。不幸的是，在 JavaScript 中，null 的数据类型是对象
 var person = null;           // 值是 null，但是类型仍然是对象（object)
 可以通过设置值为 null 清空对象,也可以通过设置值为 undefined 清空对象
-Undefined 与 null 的值相等，但类型不相等
+undefined 与 null 的值相等，但类型不相等
 null === undefined            // false(类型和值都等）
 null == undefined             // true（值）
 null最早是用来占空对象的，所以typeof是object
-
+typeof(undefined) "undefined"
 原始数据：原始数据值是一种没有额外属性和方法的单一简单数据值
 typeof true                // 返回 "boolean"
 string，number，undefined，boolean
@@ -399,6 +399,8 @@ Number() 方法返回 1970 年 1 月 1 日至今的毫秒数
 
 parseInt() 解析一段字符串并返回数值。允许空格,允许逗号。只返回首个数字：
 parseInt("10.33");      // 返回 10
+parseInt(10);      // 返回 10
+parseInt(10.33);      // 返回 10
 parseInt("10 20 30");   // 返回 10
 parseInt("10 years");   // 返回 10
 parseInt("years 10");   // 返回 NaN
@@ -1512,7 +1514,7 @@ a++: 先Number()再++
 +号两边有一个是字符串：另一个String(),然后拼接
 && || !: 转换成布尔值
 < > <= >= : 其中有一个是数字，另一个就会隐式转换成数字(NaN和任何东西比都是false),两个都是布尔值也会隐式转换成数字（即Number()）
-== !=: 同<，特例：null == undefined      null == 0 false  null<0 false null>0 false      undefined和0比较 同 null和0比较（系统规定的）
+== !=: 同<，特例：null == undefined      null == 0 false null<0 false null>0 false      undefined和0比较 同 null和0比较（系统规定的）
 === !==： 不发生隐式类型转换   NaN === NaN  false
 
 typeof(a): 其中a是未定义过的，不会报错，打印出来是字符串类型的undefined，因此再typeof()一次，结果是string
@@ -1529,3 +1531,13 @@ if(undefined) undefined转化成布尔值是false，因此不执行
 又执行了window.foo = ""后，就变成window.foo || window.foo 了，所以执行到||后看window.foo，是""，所以返回""
 
 document.write(window.foo = ""),输出的是"" (""赋给window.foo，然后打印window.foo）
+
+function isNaN(num){
+     var ret = Number(num);
+     ret += "";
+     if(ret == "NaN"){ NaN和任何比都是false，包括===，因此必须转化成字符串比较
+         return true;
+     }else{
+         return false;
+     }
+}
