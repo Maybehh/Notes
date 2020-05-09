@@ -682,3 +682,7 @@ Object.prototype.toString.call({}); 结果是"[object Object]"
 null instanceof Object 返回false, null原本是设计作Object空占位符，因此typeof(null)是"object"
 但本质上null并不是Object数据类型，因此null instanceof Object 返回false
 null没有prototype，因此null instanceof null报错
+
+function foo(){console.log(arguments);}
+foo(1,2,3,4,5); 打印[1,2,3,4,5]
+函数没有形参也可以传实参，会有arguments实参数组接收
