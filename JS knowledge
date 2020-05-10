@@ -444,6 +444,7 @@ document.getElementById("demo").innerHTML = cars;
 也可以使用 length 属性向数组添加新元素：fruits[fruits.length] = "Lemon";     // 向 fruits 添加一个新元素 (Lemon)
 
 添加最高索引的元素可在数组中创建未定义的“洞”：var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits[4] = undefined
 fruits[6] = "Lemon";                 // 向 fruits 添加一个新元素 (Lemon)
 4，5都是undefined
 
@@ -481,20 +482,36 @@ document.getElementById("demo").innerHTML = fruits.toString();
 join() 方法也可将所有数组元素结合为一个字符串。它的行为类似 toString()，但是您还可以规定分隔符：
 默认是， document.getElementById("demo").innerHTML = fruits.join(" * "); 
 
-pop() 方法从数组中删除最后一个元素，pop() 方法返回“被弹出”的值
+pop() 方法从数组中删除最后一个元素，pop() 方法返回“被弹出”的值,不能传参，都是只能弹出最后一位
 document.getElementById("demo2").innerHTML = fruits.pop(); 返回的是弹出的值
+
 push() 方法（在数组结尾处）向数组添加一个新的元素，push() 方法返回新数组的长度
+push(1) 也可以 push(1,2,3,4) 可以增加一个也可以同时增加多个
+Array.prototype.push = function(){
+     for(var i = 0; i < arguments.length; i++){
+          this[this.length] = arguments[i];
+     }
+     return this.length;
+}
+
 shift() 方法会删除首个数组元素，并把所有其他元素“位移”到更低的索引，shift() 方法返回被“位移出”的字符串
 unshift() 方法（在开头）向数组添加新元素，并“反向位移”旧元素，unshift() 方法返回新数组的长度
+两个方法都能同时加多参
+把传入的作为新数组，然后把原数组push进新数组里
 
 可以使用 JavaScript delete 运算符来删除 delete fruits[0];           // 把 fruits 中的首个元素改为 undefined
 使用 delete 会在数组留下未定义的空洞。请使用 pop() 或 shift() 取而代之
 
-splice() 方法可用于向数组添加新项：fruits.splice(2, 0, "Lemon", "Kiwi");
+splice() 方法可用于向数组添加新项：fruits.splice(2, 0, "Lemon", "Kiwi");（是在原数组上进行的操作，会改变原数组）
 第一个参数（2）定义了应添加新元素的位置（拼接）
 第二个参数（0）定义应删除多少元素（插入之后后面的元素，不留“空洞”的情况下移除元素）
 其余参数（“Lemon”，“Kiwi”）定义要添加的新元素
 splice() 方法返回一个包含已删除项的数组（由被删除的项组成的数组）
+splice(-1,1)截取倒数第一位，-1是倒数第一位
+splice = function(pos){
+    pos += pos > 0 ? 0 : this.length
+    if(pos >= 0 && pos < this.length).....
+}
 
 concat() 方法通过合并（连接）现有数组来创建一个新数组
 concat() 方法不会更改现有数组。它总是返回一个新数组。concat() 方法可以使用任意数量的数组参数
@@ -511,20 +528,36 @@ document.getElementById("demo").innerHTML = fruits;
 
 所有 JavaScript 对象都拥有 toString() 方法
 
-sort() 方法以字母顺序对数组进行排序（A到Z）,fruits.sort();            // 对 fruits 中的元素进行排序
 reverse() 方法反转数组中的元素。可以使用它以降序对数组进行排序
 
-如果数字按照字符串来排序，则 "25" 大于 "100"，因为 "2" 大于 "1"。
+sort()方法以字母顺序对数组进行排序（A到Z）,fruits.sort();            // 对 fruits 中的元素进行排序
+sort()会把数组中的每一个值当成字符串，数字按照字符串来排序，则25大于100，因为 "2" 大于 "1"。
 正因如此，sort() 方法在对数值排序时会产生不正确的结果
 通过一个比值函数来修正此问题
-当 sort() 函数比较两个值时，会将值发送到比较函数，并根据所返回的值（负、零或正值）对这些值进行排序
-当比较 40 和 100 时，sort() 方法会调用比较函数 function(40,100)。该函数计算 40-100，然后返回 -60（负值）。排序函数将把 40 排序为比 100 更低的值
+当sort()函数比较两个值时，会将值发送到比较函数，并根据所返回的值（负、零或正值）对这些值进行排序
+正值就把前面的放在后面(比较的两个数互换位置)，负值就把前面的放在前面，0就保持不变(0和负值则比较的两个数的位置不变)
+arr = [40,50,30,60,100]
+当比较 40 和 50 时，sort() 方法会调用比较函数 function(40,50)。该函数计算 40-50，然后返回 -10（负值）。sort函数将把 40 排序为比 50 更低的值
+比较的传参是arr[0]和后续比，然后arr[1]和后续比，依次类推，冒泡排序，认位置
+比较顺序是40和50比，负值，所以还是arr = [40,50,30,60,100]
+然后40和30比，正值，所以调换顺序，arr = [30,50,40,60,100]
+30和60比，负值，arr = [30,50,40,60,100]
+30和100比，负值，arr = [30,50,40,60,100]
+50和40比，正值，arr = [30,40,50,60,100]
+40和60比，负值，arr = [30,40,50,60,100]
+....
+arr.sort(function(a,b){
+    if(a>b) return 1;
+    return -1;
+}
 points.sort(function(a, b){return a - b}); 升序
 points.sort(function(a, b){return b - a}); 降序
 
-以随机顺序排序数组
+以随机顺序排序数组，有序的数组变乱序
 var points = [40, 100, 1, 5, 25, 10];
-points.sort(function(a, b){return 0.5 - Math.random()});
+points.sort(function(a, b){return 0.5 - Math.random();});
+Math.random返回（0，1）之间的开区间随机数
+按对象的年龄升序排序，arr.sort(function(a,b){return a.age - b.age;}); 
 
 JavaScript 不提供查找数组中最大或最小数组值的内建函数。不过，在对数组进行排序之后，您能够使用索引来获得最高或最低值（效率极低）
 使用 Math.max.apply 来查找数组中的最高值：Math.max.apply(null, arr);
