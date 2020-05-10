@@ -554,6 +554,7 @@ function inherit(Target,Origin){
     Target.prototype.constructor = Target;  //添加个属性记录原本的构造函数
     Target.prototype.uber = Origin.prototype;  //添加个属性记录原本真正的继承超类（原本真正是继承谁）
 }
+实现JS对象的继承：写圣杯
 
 var target = new Target();
 var origin = new Origin();
@@ -710,3 +711,4 @@ var obj = {a: 1} delete obj是不可以的   delete obj.a是可以的
 
 typeof(arguments) 类数组是对象，因此返回object
 var h = function a(){ return 23;}  typeof a(); 结果是报错，因为a找不到，放在函数表达式的名字是找不到的，只能通过变量名找到
+答案写error: a is not defined
