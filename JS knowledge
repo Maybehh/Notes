@@ -1183,7 +1183,8 @@ delete x;                // 这将引发错误
 字符串 "arguments" 不可用作变量
 
 with 语句是不允许的 with (Math){x = cos(2)}; // 这将引发错误
-with(obj){}  with语句块内的代码的作用域链（[[scope]]）的最顶端是obj,即在自己的作用域链的最顶端加了一个obj的AO，然后往下才是自己的AO
+with(obj){}  with语句块内的代码的作用域链（[[scope]]）的最顶端是obj,即在自己的作用域链的最顶端加了一个对象obj，然后往下才是自己的AO
+（因为AO是一个对象，因此可以把一个对象当成AO放在作用域链里）
 var obj = {
      dp1: {  jc:{ name: "abc" }
      }
