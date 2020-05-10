@@ -305,12 +305,11 @@ str[0];                   // 返回 H
 找不到字符，[ ] 返回 undefined
 它是只读的。str[0] = "A" 不会产生错误（但也不会工作！）
 
-可以通过 split() 将字符串转换为数组：
+可以通过 split() 将字符串转换为数组：(数组的每一个元素都是字符串)
 var txt = "a,b,c,d,e";   // 字符串
-txt.split(",");          // 用逗号分隔 数组元素是 a b c d e ,a[0]是
+txt.split(",");          // 用逗号分隔 数组元素是 a b c d e，arr[0]是a
 txt.split(" ");          // 用空格分隔 数组元素是 a,b,c,d,e
-txt.split("|");          // 用竖线分隔
-（遇到分隔符算一个元素）
+txt.split("|");          // 用竖线分隔（遇到分隔符算一个元素）
 var str = "a,b,c,d,e,f";
 var arr = str.split(",");  数组元素是 a b c d e f ,arr[0]是a
 var arr = str.split(" ");  数组元素是 a,b,c,d,e,f ,arr[0]是a,b,c,d,e,f(只有一个元素）
@@ -476,11 +475,15 @@ var fruits = ["Banana", "Orange", "Apple", "Mango"];
 document.getElementById("demo").innerHTML = fruits instanceof Array;     // 返回 true
 instanceof见csdn，另外有3种判断方法可以看一下
 
-数组方法：
+数组方法：（改变原数组仅有7个数组方法：pop,push,shift,unshift,sort,reverse,splice)
 toString() 把数组转换为数组值（逗号分隔）的字符串
 document.getElementById("demo").innerHTML = fruits.toString(); 
+
 join() 方法也可将所有数组元素结合为一个字符串。它的行为类似 toString()，但是您还可以规定分隔符：
 默认是， document.getElementById("demo").innerHTML = fruits.join(" * "); 
+arr = [1,2,3,4]，arr.join('-'),返回1-2-3-4
+参数可以是数字也可以是字符串（原始值就可以），最好用字符串
+不传参数是按照，连接
 
 pop() 方法从数组中删除最后一个元素，pop() 方法返回“被弹出”的值,不能传参，都是只能弹出最后一位
 document.getElementById("demo2").innerHTML = fruits.pop(); 返回的是弹出的值
@@ -520,7 +523,10 @@ var myChildren = arr1.concat(arr2, arr3);   // 将arr1、arr2 与 arr3 连接在
 slice() 方法用数组的某个片段切出新数组（一个元素提取出来）
 slice() 方法创建新数组。它不会从源数组中删除任何元素
 slice() 可接受两个参数，比如 (1, 3)。该方法会从开始参数选取元素，直到结束参数（不包括）为止（1到2）
+光标是在一个数组元素的前面，arr = [1,2,3], arr[1]光标是停在2前面，因此截取（1，2）就是截取arr[1]和arr[2]光标之间的值，因此截取2
 如果结束参数被省略，则 slice() 会切出数组的剩余部分（一个元素提取出来）
+负数splice(-2),就是splice(1),截取2，3
+不写参数就全部截取
 
 如果需要原始值，则 JavaScript 会自动把数组转换为字符串
 document.getElementById("demo").innerHTML = fruits; 
@@ -558,6 +564,8 @@ var points = [40, 100, 1, 5, 25, 10];
 points.sort(function(a, b){return 0.5 - Math.random();});
 Math.random返回（0，1）之间的开区间随机数
 按对象的年龄升序排序，arr.sort(function(a,b){return a.age - b.age;}); 
+字符数组按字符串的长度升序排序，arr.sort(function(a,b){return a.length - b.length;}); 
+字节数升序：arr.sort(function(a,b){return reBytes(a) - reBytes(b);}); reBytes是求字节的封装函数
 
 JavaScript 不提供查找数组中最大或最小数组值的内建函数。不过，在对数组进行排序之后，您能够使用索引来获得最高或最低值（效率极低）
 使用 Math.max.apply 来查找数组中的最高值：Math.max.apply(null, arr);
