@@ -448,7 +448,7 @@ typeof f ,f不存在了，一个从未声明也未赋值的变量，typeof结果
 
 1 + undefined(非字符串) 的结果是NaN
 
-原型是function对象(函数也是对象)的一个属性，它定义了构造函数制造出的对象的公共祖先
+原型是function对象(函数也是对象)的一个属性，它定义了构造函数制造出的对象的公共祖先(即构造函数prototype对象里的可以被该构造函数构造的对象访问)
 function Person(){
    prototype:{
       constructor: Person; （不加括号，加了()执行符号就立即执行了）
@@ -693,3 +693,6 @@ null没有prototype，因此null instanceof null报错
 function foo(){console.log(arguments);}
 foo(1,2,3,4,5); 打印[1,2,3,4,5]
 函数没有形参也可以传实参，会有arguments实参数组接收
+
+通过var给window添加的属性，delete不掉（称为不可配置属性，直接增加的属性是可配置属性，是可以删掉的，如obj.name，则obj.name是可以删掉）
+比如全局里var num = 1; 则这个num是删不掉的
