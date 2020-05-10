@@ -659,7 +659,7 @@ find() 方法返回通过测试函数的第一个数组元素的值
 findIndex() 方法返回通过测试函数的第一个数组元素的索引
 该函数接受 3 个参数：项目值|项目索引|数组本身
 
-类数组：
+类数组：(arguments数组是类数组，只能看数组元素和length，没有数组的方法)
 对象的属性要为索引（数字）属性（还可以有其他非索引属性），必须有length属性，最好加push方法
 var Obj = {(属性名可都不加引号）
     "0": 'a',
@@ -1707,3 +1707,24 @@ function print(){
     console.log(foo);
 }
 new print(); AO{this:{foo: 234}},print函数里没有foo,因此找GO，打印123
+
+type方法：
+function type(target){
+   var ret = typeof(target);
+   var template = {
+        "[object Array]": "array",
+	"[object Number]": "number",
+	"[object String]": "string",
+	"[object Boolean]": "boolean",
+	"[object Object]": "object"
+   }
+   if(target === null){
+       return "null";
+   }
+   if(ret == "object"){
+       var str = Object.prototype.toString.call(target);
+       return template[str];
+   } else{
+       return ret;
+   }
+}
