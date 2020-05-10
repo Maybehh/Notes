@@ -1720,11 +1720,24 @@ function type(target){
    }
    if(target === null){
        return "null";
-   }
-   if(ret == "object"){
+   }else if(ret == "object"){
        var str = Object.prototype.toString.call(target);
        return template[str];
    } else{
        return ret;
    }
+}
+
+数组去重：
+Array.prototype.unique = function(){
+     var temp = {},
+         arr = [],
+	 len = this.length; 
+     for(var i = 0; i < len; i++){
+         if(!temp[this[i]]) {
+	     temp[this[i]] = "abc";
+	     arr.push(this[i]);
+	 }
+     }
+     return arr;
 }
