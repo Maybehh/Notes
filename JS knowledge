@@ -1051,6 +1051,18 @@ throw 语句允许您创建自定义错误
 finally 使您能够执行代码，在 try 和 catch 之后，无论结果如何
 
 try 语句允许您定义一个代码块，以便在执行时检测错误
+try块中错误的行的后续代码不执行（try块中的后续代码不执行，其他的会正常执行）
+有多个错误报的是第一个，因为后面的都不会看了
+try{
+   console.log("a");
+   console.log(b);
+   console.log("c");
+} catch(e){
+   console.log("d");
+}
+console.log("e");
+结果打印ade
+
 catch 语句允许你定义一个要执行的代码块，如果 try 代码块中发生错误。
 JavaScript 语句 try 和 catch 成对出现：
 try {
@@ -1062,7 +1074,14 @@ try {
 
 当发生错误时，JavaScript 通常会停止并产生错误消息
 技术术语是这样描述的：JavaScript 将抛出异常（抛出错误）
-JavaScript 实际上会创建带有两个属性的 Error 对象：name 和 message
+JavaScript 实际上会创建带有两个属性的 Error 对象：name 和 message（只有这两个）
+Error.name 6种:
+1、EvalError: eval()的使用与定义不一致
+2、RangeError: 数值越界
+3、ReferenceError: 非法或不能识别的引用数值
+4、SyntaxError: 发生语法解析错误
+5、TypeError: 操作数类型错误
+6、URIError: URI处理函数使用不当
 
 throw 语句允许您创建自定义错误。从技术上讲您能够抛出异常（抛出错误）。异常可以是 JavaScript 字符串、数字、布尔或对象：
 throw "Too big";    // 抛出文本
@@ -1132,17 +1151,23 @@ Hoisting 是 JavaScript 将所有声明提升到当前作用域顶部的默认�
 JavaScript 只提升声明（var x;)，而非初始化（var x = 7;)(使用一个值前必须得有初始化，即赋值）
 严格模式中的 JavaScript 不允许在未被声明的情况下使用变量
 
+现在用的是es3.0全部加es5.0在3.0基础上新增的
+es3.0和es5.0产生冲突的地方，如果es5.0有声明严格模式就用es5.0的，否则使用es3.0的
 "use strict"; 定义 JavaScript 代码应该以“严格模式”执行，它不算一条语句，而是一段文字表达式
-在脚本或函数的开头添加 "use strict"; 来声明严格模式
+直接用函数（直接写strict();）的话要是不支持es5的浏览器就报错（没有定义这个函数），用字符串的话浏览器都能识别（不支持的话也不会报错）
+
+在脚本或函数的开头添加 "use strict"; 来声明严格模式（前面可以有空格，但不能有任何代码，否则不能被识别）
 在脚本开头进行声明，拥有全局作用域（脚本中的所有代码均以严格模式来执行）：
 "use strict";
 x = 3.14;       // 这会引发错误，因为 x 尚未声明
-在函数中声明严格模式，拥有局部作用域（只有函数中的代码以严格模式执行）
+在函数中声明严格模式，拥有局部作用域（只有函数中的代码以严格模式执行）（推荐使用局部的，避免影响其他人的代码）
 "use strict"; 只会对“理解”其含义的新编译器产生影响
+
 在普通 JavaScript 中，如果向不可写属性赋值，开发者不会得到任何错误反馈
 在严格模式中，向不可写的、只能读取的、不存在的属性赋值，或者向不存在的变量或对象赋值，将抛出错误
-
 对象也是变量，在不声明对象的情况下使用对象也是不允许的
+因此给变量赋值前必须声明
+
 删除变量（或对象）是不允许的：
 "use strict";
 var x = 3.14;
@@ -1156,9 +1181,36 @@ delete x;                // 这将引发错误
 删除不可删除的属性是不允许的
 字符串 "eval" 不可用作变量
 字符串 "arguments" 不可用作变量
+
 with 语句是不允许的 with (Math){x = cos(2)}; // 这将引发错误
+with(obj){}  with语句块内的代码的作用域链（[[scope]]）的最顶端是obj,即在自己的作用域链的最顶端加了一个obj的AO，然后往下才是自己的AO
+var obj = {
+     dp1: {  jc:{ name: "abc" }
+     }
+}
+with(obj.dp1.jc){
+    console.log(name);
+} 打印的是abc
+这样的用法在命名空间里可以简洁代码
+with(document){ write('a');} 就可以不用写document.write()这么复杂了
+但更改作用域链会耗费大量开销，因此就不让用with了
+
+不支持arguments.callee和func.caller
+
+严格模式下在全局中打印this是window
+在类似 f() 的函数调用中，this 的值在es3是全局对象。在严格模式中，现在它成为了 undefined
+this必须指明，不指明就是undefined，因此在函数中function test(){console.log(this);} test();打印的是undefined
+new test();的话打印的是test{}; 因为this = Object.create(test.prototype),
+结果是this = {constructor: test,
+             __proto__: .....};
+打印对象的时候会把构造函数名放在前面，所以就成了test{}(对象里的内容会被折叠起来)
+test.call(123); 打印123，传原始值的话传啥就打印啥，但在es3里，会先经过包装类，因此打印Number{...}
+
 处于安全考虑，不允许 eval() 在其被调用的作用域中创建变量：eval ("var x = 2");     alert (x);               // 这将引发错误
-在类似 f() 的函数调用中，this 的值是全局对象。在严格模式中，现在它成为了 undefined
+eval函数会改变作用域
+
+不允许有重复的参数function(name,name){},在es3是可以的，但在es5严格模式下是不可以的，报错
+不允许重复属性名（目前浏览器是可以的，但官方规定不可以） 后面的值会覆盖前面的值
 
 严格模式中不允许使用为未来预留的关键词。它们是：
 implements
