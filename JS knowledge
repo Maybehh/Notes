@@ -659,6 +659,53 @@ find() 方法返回通过测试函数的第一个数组元素的值
 findIndex() 方法返回通过测试函数的第一个数组元素的索引
 该函数接受 3 个参数：项目值|项目索引|数组本身
 
+类数组：
+对象的属性要为索引（数字）属性（还可以有其他非索引属性），必须有length属性，最好加push方法
+var Obj = {(属性名可都不加引号）
+    "0": 'a',
+    "1": 'b',
+    "2": 'c',
+    "length": 4,
+    "push": Array.prototype.push,
+    "splice": Array.prototype.splice
+}
+加了splice属性后就长得和数组基本一致了（但是只可以使用对象里有的方法）
+
+Array.prototype.push = function(target){
+    this[this.length] = target;
+    this.length++;
+}
+Obj[0] = a等
+通过Obj.push(1)变成
+var Obj = {
+    "0": 'a',
+    "1": 'b',
+    "2": 'c',
+    "4": 1,
+    "length": 5,
+    "push": Array.prototype.push,
+    "splice": Array.prototype.splice
+}根据Array.prototype.push进行push,是根据length来的，因此必须得有length属性，
+var Obj = {
+    "0": 'a',
+    "1": 'b',
+    "2": 'c',
+    "4": 1,
+    "length": 2,
+    "push": Array.prototype.push,
+    "splice": Array.prototype.splice
+}
+Obj.push(1):
+var Obj = {
+    "0": 'a',
+    "1": 'b',
+    "2": 1,
+    "4": 1,
+    "length": 3,
+    "push": Array.prototype.push,
+    "splice": Array.prototype.splice
+}
+
 new Date(year, month, ...) 用指定日期和时间创建新的日期对象
 7个数字分别指定年、月、日、小时、分钟、秒和毫秒（按此顺序）（其他省略的默认是默认值）
 您不能省略月份。如果只提供一个参数，则将其视为毫秒
