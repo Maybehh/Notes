@@ -1638,7 +1638,7 @@ null === undefined false (===比的是类型和值都得等)
 
 在函数预编译的时候：
 AO{//会有arguments，this(this在new函数的时候会被替换)
- arguments: [1,2,...],
+ arguments: {...}, //arguments是类数组，因此是对象
  this: window,
  ....
 }
