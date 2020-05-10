@@ -1735,7 +1735,7 @@ Array.prototype.unique = function(){
 	 len = this.length; 
      for(var i = 0; i < len; i++){
          if(!temp[this[i]]) {
-	     temp[this[i]] = "abc";
+	     temp[this[i]] = "abc";(不能是this[i]，遇到0就不能去重了,也不能是undefined，同样去不了重,即不能是代表false的值)
 	     arr.push(this[i]);
 	 }
      }
