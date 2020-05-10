@@ -1741,3 +1741,5 @@ Array.prototype.unique = function(){
      }
      return arr;
 }
+字符串去重：把字符串转变成数组
+找到字符串中第一个有且只有一个的字符
