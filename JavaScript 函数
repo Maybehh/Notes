@@ -694,10 +694,19 @@ function foo(){console.log(arguments);}
 foo(1,2,3,4,5); 打印[1,2,3,4,5]
 函数没有形参也可以传实参，会有arguments实参数组接收
 
-通过var给window添加的属性，delete不掉（称为不可配置属性，直接增加的属性是可配置属性，是可以删掉的，如obj.name，则obj.name是可以删掉）
-比如全局里var num = 1; 则这个num是删不掉的
+通过var添加的属性（不管是全局还是局部），delete不掉（称为不可配置属性，直接增加的属性是可配置属性，是可以删掉的，如obj.name，则obj.name是可以删掉）
+比如var num = 1; 则这个num是删不掉的
+(function(x){
+   delete x;
+   return x;
+}(1)); 相当于先var x = 1，var的不能delete，因此return 1
+var obj = {a: 1} delete obj是不可以的   delete obj.a是可以的
+函数内var的(不管是形参系统var的，还是函数内自己写的var)都不可以delete
 
 [] + "" = "" 会进行引用隐式类型转换
 
 找变量：执行上下文
 找属性：prototype
+
+typeof(arguments) 类数组是对象，因此返回object
+var h = function a(){ return 23;}  typeof a(); 结果是报错，因为a找不到，放在函数表达式的名字是找不到的，只能通过变量名找到
