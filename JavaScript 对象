@@ -397,3 +397,5 @@ arr[10],arr = [10],一个数组值为10，长度为1
 arr = [1,2, , , ,3],可以写逗号，长度为6，值为1，2，undefined, undefined, undefined, 3
 arr[20]不会报错，因为arr数组就是对象，这样是访问arr数组对象有没有20这个属性，没有就打印undefined
 没有属性是undefined，没有变量是报错（除了typeof(未声明过或未赋值过的的变量)是undefined）
+
+写一个类就是写一个构造函数
