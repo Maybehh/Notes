@@ -1,5 +1,6 @@
 DOM（Document Object Model)定义了表示和修改文档所需的方法。DOM对象即为宿主对象，由浏览器厂商定义，用来操作html和xml功能的一类对象的集合。
 也有人称DOM是对HTML以及XML的标准编程接口
+DOM不能操作css，谁都不能操控css(只能改变css行间样式）
 
 xml -> xhtml -> html
 (xml可以自定义元素，以前用来作发送数据的，现在基本不用了，都用json)
@@ -241,3 +242,53 @@ HTMLCollection.namedItem(name或id)或HTMLCollection[name或id]
 节点列表不是数组！节点数组看起来像数组，但并不是。您能够遍历节点列表并像数组那样引用其节点。
 不过，您无法对节点列表使用数组方法，比如 valueOf()、push()、pop() 或 join()
 
+onclick不同次结果不一样：
+var count = 0;
+div.onclick = function(){(几种状态就模几)
+    count++;
+    if(count % 2 == 1){...}
+    else {...}
+}
+选项卡：
+var btn = document.getElementsByTagName("button");
+var div = document.getElementsByClassName("content");
+for(var i = 0; i < btn.length; i++){
+    (function(n){
+         btn[n].onclick = function(){
+              for(var j = 0; j < btn.length; j++){
+                 btn[j].className = "";
+                 div[j].style.display = "none";
+              }
+              this.className = "active";
+              div[n].style.display = "block";
+         }
+    }(i));
+}
+动块：
+var speed = 1;
+var timer = setInterval(function(){
+      speed += speed/10;
+      div.style.left = parseInt(div.style.left) + 1 + "px";
+      if(parseInt(div.style.left) > 200) clearInterval(timer);
+},10);
+按键盘的上下左右箭头移动：
+document.onkeydown = function(e){ //e对象会记录键盘按下的信息
+     switch(e.which) {//键盘的按钮的序号
+       case 38: div.style.top = parseInt(div.style.top) - speed + "px";
+       break;
+       case 40: div.style.top = parseInt(div.style.top) + speed + "px";
+       break;
+       case 37: div.style.top = parseInt(div.style.left) - speed + "px";
+       break;
+       case 39: div.style.top = parseInt(div.style.left) + speed + "px";
+       break;
+     }
+}加个按钮更改speed值就可以实现不同速度的变换
+刮刮乐：
+var ul = document.getElementsByTagName("ul")[0];
+ul.onmouseover = function(e){
+    var event = e || window.event;
+    var target = event.target || event.srcElement;
+    target.style.backgroundColor = "rgb(0, 255," + target.getAttribute('img-date') + ")";
+    target.setAttribute('img-date', parseInt(target.getAttribute('img-date')) + 6);
+}
