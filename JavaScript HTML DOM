@@ -27,6 +27,7 @@ innerHTML 属性可用于获取或改变任何 HTML 元素，包括 <html> 和 <
 
 HTML DOM 文档对象是您的网页中所有其他对象的拥有者
 HTML DOM Document 对象 
+<html>标签属于<document>标签，即document表示整个文档（位置在<!DOCTYPE html>下面，但一般不写）
 文档对象代表您的网页。如果您希望访问 HTML 页面中的任何元素，那么您总是从访问 document 对象开始
 document.getElementsByTagName(name)	通过标签名来查找元素
 element.innerHTML = new html content	改变元素的 inner HTML
@@ -55,13 +56,20 @@ document.strictErrorChecking	返回是否强制执行错误检查
 通过 CSS 选择器查找 HTML 元素
 通过 HTML 对象集合查找 HTML 元素
 
-var myElement = document.getElementById("intro");
+查：
+1、var myElement = document.getElementById("intro");(IE8以下如果没有id属性则name属性会被找到)
 如果元素被找到，此方法会以对象返回该元素（在 myElement 中），如果未找到元素，myElement 将包含 null
-var y = x.getElementsByTagName("p"); 
+后端经常会把id属性更改，因此不要用id属性比较就好
+2、基本上系统返回的成组的都是以类数组返回
+var y = x.getElementsByTagName("p"); （任何浏览器都兼容）
 变量y会是HTMLCollection对象，y[0]是第一个p元素对象（通过类名获取也相同）
-
-querySelectorAll() 方法
+3、var y = x.getElementsByClassName("p"); (ie8及以下不兼容）
+4、var y = x.getElementsByName("p"); （得到name属性）
+5、querySelector("div span>strong.demo") 方法 css选择器 css怎么选取里面就怎么写 选取一个
+6、querySelectorAll() 方法 css选择器
 本例返回 class="intro" 的所有 <p> 元素列表：var x = document.querySelectorAll("p.intro");
+css选择器在ie7及以下不管用，且不是实时的，后续的修改对他来说无效，它生成那一刻是什么样以后就一直是什么样
+有多少个就多少个，顺序怎么样就怎么样，不会因为后续修改而改变，因此不使用css选择器
 
 通过 HTML 对象选择器查找 HTML 对象
 本例查找 id="frm1" 的 form 元素，在 forms 集合中，然后显示所有元素值：
