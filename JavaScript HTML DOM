@@ -69,7 +69,7 @@ var y = x.getElementsByTagName("p"); （任何浏览器都兼容）
 6、querySelectorAll() 方法 css选择器
 本例返回 class="intro" 的所有 <p> 元素列表：var x = document.querySelectorAll("p.intro");
 css选择器在ie7及以下不管用，且不是实时的，后续的修改对他来说无效，它生成那一刻是什么样以后就一直是什么样
-有多少个就多少个，顺序怎么样就怎么样，不会因为后续修改而改变，因此不使用css选择器
+有多少个就多少个，顺序怎么样就怎么样，不会因为后续修改而改变，因此不使用css选择器，除非要保存它的副本就可以用一下
 
 通过 HTML 对象选择器查找 HTML 对象
 本例查找 id="frm1" 的 form 元素，在 forms 集合中，然后显示所有元素值：
