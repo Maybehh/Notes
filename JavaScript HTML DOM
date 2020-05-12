@@ -28,7 +28,7 @@ innerHTML 属性可用于获取或改变任何 HTML 元素，包括 <html> 和 <
 
 HTML DOM 文档对象是您的网页中所有其他对象的拥有者
 HTML DOM Document 对象 
-<html>标签属于<document>标签，即document表示整个文档（一般不写）
+<html>标签属于document节点的子元素节点，document表示整个文档
 (document有整个页面那么大，html只有宽度是网页宽，高度是靠内容撑起来的）
 文档对象代表您的网页。如果您希望访问 HTML 页面中的任何元素，那么您总是从访问 document 对象开始
 document.getElementsByTagName(name)	通过标签名来查找元素
@@ -281,6 +281,37 @@ Document.prototype上定义了documentElement属性，指代文档的根元素�
 getElementsByClassName、querySelector、querySelectorAll在Element.prototype和Document.prototype类中均有定义
 
 document.getElementsByTagName("*"); 选择所有元素节点
+
+找第n层祖先节点：（一个节点只有一个父节点，子节点指的是直系孩子，就是子而不是孙子）
+function retParent(elem, n){
+     while(elem && n){
+         elem = elem.parentElement;
+         n--;
+     }
+     return elem;
+}
+
+找第n个兄弟元素节点，n=0就是自己，n>0就是nextElementSibling，n<0就是previousElementSibling：
+function retSibling(e, n){
+    while(e && n){
+          if(n > 0){
+             if(e.nextElementSibling){
+                  e = e.nextElementSibling;
+             } else {//兼容
+                for(e = e.nextSibling; e(判断null) && e.nodeType != 1; e = e.nextSibling);
+             }
+             n--;
+          } else {
+             if(e.previousElementSibling){
+                  e = e.previousElementSibling;
+             } else {//兼容
+                for(e = e.previousSibling; e(判断null) && e.nodeType != 1; e = e.previousSibling);
+             }
+             n++;
+          }
+    }
+    return e;
+}
 
 创建文本节点。这段代码创建了一个文本节点：var node = document.createTextNode("这是一个新段落。");
 向 <p> 元素追加这个文本节点：para.appendChild(node);
