@@ -1,6 +1,7 @@
 DOM（Document Object Model)定义了表示和修改文档所需的方法。DOM对象即为宿主对象，由浏览器厂商定义，用来操作html和xml功能的一类对象的集合。
 也有人称DOM是对HTML以及XML的标准编程接口
 DOM不能操作css，谁都不能操控css(只能改变css行间样式）
+现在说的不兼容大部分是ie9及以下，因为ie10开始的都遵循w3c，就兼容了
 
 xml -> xhtml -> html
 (xml可以自定义元素，以前用来作发送数据的，现在基本不用了，都用json)
@@ -252,6 +253,34 @@ div.attribute[0] 结果是 id = "only"
 div.attribute 结果是 NamedNodeMap = { 0: id, 1: class, length: 2}的类数组
 
 节点的一个方法：node.hasChildNodes()，返回布尔值
+
+DOM继承树：
+       —— Document —— HTMLDocument          
+                   —— XHTMLDocument
+                                             —— HTMLHeadElement
+       —— CharacterData —— Text              —— HTMLBodyElement
+                        —— Comment(注释)     —— HTMLTitleElement
+Node——                                       —— HTMLParagraphElement
+       —— Element —— HTMLElement  —————————— —— HTMLInputElement
+                  —— XHTMLElement            —— HTMLTableElement
+                                             —— ...etc.
+       —— Attr
+       
+Document相当于构造函数，但不可以new         
+document --> HTMLDocument.prototype --> Document.prototype
+document.__proto__.__proto__.__proto__是Node{}
+document.__proto__.__proto__.__proto__.__proto__是EventTarget{}
+document.__proto__.__proto__.__proto__.__proto__.__proto__是Object{}
+getElementById定义在Document.prototype上
+getElementsByName定义在HTMLDocument.prototype上
+getElementSByTagName定义在Document.prototype和Element.prototype上（因此最常用）
+HTMLDocument.prototype定义了一些常用属性，body和head分别指向文档中的<body>和<head>标签
+（即document.body和document.head相当于获取了body和head标签，就不用再用getElementsByTagName获得了）
+Document.prototype上定义了documentElement属性，指代文档的根元素，在HTML文档中，总指代<html>元素
+（即document.documentElement相当于获取了html标签）
+getElementsByClassName、querySelector、querySelectorAll在Element.prototype和Document.prototype类中均有定义
+
+document.getElementsByTagName("*"); 选择所有元素节点
 
 创建文本节点。这段代码创建了一个文本节点：var node = document.createTextNode("这是一个新段落。");
 向 <p> 元素追加这个文本节点：para.appendChild(node);
