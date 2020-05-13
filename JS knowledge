@@ -746,14 +746,23 @@ UTC（Universal Time Coordinated）等同于 GMT（格林威治时间）
 完整日期：var d = new Date("Mon Feb 19 2018 06:55:23 GMT+0100 (W. Europe Standard Time)");
 JavaScript 会忽略日期名称和时间括号中的错误
 
+构造函数是Date(); 因此执行Date()会打印那一串时间字符串
 Date.now() 返回自零日期（1970 年 1 月 1 日 00:00:00:00）以来的毫秒数
-getTime() 方法返回自 1970 年 1 月 1 日以来的毫秒数
 document.getElementById("demo1").innerHTML = Date.now();
+
+getTime() 方法返回自 1970 年 1 月 1 日以来的毫秒数
 var d = new Date();
 document.getElementById("demo2").innerHTML = d.getTime();
-getFullYear() 方法以四位数字形式返回日期年份
+getTime()可以用作时间戳（某一时刻的时间），时间戳的差可以计算程序的执行时间（常用来判断程序的效率）
+如：var firstTime = new Date().getTime(); 
+    for(var i = 0; i < 1000000000; i++);
+    var lastTime = new Date().getTime(); 
+    则lastTime-firstTime就是for循环执行的时间
+
+getFullYear() 方法以四位数字形式返回日期年份（一开始getYear()是两位，到了100年，就出错了，就改成了4位数的了）
 var d = new Date();
 document.getElementById("demo").innerHTML = d.getFullYear();
+
 getMonth() 以数字（0-11）返回日期的月份：在 JavaScript 中，第一个月（1 月）是月号 0，因此 12 月返回月号 11
 使用名称数组，并使用 getMonth() 将月份作为名称返回：
 var d = new Date();
@@ -764,6 +773,7 @@ var months =
             ];
 document.getElementById("demo").innerHTML = months[d.getMonth()];
 
+使用var date = new Date(); 得到的是那一刻的时间，后续无论调用多少次date.Seconds()，得到的永远是那一刻的时间
 getDate() 方法以数字（1-31）返回日期的日
 getHours() 方法以数字（0-23）返回日期的小时数
 getMinutes() 方法以数字（0-59）返回日期的分钟数
