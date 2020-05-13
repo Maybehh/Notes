@@ -202,9 +202,15 @@ DOM 处理中的一种常见错误是认为元素节点中包含文本(文本节
 访问 innerHTML 属性等同于访问首个子节点的 nodeValue：var myTitle = document.getElementById("demo").firstChild.nodeValue;
 也可以这样访问第一个子节点：var myTitle = document.getElementById("demo").childNodes[0].nodeValue;
 
-使用 innerHTML 取回 HTML 元素的内容（元素里的所有内容）
-document.body - 文档的 body 返回<body>标签
-document.documentElement - 完整文档 返回<html>标签
+元素节点的一些属性：
+1、innerHTML: 
+使用 innerHTML 取回 HTML 元素的内容（元素里的所有内容,以字符串形式，如" <span>123</span> "，前后空的是折行的空白文本节点）
+对一个元素使用.innerHTML会覆盖原来的所有内容
+追加内容：div.innerHTML += "123"
+会把innerHTML识别为html的结构内容，因此写样式也会生效<span style = "...."></span>
+2、innerText：会按顺序把文本节点取出来 <span>123</span> <strong>234</strong> 结果是 123 234 前中后的空格是空白文本节点
+赋值的话会把其他类型的节点也覆盖，如原来<div> <span>123</span> </div> 如果div.innerText = "123"，就会变成<div>123</div>
+老版本火狐不兼容，用了textContent（老版本ie不支持），现在浏览器基本兼容了innerText
 
 节点的四个属性：
 1、nodeName 属性规定节点的名称
@@ -313,23 +319,31 @@ function retSibling(e, n){
     return e;
 }
 
-创建文本节点。这段代码创建了一个文本节点：var node = document.createTextNode("这是一个新段落。");
+增：
+1、createElement() 创建元素节点
+2、createTextNode() 创建文本节点。这段代码创建了一个文本节点：var node = document.createTextNode("这是一个新段落。");
 向 <p> 元素追加这个文本节点：para.appendChild(node);
+3、createComment() 创建注释节点
+4、createDocmentFragment() 创建
 
-appendChild() 方法，追加新元素作为父的最后一个子元素
-element.insertBefore(para, child);  element是要插入结点的父节点，para是要插入的新节点，child是参考节点，para插在child前面
-para和child是element的子节点
-需删除某个 HTML 元素，您需要知晓该元素的父：
+插：
+1、parentNode.appendChild() 方法，追加新元素作为父的最后一个子元素 是剪贴操作，把原来的剪下来，再粘到新的位置（就一个，原来的在原来的位置会不见）
+2、parentNode.insertBefore(para, child);  parentNode是要插入结点的父节点，para是要插入的新节点，child是参考节点，para插在child前面
+para和child是parentNode的子节点
+
+删：
+1、需删除某个 HTML 元素，您需要知晓该元素的父：
 var parent = document.getElementById("div1");
 var child = document.getElementById("p1");
 parent.removeChild(child);
 这是一种常见的解决方法：找到你想要删除的子，并利用其 parentNode 属性找到父：
 var child = document.getElementById("p1");
-child.parentNode.removeChild(child);
+child.parentNode.removeChild(child);  返回的是被删除的节点（被剪切出来）
+2、child.remove() 是在 DOM 4 规范中实现的。但是由于糟糕的浏览器支持，不应该使用该方法
+remove()是真正的销毁，没有返回，结果是返回undefined
 
-node.remove() 是在 DOM 4 规范中实现的。但是由于糟糕的浏览器支持，不应该使用该方法
-
-如需替换元素的，请使用 replaceChild() 方法：parent.replaceChild(para,child); (para是新节点，child是原结点）
+替换：
+如需替换元素的，请使用 replaceChild() 方法：parent.replaceChild(new,origin); (new是新节点，origin是原结点）剪贴操作，返回的是origin节点
 
 getElementsByTagName() 方法返回 HTMLCollection 对象，HTMLCollection 对象是类数组的 HTML 元素列表（集合）
 length 属性定义了 HTMLCollection 中元素的数量，length 属性在您需要遍历集合中元素时是有用的
@@ -403,3 +417,12 @@ ul.onmouseover = function(e){
     target.style.backgroundColor = "rgb(0, 255," + target.getAttribute('img-date') + ")";
     target.setAttribute('img-date', parseInt(target.getAttribute('img-date')) + 6);
 }
+
+data-log是人工自己设计出来的属性，如data-log = "0"，data-log = "1"等，每个标签的属性值是唯一的，通过该属性值，点击一次后台就会获得该属性一次，
+通过属性值的个数来计算点击次数
+获取方法：
+a.onclick = function (){
+   console.log(this.getAttribute('data-log'));
+}
+getAttribute可以获取自行定义和系统定义的属性
+setAttribute可以设置自行定义和系统定义的属性
