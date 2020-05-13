@@ -442,4 +442,10 @@ Element.prototype.insertAfter = function(targetNode, afterNode){
 习惯在原型链上写方法，可以继承，不用把调用函数的对象也当作参数传进来（直接封装函数的话就得传）
 
 把内部元素节点倒置：children获得子元素节点后，先把倒数第二个appendChild，然后倒数第三，直到第一个
-
+Element.prototype.reverse = function(){
+       var arr = this.children;
+       var len = arr.length;
+       for(var i = len - 2 ; i >= 0; i--){
+            this.appendChild(arr[i]);
+       }
+}//每一次for循环，arr都在变化(如果子元素节点内有内容，也会跟着一起移)
