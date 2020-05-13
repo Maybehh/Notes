@@ -426,3 +426,6 @@ a.onclick = function (){
 }
 getAttribute可以获取自行定义和系统定义的属性
 setAttribute可以设置自行定义和系统定义的属性
+
+通过js写一个结构：
+可以按照结构通过setAttribute、appendChild等写，也可以直接写一个最大的元素，然后在最大的里写innerHTML
