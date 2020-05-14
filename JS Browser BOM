@@ -4,10 +4,10 @@
 甚至（HTML DOM 的）document 对象也是 window 对象属性：window.document.getElementById("header");
 等同于：document.getElementById("header");
 
-两个属性可用用于确定浏览器窗口的尺寸。这两个属性都以像素返回尺寸：
+两个属性可用用于确定浏览器窗口的尺寸（可视化大小）。这两个属性都以像素返回尺寸：
 window.innerHeight - 浏览器窗口的内高度（以像素计）
 window.innerWidth - 浏览器窗口的内宽度（以像素计）
-浏览器窗口（浏览器视口）不包括工具栏和滚动条。
+浏览器窗口（浏览器视口，看见的大小，因此打开控制台后会小）不包括工具栏和滚动条，如果打开控制台的话，也不算的，就是html文档的大小
 对于 Internet Explorer 8, 7, 6, 5：document.documentElement.clientHeight document.documentElement.clientWidth
 或document.body.clientHeight document.body.clientWidth
 一个实用的 JavaScript 解决方案（包括所有浏览器）：
@@ -172,3 +172,24 @@ cookie1 = value; cookie2 = value;
 显示所有 cookie 创建 cookie 1 创建 cookie 2 删除 cookie 1 删除 cookie 2
 如果你想找到一个指定 cookie 的值，你必须编写 JavaScript 函数来搜索 cookie 字符串中的 cookie 值
 具体cookie见csdn收藏
+
+滚动条滚动距离：页面顶端到滚动条所在页面位置的距离 = 单频页面高度 + 滚动条滚动代表的距离
+window.pageXOffset/pageYOffset  (ie9及其以下不兼容）
+ie9及其以下：document.documentElement.scrollLeft/scrollTop 或者 document.body.scrollLeft/scrollTop
+两种在ie下的不会同时兼容，且浏览器的支持情况没有规律，但只要支持一种，另一种的值就是0
+因此，在ie9及其以下经常这样写：document.documentElement.scrollLeft/scrollTop + document.body.scrollLeft/scrollTop 来求滚动条滚动距离
+
+封装兼容性方法，求滚动轮滚动距离getScrollOffset()
+function getScrollOfset(){
+     if(window.pageXOffset){
+         return {   //{ 不能写到下一行，因为系统会读取return所在行的后面的内容为返回值，即自动变成return ;
+           x: window.pageXOffset,
+           y: window.pageYOffset
+         }
+     } else {
+         return {
+            x: document.documentElement.scrollLeft + document.body.scrollLeft,
+            y: document.documentElement.scrollTop + document.body.scrollTop
+         }
+     }
+}
