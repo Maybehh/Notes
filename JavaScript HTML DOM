@@ -458,10 +458,12 @@ setInterval(function(){
 time = 2000;
 
 setInterval是非常不准的，它的机制是基于红黑树的，所以有提前有延后
-setInterval是window上的方法，只找GO
+setInterval是window上的方法，只找GO和内部函数的AO
 每一个setInterval都会返回一个数字，作为他的唯一标识，第一个定时器，第二个定时器，......（从1开始）
 因此clearInterval(..)就是clear传入的那个标识的对应的定时器
 因此需要用变量 = setInterval(..),以便于清除，不用变量接收标识就得清楚具体的标识，如clearInterval(1);
+
+setInterval("console.log('a');", 100); function的位置可以写代码块，也会执行
 
 setTimeout(function(){},1000); 延迟1000毫秒执行函数，只执行一次
 clearTimeout(timer)，标识不会setInterval重叠，不同时存在标识为1的setTimeout和setInterval，依次罗列
@@ -469,3 +471,22 @@ var timer = setInterval(..);
 var timer2 = setTimeout(..); 
 程序中按顺序写的话，timer = 1; timer2 = 2; 即在全局中标识每一个数字只会出现一次，按顺序进行标识
 
+都是全局window上的方法，内部函数的this指向window
+
+计时器：
+var minutesNode = document.getElementsByTagName("input")[0];
+var secondsNode = document.getElementsByTagName("input")[1];
+var minutes = 0,
+    seconds = 0;
+var timer = setInterval(function(){
+        seconds++;
+        if(seconds == 60){
+           seconds = 0;
+           minutes++;
+        }
+        minutesNode.value = minutes;
+        secondsNode.value = seconds;
+        if(minutes == 3){
+           clearInterval(timer);
+        }
+},1000);
