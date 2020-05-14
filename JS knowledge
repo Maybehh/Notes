@@ -812,7 +812,7 @@ setInterval(function(){
 
 设计倒计时：
 var date = new Date(...);//指定时间
-var time = date.getTime(...); //毫秒数
+var time = date.getTime(...); //毫秒数  
 time - new Date().getTime() 就可以得出现在还差多久到指定时间
 
 someday.setFullYear(2049, 0, 16);2049 年 1 月 16 日
