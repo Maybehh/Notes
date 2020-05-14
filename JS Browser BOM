@@ -237,3 +237,28 @@ document.offsetLeft,document.offsetRight等
 document.offsetParent返回最近的有定位的父级
 如无，返回body       body.offsetParent返回null
 
+让滚动条滚动：
+window上有3个办法
+scroll(),scrollTo()(两个方法一样的，只是名字不同）
+scroll(x,y) 让滚动条滚动到页面的指定位置(x,y)，不是叠加的，是指定的一个位置，因此无论写多少次都是在同一位置
+scrollBy用法类似，但是是在之前的数据上做累加，scrollBy(0,10)是在上次的位置向下滚动10px，有负数，负数表示向上滚动
+
+展开更多，然后收起时回到刚才位置：记录展开的window.pageXOffset/pageYOffset，然后收起scroll()到window.pageXOffset/pageYOffset
+快速自动阅读：
+var start = document.getElementsByTagName("div")[0];
+var stop = document.getElementsByTagName("div")[1];
+var timer = 0;
+var num = 10; //速度 (通过更改每次下滚的距离改变速度)
+var key = true; (加锁式，如果不加的话多次点击定时器会叠加，速度就会变快，且清除定时器只能清除最后一个定时器，因此停不下来）
+start.onclick = function(){
+   if(key){
+      timer = setInterval(function(){
+           scrollBy(0,num);
+      }, 100);//因为不能更改100（定时器一旦启动它的触发间隔是不变的），所以只能改下滚距离来改变速度
+      key = false;
+   }
+}
+stop.onclick = function(){
+    clearInterval(timer);
+    key = true;
+}
