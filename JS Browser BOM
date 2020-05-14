@@ -249,7 +249,9 @@ var start = document.getElementsByTagName("div")[0];
 var stop = document.getElementsByTagName("div")[1];
 var timer = 0;
 var num = 10; //速度 (通过更改每次下滚的距离改变速度)
-var key = true; (加锁式，如果不加的话多次点击定时器会叠加，速度就会变快，且清除定时器只能清除最后一个定时器，因此停不下来）
+var key = true; 
+(加锁式，如果不加的话多次点击定时器会产生多个定时器，按照点击的时刻进行，由于点击的时刻大部分不同，相当于在100ms之间执行了多次函数，速度就会变快，
+且清除定时器只能清除最后一个定时器（timer最后的值），因此停不下来）
 start.onclick = function(){
    if(key){
       timer = setInterval(function(){
@@ -262,3 +264,13 @@ stop.onclick = function(){
     clearInterval(timer);
     key = true;
 }
+
+脚本化（控制）css：(只有style可以写，其他的只能读）
+只能获取行间的css样式，写在其他的就算有，也不能获取，写也是只能写到行间上
+div.style会返回CSSStyleDeclaration类数组对象，可读可写，可以写原本元素上没有的属性(对象属性值行内样式有写的就有值，其他没写的属性的值为空""）
+没有兼容性问题，碰到float这样的保留字，在前面加css，即float->cssFloat(其实直接写float也可以获取，但最好写成cssFloat)
+复合属性尽量拆解写，如border直接写不太好，对要改的border属性写清楚，如borderWidth
+组合单词变成小驼峰式，如border-width变成borderWidth
+写入的值必须是字符串形式
+
+查询计算样式：
