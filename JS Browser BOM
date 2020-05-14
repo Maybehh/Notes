@@ -8,8 +8,10 @@
 window.innerHeight - 浏览器窗口的内高度（以像素计）
 window.innerWidth - 浏览器窗口的内宽度（以像素计）
 浏览器窗口（浏览器视口，看见的大小，因此打开控制台后会小）不包括工具栏和滚动条，如果打开控制台的话，也不算的，就是html文档的大小
-对于 Internet Explorer 8, 7, 6, 5：document.documentElement.clientHeight document.documentElement.clientWidth
-或document.body.clientHeight document.body.clientWidth
+
+对于 Internet Explorer 8, 7, 6, 5：
+document.documentElement.clientHeight document.documentElement.clientWidth（标准模式下任何浏览器都兼容）
+document.body.clientHeight document.body.clientWidth（适用于怪异模式下的浏览器）
 一个实用的 JavaScript 解决方案（包括所有浏览器）：
 var w = window.innerWidth
 || document.documentElement.clientWidth
@@ -17,6 +19,29 @@ var w = window.innerWidth
 var h = window.innerHeight
 || document.documentElement.clientHeight
 || document.body.clientHeight; 
+
+属性document.compatMode 返回值有两个，"CSS1Compat"是标准模式，"BackCompat"（向后兼容的意思）是怪异模式
+封装兼容性方法，返回浏览器视口尺寸：
+function getViewportOffset(){
+     if(window.innerWidth){
+         return {
+             w: window.innerWidth,
+             h: window.innerHeight
+         }
+     } else { 
+         if(document.compatMode === "BackCompat"){
+             return {
+                 w: document.body.clientWidth,
+                 h: document.body.clientHeight
+             }
+         } else {
+             return {
+                 w: document.documentElement.clientWidth,
+                 h: document.documentElement.clientHeight
+             }
+         }
+     }
+}
 
 window.open() - 打开新窗口
 window.close() - 关闭当前窗口
@@ -193,3 +218,20 @@ function getScrollOfset(){
          }
      }
 }
+
+查看元素的几何尺寸：
+document.getBoundingClientRect();
+兼容性很好
+返回一个对象，对象里面有left, top, right, bottom等属性。left和top代表该元素左上角的X和Y坐标，right和bottom代表该元素右下角的X和Y坐标
+height和width属性老版本IE未实现（用top和bottom减得height,left和right减width）
+返回的结果不是实时的，那个时刻得到的数据是不会变化的，后续改变宽高左右上下等也不会变化
+width和height是包括内容区和边框和内边距的
+
+document.offsetWidth和document.offsetHeight：返回元素的宽高（包括内容区和边框和内边距的）
+
+查看元素的位置：
+document.offsetLeft,document.offsetRight等
+对于无定位父级的元素，返回相对文档的距离。对于有定位父级的元素，返回相对于最近的有定位的父级的距离（不管该元素是否有定位）
+
+document.offsetParent
+
