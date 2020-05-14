@@ -231,7 +231,9 @@ document.offsetWidth和document.offsetHeight：返回元素的宽高（包括内
 
 查看元素的位置：
 document.offsetLeft,document.offsetRight等
-对于无定位父级的元素，返回相对文档的距离。对于有定位父级的元素，返回相对于最近的有定位的父级的距离（不管该元素是否有定位）
+对于无定位父级的元素，返回相对文档边界的距离。对于有定位父级的元素，返回相对于最近的有定位的父级边界的距离（不管该元素是否有定位）
+（文档是document，会把body的margin默认8px也算进去，top的话要注意margin塌陷）
 
-document.offsetParent
+document.offsetParent返回最近的有定位的父级
+如无，返回body       body.offsetParent返回null
 
