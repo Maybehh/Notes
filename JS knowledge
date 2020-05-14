@@ -724,6 +724,7 @@ JavaScript（默认情况下）将以全文本字符串格式输出日期：Wed 
 在 HTML 中显示日期对象时，会使用 toString() 方法自动转换为字符串
 toUTCString() 方法将日期转换为 UTC 字符串（一种日期显示标准）
 toDateString() 方法将日期转换为更易读的格式：document.getElementById("demo").innerHTML = d.toDateString();
+toTimeString() 方法返回时间字符串
 
 四种 JavaScript 日期输入格式：
 ISO 日期	"2018-02-19" （国际标准）
@@ -746,7 +747,7 @@ UTC（Universal Time Coordinated）等同于 GMT（格林威治时间）
 完整日期：var d = new Date("Mon Feb 19 2018 06:55:23 GMT+0100 (W. Europe Standard Time)");
 JavaScript 会忽略日期名称和时间括号中的错误
 
-构造函数是Date(); 因此执行Date()会打印那一串时间字符串
+构造函数是Date(); 执行Date()会返回那一串时间字符串，new Date()返回结果是对象
 Date.now() 返回自零日期（1970 年 1 月 1 日 00:00:00:00）以来的毫秒数
 document.getElementById("demo1").innerHTML = Date.now();
 
@@ -797,6 +798,22 @@ d.setDate(d.getDate() + 50); 如果添加天数，切换月份或年份，则更
 setHours() 方法设置日期对象的小时（0-23）
 setMinutes() 方法设置日期对象的分钟（0-59）
 setSeconds() 方法设置日期对象的秒数（0-59）
+setTime(); 设置1970年至今的毫秒数
+
+设置提醒：
+var date = new Date();
+date.setFullYear(...);
+date.setHours(...);
+setInterval(function(){
+     if(new Date().getTime() - date.getTime() > 1000){
+       ...
+     }
+},1000);
+
+设计倒计时：
+var date = new Date(...);//指定时间
+var time = date.getTime(...); //毫秒数
+time - new Date().getTime() 就可以得出现在还差多久到指定时间
 
 someday.setFullYear(2049, 0, 16);2049 年 1 月 16 日
 if (someday > today) {
