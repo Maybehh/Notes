@@ -303,3 +303,17 @@ function getStyle(elem, prop){
          return elem.currentStyle[prop];
      }
 }
+
+方块运动：
+var div = document.getElementsByTagName("div")[0];
+var speed = 2;
+var timer = setInterval(function(){
+     speed += speed/7;
+     div.style.left = parseInt(getStyle(div, "left")) + 10 + 'px'; // div.style.left 写到行间样式里
+     if(parseInt(div.style.left > 300){
+         clearInterval(timer);
+     }
+},100);
+
+设置position: absolute;后它的top,left,right,bottom的默认值是auto（即在出生的地方不动）
+auto不能被getComputedStyle直接输出，因为auto不是计算绝对值
