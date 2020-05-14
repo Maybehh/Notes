@@ -449,3 +449,23 @@ Element.prototype.reverse = function(){
             this.appendChild(arr[i]);
        }
 }//每一次for循环，arr都在变化(如果子元素节点内有内容，也会跟着一起移)
+
+定时器：
+var time = 1000;
+setInterval(function(){
+    ...
+}, time); //time只读取一次，以后的值永远是那一次读取的值，1000，不会变成2000
+time = 2000;
+
+setInterval是非常不准的，它的机制是基于红黑树的，所以有提前有延后
+setInterval是window上的方法，只找GO
+每一个setInterval都会返回一个数字，作为他的唯一标识，第一个定时器，第二个定时器，......（从1开始）
+因此clearInterval(..)就是clear传入的那个标识的对应的定时器
+因此需要用变量 = setInterval(..),以便于清除，不用变量接收标识就得清楚具体的标识，如clearInterval(1);
+
+setTimeout(function(){},1000); 延迟1000毫秒执行函数，只执行一次
+clearTimeout(timer)，标识不会setInterval重叠，不同时存在标识为1的setTimeout和setInterval，依次罗列
+var timer = setInterval(..);
+var timer2 = setTimeout(..); 
+程序中按顺序写的话，timer = 1; timer2 = 2; 即在全局中标识每一个数字只会出现一次，按顺序进行标识
+
