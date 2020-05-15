@@ -227,6 +227,29 @@ focus, blur, change, submit, reset, select等事件不冒泡
 
 当事件执行函数执行时，系统会传一个对象（该对象有各种信息，如鼠标点击的坐标等）给事件执行函数的第一个参数，
 因此可以在函数写上一个参数e，方便接受和操作这个对象
+事件对象：
+event || window.event   //ie会把系统的返回信息对象存储到window.event里而不是事件执行函数的参数里
+因此兼容var event = e || window.event; //e是函数自己写的参数，window.event是固定的
+
+事件源对象：（触发事件的那个元素对象（在DOM中，元素皆对象））
+event.target 火狐只有这个
+event.srcElement IE只有这个
+谷歌两个都有
+兼容：var target = event.target || event.srcElement;
+
+点击li,输出li里的内容：
+var ul = document......;
+ul.onclick = function(e){
+     var event = e || window.event;
+     var target = event.target || event.srcElement;
+     console.log(target.innerText);
+} //点击li会冒泡到ul上，因此设置ul的点击事件，就不用一个一个去绑定li了，然后获取点击的target，就得到具体的li元素，这样叫做事件委托
+
+事件委托：
+利用事件冒泡和事件源对象进行处理
+优点：
+1、性能 不需要循环所有的元素一个个绑定事件
+2、灵活 当有新的子元素时不需要重新绑定事件
 
 取消冒泡：（stopPropagation和cancelBubble都是系统传来的对象的方法）
 event.stopPropagation(); w3c标准，因此不支持ie9以下的版本
@@ -242,7 +265,7 @@ function stopBubble(event){
 }
 
 阻止默认事件：（表单提交、右键菜单、a标签跳转等是默认事件）
-document.oncontextmenu = function(e){  //是文档对象的事件，使用document.
+document.oncontextmenu = function(e){  //是文档对象的事件，使用document., 元素对象不能.
       console.log('a'); //在鼠标右键出菜单的同时，在控制台打印a
 }  //oncontextmenu是鼠标右键出菜单事件
 想要阻止默认事件：比如在右键的时候不要有菜单出现
@@ -262,6 +285,12 @@ function cancelHandler(event){
 }
 调用的时候用return cancelHandler(e);  //e是调用cancelHandler函数的函数的系统传入的对象
 
+a标签的跳转默认事件：(a中不写href属性就不会跳转，写了href = "" 就是默认到顶部)
+var a = ....; //href是目的意思，没有跳转功能，点击后跳转是a标签的默认行为
+a.onclick = function(){
+   return false;
+}
+也可以直接写<a href = "javascript: void(0)"></a> 在这里写void相当于写返回值，结果是return括号里的参数
 根据 W3C HTML DOM 标准，HTML 文档中的所有事物都是节点：
 整个文档是文档节点
 每个 HTML 元素是元素节点
