@@ -246,7 +246,7 @@ document.oncontextmenu = function(e){  //是文档对象的事件，使用docume
       console.log('a'); //在鼠标右键出菜单的同时，在控制台打印a
 }  //oncontextmenu是鼠标右键出菜单事件
 想要阻止默认事件：比如在右键的时候不要有菜单出现
-1、return false; 以对象属性的方式注册的事件才生效
+1、return false; 以对象属性的方式注册的事件才生效 //该方式只能阻止句柄写法的默认事件
 2、event.preventDefault(); W3C标注，ie9以下不兼容
 3、event.returnValue = false; 兼容ie
 
@@ -254,10 +254,13 @@ document.oncontextmenu = function(e){  //是文档对象的事件，使用docume
 function cancelHandler(event){
      if(event.preventDefault){
           event.preventDefault();
-     } else {
+     } else if(event.returnValue){
           event.returnValue = false;
+     } else {
+          return false;
      }
 }
+调用的时候用return cancelHandler(e);  //e是调用cancelHandler函数的函数的系统传入的对象
 
 根据 W3C HTML DOM 标准，HTML 文档中的所有事物都是节点：
 整个文档是文档节点
