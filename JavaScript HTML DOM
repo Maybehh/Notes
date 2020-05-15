@@ -92,6 +92,15 @@ id为“frm1”的form元素的所有子元素的对象（因为是x.element)
 document.getElementById("myBtn").onclick = displayDate;
 不可以写成document.getElementById("myBtn").onclick = displayDate();因为带括号就会先执行一次了，结果会马上出来，不用点击
 
+事件：
+1、ele.onXXX = function(event){}(这个是元素本来就有的事件，只是原来内容为空，现在给他绑定一个函数而已）
+兼容性很好，但是一个元素的同一个事件上只能绑定一个函数，写多个会被最后一个覆盖
+基本等同于写在行间样式上，即<div onclick = "console.log()"></div>在行间不用写function
+on这种绑定方式叫做句柄的绑定方式
+程序this指向是dom元素本身
+
+解除绑定：elem.onclick = null;
+
 当用户进入后及离开页面时，会触发 onload 和 onunload 事件
 onload 事件可用于检测访问者的浏览器类型和浏览器版本，然后基于该信息加载网页的恰当版本
 onload 和 onunload 事件可用于处理 cookie：
@@ -112,7 +121,7 @@ onmousedown, onmouseup 以及 onclick 事件构成了完整的鼠标点击事件
 最后，当鼠标点击完成后（按下放开后），onclick 事件被触发
 onmousemove在进入内容和在内容里移动都会触发事件，而onmouseover只有在进入内容会触发内容
 
-addEventListener() 方法为元素附加事件处理程序而不会覆盖已有的事件处理程序
+2、addEventListener() 方法为元素附加事件处理程序而不会覆盖已有的事件处理程序
 您能够向一个元素添加多个事件处理程序。您能够向一个元素添加多个相同类型的事件处理程序，例如两个 "click" 事件。
 您能够向任何 DOM 对象添加事件处理程序而非仅仅 HTML 元素，例如 window 对象
 addEventListener() 方法使我们更容易控制事件如何对冒泡作出反应
@@ -124,10 +133,20 @@ element.addEventListener(event, function, useCapture);
 第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的
 注意：请勿对事件使用 "on" 前缀；请使用 "click" 代替 "onclick"
 element.addEventListener("click", function(){ alert("Hello World!"); });
+程序this指向是dom元素本身
 
+可以绑定多次：（ie9以下不兼容）
 element.addEventListener("click", myFunction);
 element.addEventListener("click", mySecondFunction);
 点一次后按顺序执行函数
+
+element.addEventListener("click", function(){ alert("Hello World!"); });
+element.addEventListener("click", function(){ alert("Hello World!"); });
+点一次后弹两次警告框（函数的地址不一样，是两个函数）
+element.addEventListener("click", test);
+element.addEventListener("click", test);
+function test(){ alert("Hello World!"); }
+点击一次后只弹一个框，因为是同一个函数，即同一个元素绑定同一个事件，事件函数是同一个函数（地址相同）只能执行一次
 
 添加当用户调整窗口大小时触发的事件监听器：
 window.addEventListener("resize", function(){
@@ -152,9 +171,18 @@ document.getElementById("myDIV").removeEventListener("mousemove", myFunction);
 
 IE 8、Opera 6.0 及其更早版本不支持 addEventListener() 和 removeEventListener() 方法。
 不过，对于这些特殊的浏览器版本，您可以使用 attachEvent() 方法向元素添加事件处理程序，并由 detachEvent() 方法删除：
-element.attachEvent(event, function);
+element.attachEvent(event, function);（可以同时绑定同一个函数多次，即可以执行多次）
 element.detachEvent(event, function);
 event使用onclick
+attachEvent只有两个参数，当然传第三个也不会报错，函数中不使用它而已，不会有任何意义（仅存在arguments中，没什么用）
+程序this指向是window，使this指向元素方法：
+div.attachEvent('onclick', function(){
+    handle.call(div);
+});
+function handle(){
+    this......
+}
+
 跨浏览器解决方案：
 var x = document.getElementById("myBtn");
 if (x.addEventListener) {                    // 针对主流浏览器，除了 IE 8 及更正版本
@@ -162,6 +190,26 @@ if (x.addEventListener) {                    // 针对主流浏览器，除了 I
 } else if (x.attachEvent) {                  // 针对 IE 8 及更早版本
     x.attachEvent("onclick", myFunction);
 } 
+
+封装函数：
+function addEvent(elem, type, handle){
+      if(elem.addEventListener) {
+           elem.addEventListener(type, handle, false);
+      } else if(elem.attachEvent){
+           elem.attachEvent('on' + type, handle);
+      } else {
+           elem['on' + type] = handle;
+      }
+}
+
+点击li，出现它的索引：
+for(var i = 0; i < len; i++){
+    (function(i){
+          liCol[i].onclick = addEventListener('click', function(){
+                 console.log(i);
+          }, false);
+     }(i));
+}
 
 根据 W3C HTML DOM 标准，HTML 文档中的所有事物都是节点：
 整个文档是文档节点
