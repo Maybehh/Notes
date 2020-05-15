@@ -169,6 +169,7 @@ addEventListener(event, function, useCapture);
 removeEventListener() 方法会删除已通过 addEventListener() 方法附加的事件处理程序：
 document.getElementById("myDIV").addEventListener("mousemove", myFunction);
 document.getElementById("myDIV").removeEventListener("mousemove", myFunction);
+若绑定匿名函数，则无法解除
 想要解除绑定的事件的函数必须同一个函数，因此函数必须得写在外面，使用函数声明，这样子才能找到函数解除绑定
 
 IE 8、Opera 6.0 及其更早版本不支持 addEventListener() 和 removeEventListener() 方法。
