@@ -99,7 +99,8 @@ document.getElementById("myBtn").onclick = displayDate;
 on这种绑定方式叫做句柄的绑定方式
 程序this指向是dom元素本身
 
-解除绑定：elem.onclick = null;
+解除绑定：elem.onclick = null/''/false;
+点一次就解除：elem.onclick = function(){ ....; this.onclick = null;}
 
 当用户进入后及离开页面时，会触发 onload 和 onunload 事件
 onload 事件可用于检测访问者的浏览器类型和浏览器版本，然后基于该信息加载网页的恰当版本
@@ -168,6 +169,7 @@ addEventListener(event, function, useCapture);
 removeEventListener() 方法会删除已通过 addEventListener() 方法附加的事件处理程序：
 document.getElementById("myDIV").addEventListener("mousemove", myFunction);
 document.getElementById("myDIV").removeEventListener("mousemove", myFunction);
+想要解除绑定的事件的函数必须同一个函数，因此函数必须得写在外面，使用函数声明，这样子才能找到函数解除绑定
 
 IE 8、Opera 6.0 及其更早版本不支持 addEventListener() 和 removeEventListener() 方法。
 不过，对于这些特殊的浏览器版本，您可以使用 attachEvent() 方法向元素添加事件处理程序，并由 detachEvent() 方法删除：
