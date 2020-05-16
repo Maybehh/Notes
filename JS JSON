@@ -221,3 +221,71 @@ function clickButton() {
     document.body.appendChild(s);
 }
 返回的时候用myDisplayFunction函数，函数参数为服务器文件写好的返回的函数的参数
+
+domTree的检索是深度优先 （检测到div后，检索div的子元素，等全部检索完，再检索div的兄弟节点）
+domTree变了则renderTree就会变，因此要重新渲染，叫reflow重构（重排）
+reflow: dom节点的删除、添加
+        dom节点的宽高变化，位置变化，display: none和block的互变（cssTree变了，dom节点的大小等变化了）
+        offsetWidth, offsetHeight, offsetLeft等 系统读取的时候会重绘renderTree,以确保得到的是实时的数据
+repaint重绘：改变颜色之类的，不改变大小，要找到对应的位置重绘，其他的位置不用动
+
+js会阻断html和css加载线，因为js可以修改html和css,因此如果<script>写在html前会妨碍页面的渲染，因此一般写在body最后
+网页一开始加载留白，就是在加载js
+有时候一个js文件出现差错，就整个页面不能加载了，因此出现了异步加载js
+
+实现js加载异步：（和html等是同时下载的）
+1、defer: 在<script>里加上defer="defer"(凡是属性值等于属性名的，可以只写属性属性名）， 即<script defer="defer">
+该下载好的js要等到dom文档全部被解析(不是加载，不用加载图片等的)完才会被执行，只有ie能用
+也可以将代码写到内部，
+<script defer="defer"> var a = 123; </script> 这样子的话代码块就要等到执行<script>才会执行了(这个时候就不可写src了，就相当于在<script>里写
+代码了，而不是引入了）
+
+2、async: 加载完就执行，async只能加载外部脚本，不能把js写在script标签里（非ie和ie高端可以用，符合w3c就可以用）
+
+兼容：不能<script defer="defer" async="async“>ie9以上都能识别，就崩了
+     不能<script defer="defer"> <script async="async“> 同时写，这样子<script defer="defer">会在解析后执行，冲突，代码执行的结果可能就不对了
+
+<script>
+  var script = document.creatElement("script");
+  script.type = "text/javascript";
+  script.src = "..."; //这时候只下载并不能执行
+  document.head.appendChild(script); //这个时候就可以执行了
+  test(); //立即调用执行不了，因为在下载js的同时，后面的代码也按顺序继续执行，下载没完就执行，因此找不到函数，所以不能执行，如果setTimeout就可以，
+            但是时间是不好把控的，因此不能这么写
+</script>
+因此改成script.onload = function () { test(); } 就可以保证下载完再执行了
+兼容性很好，但是ie不行，ie就script标签没有onload事件
+ie有自己的方法：
+script.onreadystatechange = function () {
+    if(script.readyState == "complete" || script.readyState == "loaded") {
+          test();
+    }
+}
+当满足一定条件才执行的函数叫回调函数（callback）
+
+按需加载：设置个按钮，在用户需要某种功能时由用户点击再去实现加载js
+兼容封装：（按需加载）
+function loadScript (url, callback) {
+      var script = document.creatElement("script");
+      script.type = "text/javascript";
+      if(script.readyState) {  
+          script.onreadystatechange = function () {  //有可能加载完js文件后再执行到这里，这时候script.readyState == "complete"了，就不会
+                                  再变了，onreadystatechange就不会生效了，事件就不会执行了，因此把 script.src = url;加载 放在绑定后
+              if(script.readyState == "complete" || script.readyState == "loaded") {
+                  callback();
+              }
+          }
+      } else {
+          script.onload = function () { 
+               callback(); 
+          }
+      }
+      script.src = url;
+      document.head.appendChild(script); //下载同时执行，因此下载完就可以执行js文件，而且变了状态可以执行上面的函数
+}
+loadScript('demo.js', test); 报错，因为不知道test是什么东西，只知道loadScript()，里面的函数内容是执行才会解析的
+loadScript('demo.js', function () { test(); }); 这样子就可以解析了function，然后传入function，在执行function的时候会执行test()
+
+也可以loadScript('demo.js', 'test()'); 然后callback();改成eval(callback); 但不要用eval;
+setInterval也可以把字符串当成代码执行
+也可以把函数写在一个js对象里，loadScript('demo.js', 'test')然后callback();改成tools[callback](); tools是包含test方法的对象
