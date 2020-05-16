@@ -295,8 +295,14 @@ script.onreadystatechange = function () {
 检索到script就会执行，执行到函数时又因为是异步下载js文件，所以可以执行后续的代码，script标签里的执行完后，就会顺序执行html,
 实现同时下载js文件和加载html文档（不会阻塞html的渲染）即异步
 
+在加载html时要用js中的某个方法时，用3方案，但仅仅加载一个工具库暂不用到的话，直接写在最后就可以啦
+（或者改进3方案，不用执行具体方法，只把它作为加载js用的方法也可以)
+（如果想要加载效率比较高，就用改进的只下载js文件的方案3）
+
 loadScript('demo.js', test); 报错，因为不知道test是什么东西，只知道loadScript()，里面的函数内容是执行才会解析的
 loadScript('demo.js', function () { test(); }); 这样子就可以解析了function，然后传入function，在执行function的时候会执行test()
 也可以loadScript('demo.js', 'test()'); 然后callback();改成eval(callback); 但不要用eval;
 setInterval也可以把字符串当成代码执行
 也可以把函数写在一个js对象里，loadScript('demo.js', 'test')然后callback();改成tools[callback](); tools是包含test方法的对象
+
+js加载时间线：
