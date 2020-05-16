@@ -265,7 +265,7 @@ function stopBubble(event){
 }
 
 阻止默认事件：（表单提交、右键菜单、a标签跳转等是默认事件）
-document.oncontextmenu = function(e){  //是文档对象的事件，使用document., 元素对象不能.
+document.oncontextmenu = function(e){  //默认事件是document对象的事件，使用document., 元素对象不能. (加了也没有默认事件的作用)
       console.log('a'); //在鼠标右键出菜单的同时，在控制台打印a
 }  //oncontextmenu是鼠标右键出菜单事件
 想要阻止默认事件：比如在右键的时候不要有菜单出现
