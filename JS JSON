@@ -261,12 +261,16 @@ script.onreadystatechange = function () {
           test();
     }
 }
+
+1、2种方法执行时不阻塞页面
+
 当满足一定条件才执行的函数叫回调函数（callback）
 按需加载：设置个按钮，在用户需要某种功能时由用户点击再去实现加载js
 
-3、动态加载script标签：（全兼容）
-兼容封装：（按需加载）
-function loadScript (url, callback) {
+3、创建script标签，插入到DOM中，加载完毕后callBack：（既能异步，又能按需加载）
+封装：（全兼容，最常用）
+<script>
+  function loadScript (url, callback) {
       var script = document.creatElement("script");
       script.type = "text/javascript";
       if(script.readyState) {  
@@ -283,10 +287,16 @@ function loadScript (url, callback) {
       }
       script.src = url;
       document.head.appendChild(script); //下载同时执行，因此下载完就可以执行js文件，而且变了状态可以执行上面的函数
-}
+  }
+  loadScript('demo.js', function () { test(); }); //需要加载的写在</script>前面
+</script> 
+尽管script标签放在body最后可以先加载html再加载script，但不是最好的方式，这不是异步（不可以一边加载html一边加载js文件，还是比较慢）
+所以用第三种方式可以实现异步加按需（不用下载不必要的js文件）
+检索到script就会执行，执行到函数时又因为是异步下载js文件，所以可以执行后续的代码，script标签里的执行完后，就会顺序执行html,
+实现同时下载js文件和加载html文档（不会阻塞html的渲染）即异步
+
 loadScript('demo.js', test); 报错，因为不知道test是什么东西，只知道loadScript()，里面的函数内容是执行才会解析的
 loadScript('demo.js', function () { test(); }); 这样子就可以解析了function，然后传入function，在执行function的时候会执行test()
-
 也可以loadScript('demo.js', 'test()'); 然后callback();改成eval(callback); 但不要用eval;
 setInterval也可以把字符串当成代码执行
 也可以把函数写在一个js对象里，loadScript('demo.js', 'test')然后callback();改成tools[callback](); tools是包含test方法的对象
