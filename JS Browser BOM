@@ -317,3 +317,23 @@ var timer = setInterval(function(){
 
 设置position: absolute;后它的top,left,right,bottom的默认值是auto（即在出生的地方不动）
 auto不能被getComputedStyle直接输出，因为auto不是计算绝对值
+
+window.onscroll = function(e){
+   ...;
+} //当滚动条滚动时触发
+滚动条的位置是pageXOffset，而鼠标是pageX
+ie6没有position: fixed; 模拟：绝对定位，每次滚动它的top = top + e.pageYOffset;
+
+浏览器在解析html是会生成domtree，
+       document
+        html
+head              body
+....
+解析css会生成cssTree,
+cssTree和domTree结合在一起就会形成renderTree（dom树每个节点有了css样式），然后开始绘制页面
+
+html解析时，看到标签确定后，就立即把该标签挂到domTree上，不用等他加载完图片啊等其他需要加载的东西，确定它是什么节点就马上挂上去
+然后再开启其他线程去执行加载任务
+因此script写在body最后，只要dom树搭建完成就可以进行操作了
+
+window.onload要等所有都加载完，包括图片等再去执行window.onload里的代码，因此效率低
