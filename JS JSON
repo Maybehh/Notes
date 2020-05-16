@@ -295,8 +295,9 @@ script.onreadystatechange = function () {
 检索到script就会执行，执行到函数时又因为是异步下载js文件，所以可以执行后续的代码，script标签里的执行完后，就会顺序执行html,
 实现同时下载js文件和加载html文档（不会阻塞html的渲染）即异步
 
-在加载html时要用js中的某个方法时，用3方案，但仅仅加载一个工具库暂不用到的话，直接写在最后就可以啦
-（或者改进3方案，不用执行具体方法，只把它作为加载js用的方法也可以)
+script放在最后的话dom的渲染是最快的，script放在head里用方案3可以使渲染加js的速度最快，但一般我们追求客户看到最快，因此一般放最后
+在解析dom时要用js中的某个方法时，用3方案，但仅仅加载一个工具库暂不用到的话，直接写在最后就可以啦
+（改进3方案，不用执行具体方法，只把它作为加载js用的方法也可以)
 （如果想要加载效率比较高，就用改进的只下载js文件的方案3）
 
 loadScript('demo.js', test); 报错，因为不知道test是什么东西，只知道loadScript()，里面的函数内容是执行才会解析的
@@ -305,4 +306,25 @@ loadScript('demo.js', function () { test(); }); 这样子就可以解析了funct
 setInterval也可以把字符串当成代码执行
 也可以把函数写在一个js对象里，loadScript('demo.js', 'test')然后callback();改成tools[callback](); tools是包含test方法的对象
 
-js加载时间线：
+js加载时间线：（浏览器在运行一个页面时，首先会初始化js功能，当初始化完js这一个功能后，js开始发挥作用的时候的时间线）
+1.创建Document对象，开始解析web页面，解析HTML元素和他们的文本内容后添加Element对象和Text节点到文档中。这个阶段document.readyState = "loading"
+2.遇到link外部css，创建线程加载，并继续解析文档
+3.遇到script外部js，并且没有设置async，defer，浏览器加载，并阻塞，等待js加载完成并执行该脚本，然后继续解析文档
+4.遇到script外部js，并且设置有async，defer 浏览器创建线程加载，并继续解析文档，对于async属性的脚本，脚本加载完成后立即执行
+（异步禁止使用docuemnt.write()，在文档加载后再使用该方法，会把body内的所有清空（包括script标签），然后写上docuemnt.write()所要打印的东西）
+5.遇到img标签等，先正常解析dom结构，然后浏览器异步加载src，并继续解析文档
+6.当文档解析完成，document.readyState = "interactive"
+7.文档解析完成后，所有设置有defer的脚本会按照顺序执行
+8.当文档解析完成之后，document对象触发DOMContentLoaded事件，这也标志着程序执行从同步脚本执行阶段，转化为事件驱动阶段
+9.当所有async的脚本加载完成并执行后，img等加载完成后，document.readyState = "complete"  window对象触发load事件
+10.从此，页面以异步响应方式处理用户输入，网络事件等
+
+domTree建成要把节点和节点的内容解析完（文本、标签里的语句要一起解析完才算建成dom树）
+使用onreadystatechange可以打印两个readyState状态（loading是一开始的状态，不会变化到loading的）（属性单词首字母大写，事件全小写）
+
+script标签也是domtree的一个节点
+js代码在DOM解析完就进行操作，加载完再操作太慢了
+dom解析完触发事件：DOMContentLoaded
+DOMContentLoaded事件只能addEventListener
+document.addEventListener('DOMContentLoaded', function () {}, false);
+jq中$(document).ready(function () {}); 当DOM解析完就执行
