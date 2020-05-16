@@ -262,8 +262,9 @@ script.onreadystatechange = function () {
     }
 }
 当满足一定条件才执行的函数叫回调函数（callback）
-
 按需加载：设置个按钮，在用户需要某种功能时由用户点击再去实现加载js
+
+3、动态加载script标签：（全兼容）
 兼容封装：（按需加载）
 function loadScript (url, callback) {
       var script = document.creatElement("script");
