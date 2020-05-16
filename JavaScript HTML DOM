@@ -681,3 +681,5 @@ document.onkeypress = function (e) {
 }
 按键之后的信息对象的which记录按下的是哪一个键（键盘每一个键有一个标号）
 
+oninput：当input的value变化时就会触发
+onchange: 聚焦和失焦的时候input的内容改变了就会触发（聚焦和失焦的时候内容一样就不会触发）
