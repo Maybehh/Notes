@@ -1012,11 +1012,17 @@ JavaScript 将数字存储为 64 位浮点数，但所有按位运算都以 32 �
 进制的转换toString()
 parseInt(bin, 2).toString(10);  bin以二进制解析取整后转换为十进制
 
+""不能过行，不能var n = "
+                  "
+
 正则表达式是构成搜索模式的字符序列。该搜索模式可用于文本搜索和文本替换操作
 语法：/pattern/modifiers;
-/w3school/i 是一个正则表达式。
-w3school 是模式（pattern）（在搜索中使用）。
+/w3school/i 是一个正则表达式
+w3school 是模式（pattern）（在搜索中使用）
 i 是修饰符（把搜索修改为大小写不敏感）
+
+\n文档识别不了，会变成空格，在控制台可以识别
+\r是行结束符，一般系统按回车是\r\n，在linux是\n（行结束符，代表一行结束了，没有实际显示的变化（不会过行的））
 
 使用正则表达式执行搜索字符串中 "w3school" 的大小写不敏感的搜索：
 var str = "Visit W3School";
@@ -1027,23 +1033,56 @@ var str = "Visit Microsoft!";
 var res = str.replace(/microsoft/i, "W3School"); 
 res 的结果将是：Visit W3School!
 正则表达式可以使您的搜索更强大（例如，不区分大小写）
-修饰符可用于大小写不敏感的更全局的搜素：
+
+修饰符可用于大小写不敏感的更全局的搜索：（检索匹配得到的结果是数组，它的__proto__指向Array）
 修饰符	描述
 i	执行对大小写不敏感的匹配  var patt1 = /w3school/i;  var result = str.match(patt1);
 g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）var patt1 = /is/g;  var result = str.match(patt1);
+        //会把每个符合的以字符串的形式作为数组元素返回，得到的是一个数组         str是"isisis", 则得到result = ["is", "is", "is"];
 m	执行多行匹配  var patt1 = /^is/m;  在字符串中每行的开头对“is”进行多行搜索 (^是每行开头第一个（第一个字符或单词）的意思)
                       /^i/m;  找的是每行第一个字符是i
-括号用于查找一定范围的字符串：
-表达式	描述
+		      在/ /（匹配的格式，匹配的表达式写在里面）里的^是以...开头的意思，[ ]（表达式）里的^是非的意思
+                    var str = "ice\ni";  var result = str.match(/^i/g); 得到的是result = ["i"], g是把所有的全部看成一行，不管有没有换行符
+		    var result = str.match(/^i/gm); 得到的是result = ["i", "i"]; 加了m就可以看成多行的了，有换行符的就会看作下一行了
+		    var result = str.match(/^i/m); 得到的是result = ["i"]; 即m不是全局的，单独使用检索一行，能识别\n，得配合g使用才能检索多行
+		    单独使用m时得到的数组还会包括input: "ice\ni"等数组元素
+		    
+中括号用于查找一定范围的字符串：（检查过的了就不会再看了）/[0-9][0-9][0-9]/ 的话，12309u，结果是["123"]
+表达式	描述    //[]里的表示区间，任取其一符合匹配就可以
 [abc]	查找方括号之间的任何字符  var patt1 = /[h]/g; 所有的h都会显示出来   ，分隔开
-[0-9]	查找任何从 0 至 9 的数字  var patt1 = /[1-4]/g;  1,2,3,4
-(x|y)	查找由 | 分隔的任何选项（找x和y)  var patt1 = /(red|green)/g;  字符中所有的red和green都会显示出来
-元字符（Metacharacter）是拥有特殊含义的字符：
+[0-9]	查找任何从 0 至 9 的数字  var patt1 = /[1-4]/g;  1,2,3,4    [0-9A-Za-z]
+(x|y)	查找由 | 分隔的任何选项（找x和y)  var patt1 = /(red|green)/g;  字符中所有的red和green都会显示出来（有x或y就会匹配，x y都有全部匹配）
+
+元字符（Metacharacter）是拥有特殊含义的字符：（表达式[]内可以写元字符）
 元字符	描述
-\d	查找数字    var patt1 = /\d/g;  字符串中所有数字都会显示出来   ，分隔开
-\s	查找空白字符   var patt1 = /\s/g;  默认显示空格数减一个，
+\d	查找数字[0-9]    var patt1 = /\d/g;  返回数组，数组元素是字符串形式
+\D      [^\d]
+\s	查找空白字符[\t\n\r\v\f ]（最后一个是空格）   var patt1 = /\s/g;  默认显示空格数减一个，
+\t      制表符  /\tc/g, str = "ac	ch" (空格是制表符) 这样的结果是null,不匹配的
+                        写str = "ac\tch" 这样子才会匹配，得到的结果是["	c"]， 空格是制表符，
+			同样，换成\n，结果是["回车符号c"]，\r显示结果是["c"]，\f同\r，\v是["方框c"]
+		        同时也会有input: "ac	ch"(空格是制表符）等数组元素（不同元字符的input等其他数组元素都是不同的）
+\f      换页符
+\v      垂直制表符
+\r      行结束符（查找回车符）
+\n      换行符
+\S      [^\s]
 \b	匹配单词边界    var patt1 = /\bW3/g;  在字符串中单词的开头或结尾处对“W3”进行全局搜索(W3CHH可以，DW3不可以）
-\uxxxx	查找以十六进制数 xxxx 规定的 Unicode 字符  var patt1 = /\u0057/g;  全局搜索字符串中的十六进制数0057（W）
+        var str = "abc cde efg";（有6个单词边界："|abc| |cde| |efg|"，竖杆表示单词边界，一边是字母，一边是空格，首尾两个一边是空格，一边是界） 
+	var patt1 = /\bc/g 查找前面是单词边界的c 结果返回cde的c，为["c"]
+	var patt1 = /\bc\B/g 查找前面是单词边界，后面不是单词边界的c，结果是cde的c
+\B      匹配非单词边界（看一个间隙的左右两边是否都是字母，是的话就不是单词边界，不是的话就是单词边界）
+\uxxxx	查找以十六进制数 xxxx 规定的 Unicode 字符  var patt1 = /\u0057/g;  全局搜索字符串中的十六进制数0057（H）(匹配的是第一层而已）
+	\uxxxxxx unicode有好多层，每一层有4位十六进制个数的Unicode字符，\uxxxxxx前两位是代表第几层，后四位是代表该层的第几个
+	（一层最多表示到ffff，一层有ffff+1个Unicode字符)
+	每一个代表一个unicode字符
+        01代表第一层，可以不写，第二层是02，要找第二层的话就一定得写了，以此类推
+\w      相当于[0-9A-z_]
+\W      相当于[^\w]
+.       [^\r\n] 除了行结束符和换行符外都可以匹配      /./g
+
+[\s\S]，[\d\D]等组合可以匹配一个任意的东西
+
 Quantifiers 定义量词：
 量词	描述
 n+	匹配任何包含至少一个 n 的字符串   var patt1 = /o+/g;  每一段有多少个o都显示出来（只显示o）   ，分隔开   ooo,o,o,oo(下面的字符串)
@@ -1056,12 +1095,19 @@ var str = "1, 100 or 1000?";  var patt1 = /10?/g;
 
 使用 RegExp 对象
 在 JavaScript 中，RegExp 对象是带有预定义属性和方法的正则表达式对象
+var reg = /abce/m;
+var reg1 = new RegExp("abc", "m");  //此时reg1和reg不是同一个
+var reg2 = new RegExp(reg);  //此时reg2和reg不是同一个
+但reg3 = RegExp(reg);的话，就是引用reg，reg3和reg是同一个
 
-test() 是一个正则表达式方法。它通过模式来搜索字符串，然后根据结果返回 true 或 false。
+test() 是一个正则表达式方法。它通过模式来搜索字符串，然后根据结果返回 true 或 false
 下面的例子搜索字符串中的字符 "e":
 var patt = /e/;
 patt.test("The best things in life are free!"); 返回true
 简写：/e/.test("The best things in life are free!");
+var patt = /abc/;
+patt.test("abe"); 返回false
+abc之间要连着的
 
 exec() 方法是一个正则表达式方法。它通过指定的模式（pattern）搜索字符串，并返回已找到的文本。如果未找到匹配，则返回 null。
 下面的例子搜索字符串中的字符 "e"：
