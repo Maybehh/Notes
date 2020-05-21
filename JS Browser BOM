@@ -274,7 +274,7 @@ div.style会返回CSSStyleDeclaration类数组对象，可读可写，可以写�
 组合单词变成小驼峰式，如border-width变成borderWidth
 写入的值必须是字符串形式
 
-查询计算样式：
+查询计算样式：(返回的是带px的字符串)
 window.getComputedStyle(ele, null).属性;
 得到CSSStyleDeclaration类数组对象，只读，得到的值是最后显示出来的样式值（不管是哪种方式的样式），对象其他属性的值为默认值，不是空
 返回的计算样式的值都是绝对值，没有相对的单位，比如em，%等会换算成最终的px, 颜色会转变成rgba()形式
@@ -286,7 +286,7 @@ div::after{
      background-color: green;
      display: inline-block;
 }
-window.getComputedStyle(div, "after").width; //获取伪元素的唯一方法，但是不能写
+window.getComputedStyle(div, "after").width; //获取伪元素的唯一方法，但是不能写入
 改变伪元素样式，通常为同一个元素的同一个after，用不同的class写不同的样式，之后事件触发，通过js改变该元素的class，进而改变伪元素的样式
 （点击后箭头朝上之类的）
 div.className, div.id（改样式这么改，比较有效率，方便维护）
