@@ -1035,11 +1035,12 @@ res 的结果将是：Visit W3School!
 正则表达式可以使您的搜索更强大（例如，不区分大小写）
 
 修饰符可用于大小写不敏感的更全局的搜索：（检索匹配得到的结果是数组，它的__proto__指向Array）
+这些都是Reg对象的属性，Reg.ignoreCase  有写i返回的就是true，没写返回的就是false
 修饰符	描述
-i	执行对大小写不敏感的匹配  var patt1 = /w3school/i;  var result = str.match(patt1);
-g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）var patt1 = /is/g;  var result = str.match(patt1);
+i	执行对大小写不敏感的匹配  var patt1 = /w3school/i;  var result = str.match(patt1);      ignoreCase
+g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）var patt1 = /is/g;  var result = str.match(patt1);     global
         //会把每个符合的以字符串的形式作为数组元素返回，得到的是一个数组         str是"isisis", 则得到result = ["is", "is", "is"];
-m	执行多行匹配  var patt1 = /^is/m;  在字符串中每行的开头对“is”进行多行搜索 (^是每行开头第一个（第一个字符或单词）的意思)
+m	执行多行匹配  var patt1 = /^is/m;  在字符串中每行的开头对“is”进行多行搜索 (^是每行开头第一个（第一个字符或单词）的意思)    multiline
                       /^i/mg;  找的是每行第一个字符是i，若str = "ice" 结果是["i"]，且如果只有一个的时候会有input等数组信息
 		      在/ /（匹配的格式，匹配的表达式写在里面）里的^是以...开头的意思，[ ]（表达式）里的^是非的意思
                     var str = "ice\ni";  var result = str.match(/^i/g); 得到的是result = ["i"], g是把所有的全部看成一行，不管有没有换行符
@@ -1112,14 +1113,14 @@ n$      以n结尾的字符串 /ed$/ 以ed结尾的，这个式子是匹配ed结
 检验一个字符串首尾是否含有数字：/^\d|\d$/g
              首尾都含有数字：/^\d[\s\S]*\d$/g
 
-使用 RegExp 对象
+使用 RegExp 对象 m，i等都是它的属性，sourse属性返回整个表达式的内容
 在 JavaScript 中，RegExp 对象是带有预定义属性和方法的正则表达式对象
 var reg = /abce/m;
 var reg1 = new RegExp("abc", "m");  //此时reg1和reg不是同一个
 var reg2 = new RegExp(reg);  //此时reg2和reg不是同一个
 但reg3 = RegExp(reg);的话，就是引用reg，reg3和reg是同一个
 
-test() 是一个正则表达式方法。它通过模式来搜索字符串，然后根据结果返回 true 或 false
+test() 是一个正则表达式方法。它通过模式来搜索字符串，然后根据结果返回 true 或 false  reg.test()
 下面的例子搜索字符串中的字符 "e":
 var patt = /e/;
 patt.test("The best things in life are free!"); 返回true
@@ -1128,7 +1129,10 @@ var patt = /abc/;
 patt.test("abe"); 返回false
 abc之间要连着的
 
-exec() 方法是一个正则表达式方法。它通过指定的模式（pattern）搜索字符串，并返回已找到的文本。如果未找到匹配，则返回 null。
+reg.lastIndex返回当前光标的位置，和exec()配合使用
+console.log(reg.exec(str));会打印出类数组完整信息，exec()光标匹配会循环，如reg = /ab/g; str = "abababab"; 则循环4次后会出现null，因为第四次后，光标在8，后面没有了，
+即第5次是null，光标变成0，然后第6次结束后光标就在2
+exec() 方法是一个正则表达式方法。它通过指定的模式（pattern）搜索字符串，并返回已找到的文本。如果未找到匹配，则返回 null。  reg.exec()
 下面的例子搜索字符串中的字符 "e"：
 /e/.exec("The best things in life are free!");
 由于字符串中有一个 "e"，以上代码的输出将是：e
