@@ -1,8 +1,20 @@
+BOM包含DOM
+BOM的window对象包含document
+document对象又是DOM模型的根节点
 所有浏览器都支持 window 对象。它代表浏览器的窗口。
 所有全局 JavaScript 对象，函数和变量自动成为 window 对象的成员
 全局变量是 window 对象的属性。全局函数是 window 对象的方法
 甚至（HTML DOM 的）document 对象也是 window 对象属性：window.document.getElementById("header");
 等同于：document.getElementById("header");
+
+BOM包含：
+Window: js层级中的顶层对象，表示浏览器窗口
+Navigator: 包含客户端浏览器的信息
+History: 包含了浏览器窗口访问过的url
+Location: 包含了当前URL的信息
+Screen: 包含了客户端显示屏的信息
+
+一个window对象就是一个浏览器窗口或者一个框架
 
 两个属性可用用于确定浏览器窗口的尺寸（可视化大小）。这两个属性都以像素返回尺寸：
 window.innerHeight - 浏览器窗口的内高度（以像素计）
