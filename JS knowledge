@@ -1129,13 +1129,23 @@ var patt = /abc/;
 patt.test("abe"); 返回false
 abc之间要连着的
 
-reg.lastIndex返回当前光标的位置，和exec()配合使用
+reg.lastIndex返回当前光标的位置，和exec()配合使用，加g光标才会游走，不然一直都是在0
 console.log(reg.exec(str));会打印出类数组完整信息，exec()光标匹配会循环，如reg = /ab/g; str = "abababab"; 则循环4次后会出现null，因为第四次后，光标在8，后面没有了，
 即第5次是null，光标变成0，然后第6次结束后光标就在2
 exec() 方法是一个正则表达式方法。它通过指定的模式（pattern）搜索字符串，并返回已找到的文本。如果未找到匹配，则返回 null。  reg.exec()
 下面的例子搜索字符串中的字符 "e"：
 /e/.exec("The best things in life are free!");
 由于字符串中有一个 "e"，以上代码的输出将是：e
+
+匹配str = "aaaa"之类的，reg = /(\w)\1\1\1/g,\1意思是复制第一个子表达式（第一个括号内的内容），这样子就会变成匹配四个相同的\w
+str = "aaaabbbb", 也可以匹配成功，结果["aaaa", "bbbb"];
+str = "aabb"就不能匹配了，得用reg = /(\w)\1(\w)\2/g（也可用来匹配"aaaa"，结果是["aaaa", "a", "a", ...])
+console.log(reg.exec(str))的结果是["aabb", "a", "b", ...]，即结果会出现匹配的那两个\w
+
+match()方法：同样上面的str = "aabb", reg = /(\w)\1(\w)\2/g，str.match(reg)的结果也是["aabb", "a", "b", ...]，但是如果没有全局g，就变成["aabb"]
+search()方法：返回第一次匹配到的光标位置，没有就返回-1
+split()方法：str.split(reg)，按正则表达式切断数组，如果用了子表达式结果就会出现子表达式的内容，而且位置是按顺序的，不是放在最后，如str = "sdwdedaacdcfvgmkbbdsds", reg = /(\w)\1/g，则
+结果是["sdwded", "a", "cdcfvgmk", "b", "dsds"]， 没有g也一样， 但如果是reg = /\w/g，即不是子表达式，就不会出现匹配的那个\w（写不了正则aa形式的非子表达式，就不写了，大概是这个意思）
 
 正则表达式^和$不一定要配对，只是作为开头和结尾的一个标识
 RegExp对象是正则表达式的缩写，有两种，字面量和new，所以定义var ttt=正则表达式(字面量形式)也是RegExp对象，可以用Reg.$1等方法
