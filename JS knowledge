@@ -1147,6 +1147,36 @@ search()方法：返回第一次匹配到的光标位置，没有就返回-1
 split()方法：str.split(reg)，按正则表达式切断数组，如果用了子表达式结果就会出现子表达式的内容，而且位置是按顺序的，不是放在最后，如str = "sdwdedaacdcfvgmkbbdsds", reg = /(\w)\1/g，则
 结果是["sdwded", "a", "cdcfvgmk", "b", "dsds"]， 没有g也一样， 但如果是reg = /\w/g，即不是子表达式，就不会出现匹配的那个\w（写不了正则aa形式的非子表达式，就不写了，大概是这个意思）
 
+replace()方法：只能替换一个，不是全局，str = "aa", str.replace("a", "b"),结果是"ba"
+用了正则：reg = /a/, 则str.replace(reg, "b")，结果是"ba"
+         reg = /a/g, 则str.replace(reg, "b")，结果是"bb"
+	 
+$1是第一个子表达式：aabb->bbaa:
+(1)reg = /(\w)\1(\w)\2/g，str = "aabb"，str.replace(reg, "$2$2$1$1");
+替换的时候可以写$1等，但如果想替换$(即用匹配的内容去替换)，这个时候就必须用$$，即用$进行转义
+(2)str.replace(reg, function(){   function会自动传参，第一个参数是reg匹配到的内容（原来的字符串所匹配正则的对应内容），后面依次是第一个子表达式($1)，第二个子表达式($2)...
+       return $2 + $2 + $1 + $1;
+   }); //这里用$的话就不用转义，因为$是一个函数参数，传进来了
+
+the-first-name->theFirstName:
+reg = /-(\w)/g;
+str.replace(reg, function($, $1) {   function可能会执行多次（全局的话）
+     return $1.toUpperCase();
+});
+
+正向预查/正向断言
+str = "abaaaaa";
+reg = /a(?=b)/g;     b不参与选择，只是修饰作用，即找一个a，后面跟的是b，最后找到这个a
+str.match(reg)结果是["a"]
+reg = /a(?!b)/g;     b不参与选择，只是修饰作用，即找一个a，后面不跟b，最后找到这个a
+str.match(reg)结果是["a", "a", "a", "a", "a"]
+
+贪婪匹配：最多
+非贪婪匹配：最少（包括0，匹配空""）  在量词后加一个? 如：/\w+?/g， 则每次只匹配一个   /\w??/g， 则每次只匹配""
+
+匹配空格/ /g，结果是[" "];
+匹配\、*、?等得加\转义字符
+
 正则表达式^和$不一定要配对，只是作为开头和结尾的一个标识
 RegExp对象是正则表达式的缩写，有两种，字面量和new，所以定义var ttt=正则表达式(字面量形式)也是RegExp对象，可以用Reg.$1等方法
 具体的正则见csdn收藏
