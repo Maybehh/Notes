@@ -55,7 +55,12 @@ function getViewportOffset(){
      }
 }
 
+用变量接收window对象便于控制
+
 window.open() - 打开新窗口
+open(url, 窗口名称, 规格); (可以改变窗口的url，open(不同url，同一窗口名称，规格))
+写了规格会重新打开一个对应大小的窗口，没写就会在当前浏览器中插入一个新窗口
+
 window.close() - 关闭当前窗口
 window.moveTo() -移动当前窗口
 window.resizeTo() -重新调整当前窗口
