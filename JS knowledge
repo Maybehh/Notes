@@ -1179,6 +1179,13 @@ str.match(reg)结果是["a", "a", "a", "a", "a"]
 "aa\aa"是"aaaa", "aa\\aa"是"aa\aa", "aa?aa"是"aa?aa"， "aa\?aa"是"aa?aa"
 \\\\\\结果是\\\，即\后跟一个内容（只能一个），aa\aa就是a a \a a结果就是aaaa
 
+字符串去重：str = "aaaaaaaaaaaaabbbbbbbbbbbbbbbbbccccccccccccc" -> "abc"
+reg = /(\w)\1*/g; str.replace(reg, "$1");
+
+var str = "100000000000"; -> 100.000.000.000
+var reg = /(?=(\B)(\d{3})+$)/g;   
+str.replace(reg, ".");(空替换成.)
+
 正则表达式^和$不一定要配对，只是作为开头和结尾的一个标识
 RegExp对象是正则表达式的缩写，有两种，字面量和new，所以定义var ttt=正则表达式(字面量形式)也是RegExp对象，可以用Reg.$1等方法
 具体的正则见csdn收藏
