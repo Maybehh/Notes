@@ -64,6 +64,8 @@ open(url, 窗口名称, 规格); (可以改变窗口的url，open(不同url，�
 window.close() - 关闭当前窗口
 window.moveTo() -移动当前窗口
 window.resizeTo() -重新调整当前窗口
+window.parent找到父窗口：iframe获取父窗口的变量等
+window.top找到当前窗口的最高父窗口
 
 window.screen 对象包含用户屏幕的信息
 window.screen 对象不带 window 前缀也可以写：
@@ -92,22 +94,27 @@ screen.pixelDepth 属性返回屏幕的像素深度，对于现代计算机，�
 
 window.location 对象可用于获取当前页面地址（URL）并把浏览器重定向到新页面
 window.location 对象可不带 window 前缀书写。
+<a href = "#3"> #3就是哈希值，location.hash会返回#3
 window.location.href 返回当前页面的 href (URL)
 window.location.hostname 属性返回（当前页面的）因特网主机的名称（网站名）
 window.location.pathname 返回当前页面的路径或文件名
 window.location.protocol 返回使用的 web 协议（http: 或 https:）
+location.host:返回主机名以及端口
 
 window.location.assign()方法加载新文档
 function newDoc() {
     window.location.assign("https://www.w3school.com.cn")
  }
+location.reload('force'): 重新加载页面，参数可选，不填或者填false则取浏览器缓存的文档
 
 window.location.port 属性返回（当前页面的）互联网主机端口的编号
 注释：如果端口号是默认值（对于 http 为 80，对于 https 为 443），则大多数浏览器将显示 0 或不显示
 
 window.history 对象包含浏览器历史，为了保护用户的隐私，JavaScript 访问此对象存在限制
 history.back() 方法加载历史列表中前一个 URL，等同于在浏览器点击后退按钮
-history forward() 方法加载历史列表中下一个 URL。这等同于在浏览器中点击前进按钮
+history.forward() 方法加载历史列表中下一个 URL。这等同于在浏览器中点击前进按钮
+history.go(1)前进一个页面，history.go(-1)后退一个页面
+history.length返回历史url数量
 
 window.navigator 对象包含有关访问者的信息
 window.navigator 对象可以不带 window 前缀来写
@@ -125,8 +132,9 @@ appVersion 属性返回有关浏览器的版本信息
 userAgent 属性返回由浏览器发送到服务器的用户代理报头（user-agent header）
 platform 属性返回浏览器平台（操作系统）navigator.platform 是：Win32
 language 属性返回浏览器语言
-onLine 属性返回 true，假如浏览器在线（是否有网络连接，有可能连的是虚拟网卡）
+onLine 属性返回 true，假如浏览器在线（是否有网络连接，有可能连的是虚拟网卡）刷新数据（拿最新还是缓存）
 javaEnabled() 方法返回 true，如果 Java 已启用
+获取不到污点数据：tainEnabled()
 
 来自 navigator 对象的信息通常是误导性的，不应该用于检测浏览器版本，因为：
 不同浏览器能够使用相同名称
