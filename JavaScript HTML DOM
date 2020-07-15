@@ -591,6 +591,8 @@ setInterval是window上的方法，只找GO和内部函数的AO
 因此clearInterval(..)就是clear传入的那个标识的对应的定时器
 因此需要用变量 = setInterval(..),以便于清除，不用变量接收标识就得清楚具体的标识，如clearInterval(1);
 
+重新给timer赋值，timer原来的计时器如果没有被清除，则会继续执行
+
 setInterval("console.log('a');", 100); function的位置可以写代码块，也会执行
 
 setTimeout(function(){},1000); 延迟1000毫秒执行函数，只执行一次
