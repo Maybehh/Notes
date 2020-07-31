@@ -214,7 +214,7 @@ for(var i = 0; i < len; i++){
      }(i));
 }
 
-事件冒泡：
+事件冒泡：（仅结构上是父子关系才会冒泡和捕获，视觉上重叠的却没有父子关系并不会触发）
 结构上（非视觉上）嵌套关系的元素，会存在事件冒泡的功能，即同一事件，自子元素冒泡向父元素（自底向上）
 事件捕获：
 结构上（非视觉上）嵌套关系的元素，会存在事件捕获的功能，即同一事件，自父元素捕获至子元素（事件源元素）（自顶向下）
@@ -224,6 +224,15 @@ for(var i = 0; i < len; i++){
 然后被点击的那个元素是正常执行，不关捕获和冒泡的事，看具体程序编写的顺序正常执行
 
 focus, blur, change, submit, reset, select等事件不冒泡
+mouseover/enter和mouseout/leave会事件冒泡和捕获
+
+<div class="wrapper">
+   <div class="img-box"></div>
+   <div class="btn"></div>
+</div>
+设置wrapper和img-box等大，img-box位置和wrapper重叠，btn位置是wrapper中的一小块
+则hover btn，会触发wrapper和btn，并不会触发img-box
+即hover仅看hover位置的第一层的那个元素，触发后冒泡
 
 当事件执行函数执行时，系统会传一个对象（该对象有各种信息，如鼠标点击的坐标等）给事件执行函数的第一个参数，
 因此可以在函数写上一个参数e，方便接受和操作这个对象
