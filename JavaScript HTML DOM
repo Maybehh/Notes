@@ -224,7 +224,7 @@ for(var i = 0; i < len; i++){
 然后被点击的那个元素是正常执行，不关捕获和冒泡的事，看具体程序编写的顺序正常执行
 
 focus, blur, change, submit, reset, select等事件不冒泡
-mouseover/enter和mouseout/leave会事件冒泡和捕获
+mouseover/out会事件冒泡和捕获，mouseenter/leave不会事件冒泡和捕获
 
 <div class="wrapper">
    <div class="img-box"></div>
