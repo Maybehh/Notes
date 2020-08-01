@@ -39,17 +39,19 @@ setRequestHeader()	向要发送的报头添加标签/值对
 XMLHttpRequest 对象属性
 onreadystatechange	定义当 readyState 属性发生变化时被调用的函数
 readyState	保存 XMLHttpRequest 的状态。
-0：请求未初始化
-1：服务器连接已建立
-2：请求已收到
-3：正在处理请求
-4：请求已完成且响应已就绪
+0：请求未初始化，未调用send()方法
+1：服务器连接已建立，读取中，已调用send()方法，正在发送请求
+2：请求已收到，已读取，send()方法执行完成，接收到全部响应内容
+3：正在处理请求  交互中，正在解析响应内容
+4：请求已完成且响应已就绪  完成，响应内容解析完成
 responseText	以字符串返回响应数据
 responseXML	以 XML 数据返回响应数据
-status	返回请求的状态号
+status	返回请求的状态号  服务器返回的状态码
 200: "OK"
+304: 资源未被修改
 403: "Forbidden"
 404: "Not Found"
+500: 服务器内部错误
 如需完整列表请访问 Http 消息参考手册
 statusText	返回状态文本（比如 "OK" 或 "Not Found"）
 
@@ -196,3 +198,49 @@ str 变量保存了输入字段的内容
 asp：xmlhttp.open("GET", "gethint.asp?q=" + str, true);
 
 AJAX 可用于同数据库进行交互式通信
+
+ajax函数：
+function ajaxFunc (method, url, data, callback, flag) {
+    var xhr = null;
+    if(window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+    }else {
+        xhr = new ActiveXObject('Microsoft.XMLHttp');
+    }
+    method = method.toUpperCase();
+    if(method == 'GET') {
+        xhr.open(method, url + '?' + data, true);
+        xhr.send();
+    }else if(method == 'POST') {
+        xhr.open(method, url, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send(data);
+    }
+    xhr.onreadystatechange = function () {
+        if(xhr.readyState == 4) {
+            if(xhr.status == 200) {
+                 callback(xhr.responseText);
+            }
+        }
+    }
+}
+例：ajaxFunc('GET', './getNews.php', '', showList, true);
+
+sub.onclick = function(e) {
+    e.preventDefault();
+    var data = 'username=' + username.value + '&age=' + age.value;
+    ajaxFunc('POST', './post.php', data, showList, true);
+}
+
+function showList() {
+    var value = JSON.parse(data);
+    var str = '';
+    value.forEach(function (ele, index) {
+        str += '<li>' + ele.title + '-' + ele.data + '</li>';
+    });
+    ul.innerHTML = str;
+}
+
+function showPerson(data) {
+    alert(data);
+}
