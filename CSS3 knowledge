@@ -1,6 +1,13 @@
 -moz-border-image:url(border.png) 30 30 round; /* 老的 Firefox */
 -webkit-border-image:url(border.png) 30 30 round; /* Safari 和 Chrome */
 -o-border-image:url(border.png) 30 30 round; /* Opera */
+-ms-border-image:url(border.png) 30 30 round; /* IE */
+
+看兼容性去can i use查看
+
+rgba:
+R、G、B：0-255
+A：0-1
 
 边框不继承：
 border-image 属性是一个简写属性，用于设置以下属性：
@@ -54,15 +61,19 @@ border-bottom-left-radius: 1em 3em;
 border-bottom-left-radius 属性的长度值和百分比值定义四分之一椭圆（定义外部边框边缘的边角形状）的半径（radii）。
 第一个值是水平半径，第二个值是垂直半径。如果省略第二个值，则复制第一个值。
 如果长度为零，则边角为方形，而不是圆形。水平半径的百分比值参考边框盒的宽度，而垂直半径的百分比值参考边框盒的高度
+画半圆：width: 200px; height: 100px;     border-radius: 100px 100px 0 0;
 
 box-shadow 属性向框添加一个或多个阴影
-box-shadow: h-shadow v-shadow blur spread color inset;
-h-shadow	必需。水平阴影的位置。允许负值(左上右上等阴影效果）
-v-shadow	必需。垂直阴影的位置。允许负值
-blur	可选。模糊距离（大小，单位px）
-spread	可选。阴影的尺寸
+box-shadow: x-offset y-offset blur spread color inset;
+x-offset	必需。水平阴影的偏移位置。允许负值(左上右上等阴影效果）
+y-offset	必需。垂直阴影的偏移位置。允许负值
+blur	可选。模糊距离（大小，单位px，不可负，会消失）
+spread	可选。阴影的尺寸（像素，可正可负）
 color	可选。阴影的颜色。请参阅 CSS 颜色值
-inset	可选。将外部阴影 (outset) 改为内部阴影
+inset	可选。将外部阴影 (outset) 改为内部阴影（默认outset，但是不可以设置outset，即没有outset这一个值）坐标系正向不同
+outset是右下为正，inset为左上为正
+可以单独设置每边边框：
+box-shadow: 10px 10px 4px 0px red, 10px 10px 4px 0px green, 10px 10px 4px 0px pink, 10px 10px 4px 0px blue;
 
 background-size 属性规定背景图像的尺寸 background-image:url(....)(不用加引号）
 length	设置背景图像的高度和宽度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 "auto"。
@@ -87,7 +98,7 @@ background-clip: border-box|padding-box|content-box;
 设置多重背景：background-repeat:no repeat; 和 background-position合用
 
 text-shadow 属性向文本设置阴影
-text-shadow: h-shadow v-shadow blur color;
+text-shadow: x-offset y-offset blur color;
 
 hanging-punctuation 属性规定把标点符号放在文本整行的开头还是结尾的行框之外
 hanging-punctuation: none|first|last|allow-end|force-end;
