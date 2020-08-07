@@ -756,11 +756,11 @@ a[href="http://www.w3school.com.cn/about_us.asp"] {color: red;}
 <p class="important warning">匹配p[class="important warning"] {color: red;}
 根据部分属性值选择：
 根据属性值中的词列表的某个词进行选择，则需要使用波浪号（~）：选择 class 属性中包含 important 的元素：p[class~="important"] {color: red;}
-[attribute~=value] 包含属性值（值）
+[attribute~=value] 包含属性值（值）（多个类名包含value就可以）
 [attribute|=value] 选择器用于选取带有以指定值开头的属性值的元素，注释：该值必须是整个单词，比如 lang="en"，或者后面跟着连字符，比如 lang="en-us"
-[attribute^=value] 选择器匹配属性值以指定值开头的每个元素（字串开头）
-[attribute$=value] 选择器匹配属性值以指定值结尾的每个元素（字串结尾）
-[attribute*=value] 选择器匹配属性值中包含指定值的每个元素（字串部分）
+[attribute^=value] 选择器匹配属性值以指定值开头的每个元素（字串开头）（空格也算一个字符）（li的list-style也会跟着修改样式）
+[attribute$=value] 选择器匹配属性值以指定值结尾的每个元素（字串结尾）（空格也算一个字符）
+[attribute*=value] 选择器匹配属性值中包含指定值的每个元素（字串部分）（空格也算一个字符）
 
 后代选择器（descendant selector）又称为包含选择器，后代选择器可以选择作为某元素后代的元素
 只对 h1 元素中的 em 元素应用样式：h1 em {color:red;}
@@ -794,7 +794,13 @@ CSS 伪类用于向某些选择器添加特殊的效果
 伪类的语法：selector : pseudo-class {property: value}
 CSS 类也可与伪类搭配使用：selector.class : pseudo-class {property: value}
 伪类名称对大小写不敏感
-
+:root 选中根标签 :root{background: #ccc;}  html{background: red;}  结果是#ccc因为权重  建议使用:root，因为有xml文档根元素不是html而是xml
+:not li:not([class='la']) 除了类名是la的li元素都被选择出来  属性与属性值必须完全匹配   class="la llla"这个元素会被选择出来
+:empty 空标签选择器，选择没有内容的元素（文本、元素都没有，有一个空格都不行，<li></li>），不在文档树里的元素，后来通过其他方法加进去内容的元素
+就不会被选择出来，但是通过伪类加进去内容的元素会被选择出来，因为伪类元素不属于dom结构，不会被当成内容
+（伪类元素不会被选中，包括在用光标选取内容时也不会被选中）
+:target 目标元素选择器 用来匹配被location.hash选中的元素（即锚点元素）选择器可用于选取当前活动的目标元素 div:target{background: green;}
+a标签中的href中写的是链接，如果是#的话就会被当成是hash值，拼接在url后，而其他的形式就不会，因此只有写id才有效
 :active 伪类向激活（在鼠标点击与释放之间发生的事件）的元素添加特殊的样式
 :focus 伪类在元素获得焦点时向元素添加特殊的样式
 :hover 伪类在鼠标移到元素上时向此元素添加特殊的样式，应用处于“悬停状态”的元素 p:hover [href]:hover 可以用各种选择器
@@ -841,6 +847,8 @@ h1::before {content:url(/i/w3school_logo_white.gif);}     h1::before{content:"�
 ::after 伪元素在元素之后添加内容
 这个伪元素允许创作人员在元素内容的最后面插入生成内容。默认地，这个伪元素是行内元素，不过可以使用属性 display 改变这一点
 h1::after {content:url(/i/w3school_logo_white.gif);}
+
+伪元素不算一个dom结构
 
 对于文本对齐：text-align
 对齐块元素:块元素指的是占据全部可用宽度的元素，并且在其前后都会换行
