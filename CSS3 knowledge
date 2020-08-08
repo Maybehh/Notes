@@ -246,10 +246,10 @@ transform 属性向元素应用 2D 或 3D 转换。该属性允许我们对元�
 可以在transform写多个: transform: rotate(45), translateX(10);  按顺序执行
 
 matrix(n,n,n,n,n,n)	定义 2D 转换，使用六个值的矩阵。
-translate(x,y)	定义 2D 转换，分别沿着 X 和 Y 轴移动元素。
+translate(x,y)	定义 2D 转换，分别沿着 X 和 Y 轴移动元素，百分比是按照元素自身宽高的百分比。
 translateX(n)	定义 2D 转换，沿着 X 轴移动元素。
 translateY(n)	定义 2D 转换，沿着 Y 轴移动元素。
-scale(x,y)	定义 2D 缩放转换，改变元素的宽度和高度。
+scale(x,y)	定义 2D 缩放转换，改变元素的宽度和高度。（绝对值就是放大的倍数，负值就是图形与原来的方向相反（镜面对照））
 scaleX(n)	定义 2D 缩放转换，改变元素的宽度。
 scaleY(n)	定义 2D 缩放转换，改变元素的高度。
 rotate(angle)	定义 2D 旋转，在参数中规定角度。有rotateX、rotateY、rotateZ三种，方向都是箭头面向自己，顺时针方向为
@@ -260,7 +260,7 @@ skewX(angle)	定义 2D 倾斜转换，沿着 X 轴
 skewY(angle)	定义 2D 倾斜转换，沿着 Y 轴
 
 transform-origin 属性允许您改变被转换元素的位置(基点旋转)
-默认值50% 50%
+默认值50% 50%（即默认是以元素自身的中心为基点旋转）
 x-axis	定义视图被置于 X 轴的何处。可能的值：left|center|right|length|%
 y-axis	定义视图被置于 Y 轴的何处。可能的值：top|center|bottom|length|%
 z-axis	定义视图被置于 Z 轴的何处。可能的值：length
