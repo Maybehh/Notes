@@ -243,14 +243,18 @@ font-weight:bold;
 }
 
 transform 属性向元素应用 2D 或 3D 转换。该属性允许我们对元素进行旋转、缩放、移动或倾斜
+可以在transform写多个: transform: rotate(45), translateX(10);  按顺序执行
+
 matrix(n,n,n,n,n,n)	定义 2D 转换，使用六个值的矩阵。
-translate(x,y)	定义 2D 转换，沿着 X 和 Y 轴移动元素。
+translate(x,y)	定义 2D 转换，分别沿着 X 和 Y 轴移动元素。
 translateX(n)	定义 2D 转换，沿着 X 轴移动元素。
 translateY(n)	定义 2D 转换，沿着 Y 轴移动元素。
 scale(x,y)	定义 2D 缩放转换，改变元素的宽度和高度。
 scaleX(n)	定义 2D 缩放转换，改变元素的宽度。
 scaleY(n)	定义 2D 缩放转换，改变元素的高度。
-rotate(angle)	定义 2D 旋转，在参数中规定角度。
+rotate(angle)	定义 2D 旋转，在参数中规定角度。有rotateX、rotateY、rotateZ三种，方向都是箭头面向自己，顺时针方向为
+正，逆时针方向为负，分别以X, Y, Z为轴旋转。写在一起，rotate(X, Y, Z, deg)，是(X, Y, Z)向量的方向为旋转轴，然后旋转
+写rotate()默认是rotateZ()
 skew(x-angle,y-angle)	定义 2D 倾斜转换，沿着 X 和 Y 轴
 skewX(angle)	定义 2D 倾斜转换，沿着 X 轴
 skewY(angle)	定义 2D 倾斜转换，沿着 Y 轴
