@@ -185,7 +185,12 @@ RWD 对于平板和移动设备是必需的
 另一个创建响应式设计的方法，是使用现成的 CSS 框架
 Bootstrap 是最流行的开发响应式 web 的 HTML, CSS, 和 JS 框架
 Bootstrap 帮助您开发在任何尺寸都外观出众的站点：显示器、笔记本电脑、平板电脑或手机
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+width是设备的width
+initial-scale=1是加载文档的时候不进行所缩放，按原大小加载绘制出来
+maximum-scale和minimum-scale设置最大和最小缩放比例
+user-scalable=no 不允许用户进行缩放
 
 <frameset cols="25%,75%">
    <frame src="frame_a.htm">
