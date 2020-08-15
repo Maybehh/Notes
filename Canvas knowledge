@@ -1,7 +1,9 @@
+上codepen.io查看炫酷canvas特效
+
 canvas 元素本身是没有绘图能力的。所有的绘制工作必须在 JavaScript 内部完成
 JavaScript 使用 id 来寻找 canvas 元素：
 var c=document.getElementById("myCanvas");
-然后，创建 context 对象：
+然后，创建 context 对象：（获取canvas上下文对象）
 var cxt=c.getContext("2d"); 
 getContext("2d") 对象是内建的 HTML5 对象，拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法
 
@@ -48,6 +50,7 @@ fill() 方法使用 fillStyle 属性所指定的颜色、渐变和模式来填�
 任何未闭合的子路径都被填充，就好像已经对他们调用了 closePath() 方法一样（但是，注意，实际上没有这么让子路径成为闭合的）
 
 rect() 方法为路径添加了一个矩形。这个矩形是路径的一个子路径并且没有和路径中的任何其他子路径相连，当 rect() 方法返回时，当前位置是 (0,0)
+fillRect()和strokeRect()都是重新开始一个新路径
 
 clearRect() 方法擦除了指定的矩形，并且用一个透明的颜色填充它
 
@@ -95,9 +98,16 @@ if (canvas.getContext){
 闭合路径closePath(),不是必需的。这个方法会通过绘制一条从当前点到开始点的直线来闭合图形。如果图形是已经闭合了的，即当前点为开始点，该函数什么也不做
 注意：当你调用fill()函数时，所有没有闭合的形状都会自动闭合，所以你不需要调用closePath()函数。但是调用stroke()时不会自动闭合
 
-arc(x, y, radius, startAngle, endAngle, anticlockwise)（参数anticlockwise为一个布尔值，为true时，是逆时针方向，否则顺时针方向）
+fill和stroke方法都是作用在当前的所有子路径
+完成一条路径后要重新开始另一条路径时必须使用beginPath()方法, betinPath开始子路径的一个新的集合
+
+arc(x, y, radius, startAngle, endAngle, anticlockwise)（参数anticlockwise为一个布尔值，为true(1)时，是逆时针方向，否则顺时针方向(0)）
 注意：arc()函数中表示角的单位是弧度，不是角度。角度与弧度的js表达式:
 弧度=(Math.PI/180)*角度
+
+圆角：ctx.arcTo(x1, y1, x2, y2, r)
+绘制的弧线与当前点和x1,y1连线，x1,y1和x2,y2连线都相切
+结果是 当前点和x1,y1连线，x1,y1和x2,y2连线都相切的圆的在两切点之间的弧线 再拼接当前点到这段弧
 
 quadraticCurveTo(cp1x, cp1y, x, y)
 绘制二次贝塞尔曲线，cp1x,cp1y为一个控制点，x,y为结束点。
@@ -155,6 +165,12 @@ createRadialGradient 方法接受 6 个参数，前三个定义一个以 (x1,y1)
 gradient.addColorStop(position, color)
 addColorStop 方法接受 2 个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置
 例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）
+var bg = ctx.createRadialGradient(x1, y1, r1, x2, y2, r2);
+bg.addColorStop(0, 'red');
+bg.addColorStop(0.5, 'green');
+bg.addColorStop(1, 'red');
+ctx.fillStyle = bg;
+ctx.fillRect(0, 0, 150, 150);
 
 createPattern(image, type)
 该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y和no-repeat
@@ -169,7 +185,7 @@ function draw() {
   // 创建新 image 对象，用作图案
   var img = new Image();
   img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png';
-  img.onload = function() {
+  img.onload = function() {   //一定要加载成功后引用才有效
 
     // 创建图案
     var ptrn = ctx.createPattern(img, 'repeat');
@@ -282,6 +298,10 @@ dy：竖直方向的移动
 
 setTransform(m11, m12, m21, m22, dx, dy)
 这个方法会将当前的变形矩阵重置为单位矩阵，然后用相同的参数调用 transform 方法。从根本上来说，该方法是取消了当前变形,然后设置为指定的变形,一步完成
+setTransform(a, b, c, d, e, f) 先重置再变换
+参数：水平旋转、水平倾斜、垂直倾斜、垂直缩放、水平移动、垂直移动
+
+transform(a, b, c, d, e, f) 在之前的基础上变换
 
 resetTransform()
 重置当前变形为单位矩阵，它和调用以下语句是一样的：ctx.setTransform(1, 0, 0, 1, 0, 0);
