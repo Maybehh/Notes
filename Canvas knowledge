@@ -33,11 +33,13 @@ stroke() 方法绘制当前路径的边框
 
 lineCap 属性指定线段的末端如何绘制
 lineJoin 属性说明如何绘制交点
-miterLimit 属性说明如何绘制交点（当一个斜角连接超过了 miterLimit，连接会转换为圆连接）
+miterLimit 属性说明如何绘制交点（当一个斜角连接超过了 miterLimit，连接会转换为bevel）
    当宽线条使用设置为 "miter" 的 lineJoin 属性绘制并且两条线段以锐角相交的时候，所得的斜面可能相当长。
    当斜面太长，就会变得不协调。miterLimit 属性为斜面的长度设置一个上限。这个属性表示斜面长度和线条长度的比值。
    默认是 10，意味着一个斜面的长度不应该超过线条宽度的 10 倍。如果斜面达到这个长度，它就变成斜角了
    当 lineJoin 为 "round" 或 "bevel" 的时候，这个属性无效
+实际运算是大于limit*lineWidth/2的值
+
 beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)
 当一个画布的环境第一次创建，beginPath() 方法会被显式地调用
 
@@ -199,6 +201,7 @@ function draw() {
 
 shadowOffsetX（Y) = float负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为0
 shadowBlur 用于设定阴影的模糊程度 shadowColor = color
+注：这里的阴影偏移量不受坐标系变换的影响
 
 Canvas 填充规则
 fill（或者 clip和isPointinPath ）   例：ctx.fill("evenodd");
@@ -210,8 +213,13 @@ fillText(text, x, y [, maxWidth])
 strokeText(text, x, y [, maxWidth])
 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的
 font = value  默认的字体是 10px sans-serif
+
+文字有一个绘制点，根据绘制点的位置再借助属性绘制文本，默认是在文字的基线左，即textBaseline="alphabetic"; textAlign="start";
+上面设置的fillText是设置绘制点的位置，因此可以借助位置和绘制点位置实现文字在canvas居中
+设置位置在canvas中心然后设置textBaseline="middle"; textAlign="center";
 textAlign = value 文本对齐选项
 textBaseline = value 基线对齐选项
+
 获得文本细节：measureText()将返回一个 TextMetrics对象的宽度、所在像素，这些体现文本特性的属性，例：
 下面的代码段将展示如何测量文本来获得它的宽度：
 function draw() {
@@ -254,10 +262,12 @@ img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAs
 
 绘制图片：
 一旦获得了源图对象，我们就可以使用 drawImage 方法将它渲染到 canvas 里
-缩放 Scaling：
+1.ctx.drawImage(); 第一个参数是img(Image,canvas,video) 注：onload
+2.3个参数  (x, y) 起始点坐标
+3.缩放 Scaling：
 drawImage(image, x, y, width, height)这个方法多了2个参数：width 和 height，
 这两个参数用来控制 当向canvas画入时应该缩放的大小（以width和height显示）
-切片 Slicing：
+4.切片 Slicing：
 drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 第一个参数和其它的是相同的，都是一个图像或者另一个 canvas 的引用
 其它8个参数最好是参照右边的图解，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小
@@ -343,6 +353,8 @@ luminosity 保持底层的色调（hue）和色度（chroma），同时采用顶
 最重要的区别是裁切路径不会在 canvas 上绘制东西，而且它永远不受新图形的影响。这些特性使得它在特定区域里绘制图形时相当好用
 
 clip() 将当前正在构建的路径转换为当前的裁剪路径，默认情况下，canvas 有一个与它自身一样大的裁切路径（也就是没有裁切效果）
+当前路径外的区域不再绘制
+注：可在clip() 前用 save() 方法保存，后续通过 restore() 方法恢复
 
 动画的基本步骤
 你可以通过以下的步骤来画出一帧:
@@ -391,11 +403,12 @@ data Uint8ClampedArray类型的一维数组，包含着RGBA格式的整型数据
 三个参数，第一个 是Uint8ClampedArray的实例，第二个和第三个表示的是width和height，必须保证Uint8ClampedArray的length = 4*width*height才不会报错，
 如果第一个参数Uint8ClampedArray没有的话，自动按照width和height的大小，以0填充整个像素矩阵
 
-var myImageData = ctx.createImageData(width, height);
+var myImageData = ctx.createImageData(width, height); 创建新的空白 ImageData 对象
 上面代码创建了一个新的具体特定尺寸的ImageData对象。所有像素被预设为透明黑。
 你也可以创建一个被anotherImageData对象指定的相同像素的ImageData对象。这个新的对象像素全部被预设为透明黑。这个并非复制了图片数据。
 var myImageData = ctx.createImageData(anotherImageData);
 
+获取canvas像素信息：（同源策略）（从服务器拿画布信息）
 为了获得一个包含画布场景像素数据的ImageData对像，你可以用getImageData()方法：
 var myImageData = ctx.getImageData(left, top, width, height);
 这个方法会返回一个ImageData对象，它代表了画布区域的对象数据，此画布的四个角落分别表示为(left, top), (left + width, top), (left, top + height)
@@ -413,15 +426,33 @@ function pick(event) {
   color.textContent = rgba;
 }
 
-用putImageData()方法去对场景进行像素数据的写入
+用putImageData()方法去对场景进行像素数据的写入 //将图像数据放回画布上
 ctx.putImageData(myImageData, dx, dy);
 dx和dy参数表示你希望在场景内左上角绘制的像素数据所得到的设备坐标
 例如，为了在场景内左上角绘制myImageData代表的图片，你可以写如下的代码：
 ctx.putImageData(myImageData, 0, 0);
+例：黑变灰
+ctx.fillRect(0, 0, 10, 10);
+var pixel = ctx.getImageData(0, 0, 10, 10);
+var row = pixel.width;
+var col = pixel.height;
+var d = pixel.data;
+for(var i = 0; i < row; i++) {
+    var c = i * col * 4;
+    for(var j = 0; j < col; j++) {
+        d[c + j * 4 + 3] = 100;
+    }
+}
+ctx.putImageData(pixel, 10, 10);
 
 toDataURL()方法，此方法在保存图片的时候非常有用，它返回一个包含被类型参数规定的图像表现格式的数据链接，返回的图片分辨率是96dpi。
 canvas.toDataURL('image/png')默认设定。创建一个PNG图片。
 canvas.toDataURL('image/jpeg', quality) 创建一个JPG图片。你可以有选择地提供从0到1的品质量，1表示最好品质，0基本不被辨析但有比较小的文件大小
+将canvas内容导出
+1.canvas.toDataURL() ; 是canvas自身的方法不是上下文对象(ctx)
+2.将canvas的内容抽取成⼀张图片, base64编码格式（内容是图片的信息）（相当于从服务器拿数据）  注：同源策略的限制
+3.将canvas的内容放入img元素里
+可用在连接不到网络的图标提示错误，不用连接到网络（已有图片信息），根据图片信息就可以绘制出图片
 
 ctx.imageSmoothingEnabled = value设置图片是否平滑的属性，true表示图片平滑（默认值），false表示图片不平滑
 
@@ -433,3 +464,33 @@ Accessible Rich Internet Applications (ARIA)
 判断鼠标坐标是否在canvas上一个特定区域里一直是个有待解决的问题。hit region API让你可以在canvas上定义一个区域，
 这让无障碍工具获取canvas上的交互内容成为可能
 焦点圈:当用键盘控制时，焦点圈是一个能帮我们在页面上快速导航的标记
+
+合成：
+1.   ctx.globalCompositeOperation = 'source-over' ;
+新像素和原像素的合并方式 
+2.   11种值  默认 source-over w3c标准
+3.   常用 source-over, destination-over, copy
+借助该属性实现刮刮乐
+
+全局透明度：ctx.globalAlpha = '0.5';
+
+RGBA：A是0-255，0 是透明的，255 是完全可见的
+
+命中检测：
+1、ctx.isPointInPath(x, y)；检测是否在区域内,chrome 与safari的区别
+2、ctx.isPointInStroke(x, y)；检测是否在线上
+3、还可以通过检测当前点的像素值，如果为颜色不一，则该点不再路径上
+
+非零绕数准则：
+判断点p是否在多边形内，从点p向外做一条射线（可以任意方向），多边形的边从左到右 经过 射线时环绕数减1，多边形的边从右往左经过射线时环绕数加1，
+最后环数不为0，即表示在多边形内部。
+
+如何解决canvas高分屏模糊问题
+在分辨率比较高的屏幕，例如ip6/6s/mac等机器上，因为canvs绘制的是位图，所以会导致模糊，解决方法是根据屏幕分辨率修改canvas样式代码中的宽和高
+与canvas的width和height属性的比例
+把大画布放到小相框中，看起来就不会失真了
+<canvas width=500 height=500> 如果没有设置样式，该canvas就是500px和500px
+但如果有些样式canvas{width: 200px; height: 200px;} 那么会把原来500*500px的放入200*200px中，即把200px分成500份，根据这个比例在200*200
+的canvas中作画
+比例要合适，不然原画布会被压缩
+在js中写的fillRect(100, 100, 300, 300)中的数字均是相对500的比例而不是实际的px
