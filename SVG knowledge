@@ -1,5 +1,8 @@
 自动生成路径：http://editor.method.ac/
 
+svg默认fill: #000;
+因此要不填充必须fill: transparent;
+
 什么是SVG？
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 SVG 用于定义用于网络的基于矢量的图形
