@@ -1,3 +1,5 @@
+自动生成路径：http://editor.method.ac/
+
 什么是SVG？
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 SVG 用于定义用于网络的基于矢量的图形
@@ -45,6 +47,8 @@ rx圆角的x方位的半径
 ry圆角的y方位的半径
 </svg>
 
+<circle r="50" cx="220" cy="100"></circle>
+
 <ellipse> 标签可用来创建椭圆 
 cx 属性定义圆点的 x 坐标
 cy 属性定义圆点的 y 坐标
@@ -65,6 +69,8 @@ polygon的路径在最后一个点处自动回到第一个点
 <polyline> 标签用来创建仅包含直线的形状
 例：<polyline points="0,0 0,20 20,20 20,40 40,40 40,60" style="fill:white;stroke:red;stroke-width:2"/>
 
+<text x="125" y="220">hello,world</text>
+
 <path> 标签用来定义路径（均为闭合的）
 下面的命令可用于路径数据：
 M = moveto
@@ -82,6 +88,8 @@ Z = closepath(不区分大小写）
 属性d采用的是用户坐标系统，所以不需标明单位
 三次贝塞尔曲线有一个S命令，二次贝塞尔曲线有一个T命令，可以通过更简短的参数，延长贝塞尔曲线
 S:S x2 y2, x y (or s dx2 dy2, dx dy)(第二个控制点以及结束点）
+前面命令的最后一个点为起始点，x2 y2，x y是接下来的第二个控制点以及结束点
+
 S命令可以用来创建与前面一样的贝塞尔曲线，但是，如果S命令跟在一个C或S命令后面，
 则它的第一个控制点会被假设成前一个命令曲线的第二个控制点的中心对称点（以前一个S或C的结束点作中心对称）
 如果S命令单独使用，前面没有C或S命令，那当前点将作为第一个控制点
@@ -96,11 +104,21 @@ T命令前面必须是一个Q命令，或者是另一个T命令，和上述的S�
  large-arc-flag（角度大小），large-arc-flag决定弧线是大于还是小于180度，0表示小角度弧，1表示大角度弧
  sweep-flag（弧线方向），sweep-flag表示弧线的方向，0表示从起点到终点沿逆时针画弧，1表示从起点到终点沿顺时针画弧
  
+fill
+stroke
+stroke-width
+stroke-opacity/fill-opacity
+stroke-linecap
+stroke-linejoin
+
 通过指定stroke-dasharray属性，将虚线类型应用在描边上
 stroke-dasharray属性的参数，是一组用逗号分割的数字组成的数列，数字必须用逗号分割（空格会被忽略）
 每一组数字，第一个用来表示填色区域的长度，第二个用来表示非填色区域的长度（第一个是填色的）
 第一个例子指定了3个数字，这种情况下，数字会循环两次，形成一个偶数的虚线模式（奇数个循环两次变偶数个）。所以该路径首先渲染5个填色单位，10个空白单位，
 5个填色单位，然后回头以这3个数字做一次循环，但是这次是创建5个空白单位，10个填色单位，5个空白单位。通过这两次循环得到偶数模式，并将这个偶数模式不断重复
+就是不断循环，如15px 20px 30px就是实15px 空20px 实30px 空15px循环下去
+
+stroke-dashoffset偏移
 
 SVG规范将属性区分成properties和其他attributes，前者是可以用CSS设置的，后者不能
 在svg里<style>则放在<defs>标签里。<defs>表示定义，这里面可以定义一些不会在SVG图形中出现、但是可以被其他元素使用的元素
@@ -132,6 +150,38 @@ stop-opacity:1"/>
 stop-opacity:1"/>
 </linearGradient>
 </defs>
+
+1.getTotalLength
+获取路径总长度
+2.getPointAtLength(x) 
+获取路径上距离起始点距离x长度的点的坐标
+注：严格来说上面两方法只适用于path元素，但各个浏览器实现起来都会有一点区别。例如谷歌浏览器也能获取到line元素的路径长度。
+
+ViewBox
+1.<svg width="400" height="300" viewBox="0,0,40,30" ></svg>
+2.preserveAspectRatio
+xMin xMid xMax -> x轴 左中右对齐
+yMin yMid yMax -> y轴 左中右对齐
+meet slice none -> 设置填充方式
+eg:svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
+先在原svg中画出viewBox和图形，然后截取viewBox后把viewBox(包含里面的内容)根据属性来扩充svg（把viewBox拉伸至svg）
+
+JS 生成SVG元素
+1、创建SVG元素需要指定命名空间
+2、SVG元素对象一般通过调用setAttribute()方法来设定属性值
+var char = 'http://www.w3.org/2000/svg',
+    svg = document.createElementNS(char, 'svg');
+svg.setAttribute('width', 500);
+svg.setAttribute('height', 500);
+svg.setAttribute('viewBox', '0 0 500 500');
+var rect = document.createElementNS(char, 'rect');
+rect.setAttribute('x', 100);
+rect.setAttribute('y', 100);
+rect.setAttribute('width', 100);
+rect.setAttribute('height', 100);
+rect.setAttribute('fill', '#0fc');
+svg.appendChild(rect);
+document.body.appendChild(svg);
 
 <ellipse cx="200" cy="190" rx="85" ry="55"
 style="fill:url(#orange_red)"/>
