@@ -96,6 +96,8 @@ window.location 对象可用于获取当前页面地址（URL）并把浏览器�
 window.location 对象可不带 window 前缀书写。
 <a href = "#3"> #3就是哈希值，location.hash会返回#3
 window.location.href 返回当前页面的 href (URL)
+window.location.search 返回的是url后拼接的东西（如..html?id=1  返回的是?id=1）
+window.location.hash 返回哈希值（如..html#1  返回的是1）
 window.location.hostname 属性返回（当前页面的）因特网主机的名称（网站名）
 window.location.pathname 返回当前页面的路径或文件名
 window.location.protocol 返回使用的 web 协议（http: 或 https:）
