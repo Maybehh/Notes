@@ -110,6 +110,7 @@ contain:图片自身的宽高比不变，缩放至图片自身能完全显示出
 
 background-position：left top(左上)|left center(左中)...
 百分比的话就不一样了，50% 50% 相当于center center就直接居中了（按中心算的），不像position（是按边算的）
+100% 100%就是在右下角  百分比对应上中下
 像素值：10px 100px 根据background-origin从10px 100px开始引入图片（按左上角算）
 
 background-origin 属性规定 background-position 属性相对于什么位置来定位
