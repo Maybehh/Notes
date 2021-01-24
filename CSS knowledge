@@ -756,8 +756,10 @@ a[href="http://www.w3school.com.cn/about_us.asp"] {color: red;}
 <p class="important warning">匹配p[class="important warning"] {color: red;}
 根据部分属性值选择：
 根据属性值中的词列表的某个词进行选择，则需要使用波浪号（~）：选择 class 属性中包含 important 的元素：p[class~="important"] {color: red;}
-[attribute~=value] 包含属性值（值）（多个类名包含value就可以）
-[attribute|=value] 选择器用于选取带有以指定值开头的属性值的元素，注释：该值必须是整个单词，比如 lang="en"，或者后面跟着连字符，比如 lang="en-us"
+[attribute~=value] 包含属性值（值）（多个类名包含value就可以）注意是值而不是字符
+如a[class~='one']则会匹配class='one two'等而不会匹配class='onewo'
+[attribute|=value] 选择器用于选取带有以指定值-开头的属性值或指定值的元素，注释：该值必须是整个单词，比如 lang="en"，或者后面跟着连字符，比如 lang="en-us"
+如：a[href|='value']则会匹配href='value'或href='value-xxx'
 [attribute^=value] 选择器匹配属性值以指定值开头的每个元素（字串开头）（空格也算一个字符）（li的list-style也会跟着修改样式）
 [attribute$=value] 选择器匹配属性值以指定值结尾的每个元素（字串结尾）（空格也算一个字符）
 [attribute*=value] 选择器匹配属性值中包含指定值的每个元素（字串部分）（空格也算一个字符）
