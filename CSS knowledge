@@ -77,6 +77,7 @@ input[type="button"]
 	     class|属性|伪类   10
 	     标签|伪元素  1
 	     通配符      0
+	     继承    0
 权重的值是256进制
 权重一样后写的覆盖
 在css中infinity+1>infinity ，总的来说infinity也是一个值在css中
