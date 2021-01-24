@@ -851,6 +851,9 @@ h1::before {content:url(/i/w3school_logo_white.gif);}     h1::before{content:"�
 这个伪元素允许创作人员在元素内容的最后面插入生成内容。默认地，这个伪元素是行内元素，不过可以使用属性 display 改变这一点
 h1::after {content:url(/i/w3school_logo_white.gif);}
 
+after是最后一个元素，before是第一个元素，通过css的:last-child等是可以操控的
+其中的文本在浏览器中是无法选中的
+
 伪元素不算一个dom结构
 
 对于文本对齐：text-align
