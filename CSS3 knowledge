@@ -30,6 +30,7 @@ position: 圆心位置，可以两个值或一个值，一个值的话第二个�
 默认是椭圆
 closest-side/farther-side/closest-corner/farther-corner:
 设定的中心与指定位置作为百分比的依据
+background: radial-gradient(closest-side circle 100px at 50% 50%, red 10%, green 50%, blue 99%, transparent 100%);
 
 边框不继承：
 border-image 属性是一个简写属性，用于设置以下属性：
