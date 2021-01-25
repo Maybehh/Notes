@@ -174,3 +174,20 @@ transform: translateX(50%) translateX(50%) 这样子就移了100%
 5、rotate3d() translate3d() scale3d() 的参数都不可省略
 
 css3的基准点都是自身
+
+transform-origin: left top;
+transform-origin: 25% top; 百分比是相对元素自身
+
+矩阵matrix:
+原理：
+matrix(a, b, c, d, e, f)
+[a, c, e        [x          [ax+cy+e
+ b, d, f    *    y    =      bx+dy+f
+ 0, 0, 1]        1]           0+0+1 ]
+ x, y是元素的每一个点的当前位置，得到的ax+cy+e，bx+dy+f是元素的每一个点的新位置
+ 
+transform: matrix(1, 0, 0, 1, x, y); 等于 transform: translate(x, y);
+transform: matrix(sx, 0, 0, sy, 0, 0); 等于 transform: scale(sx, sy);
+transform: matrix(cosθ, sinθ, -sinθ, cosθ, 0, 0); 等于 transform: rotate(θdeg);
+transform: matrix(1, tanθy, tanθx, 1, 0, 0); 等于 transform: skew(θxdeg, θydeg);
+镜像对称效果：matrix((1-k*k)/(1+k*k), 2k/(1+k*k), 2k/(1+k*k), (k*k-1)/(1+k*k), 0, 0);  k是对称轴的斜率
