@@ -169,5 +169,8 @@ transform: translateX(50%) translateX(50%) 这样子就移了100%
 4、skewX 与x轴平行的线不扭曲 正值是下线往正方向
    skewY 与y轴平行的线不扭曲 正值是右线往正方向
    取值是-90~90
-   skew()不写就默认是0
+   skew()其中一个参数不写就默认是0
    
+5、rotate3d() translate3d() scale3d() 的参数都不可省略
+
+css3的基准点都是自身
