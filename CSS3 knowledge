@@ -137,3 +137,13 @@ keep-all在空格或连字符或标点符号处换（中文的话不会出现在
 word-wrap:(仅对长单词和url有效)
 normal不换行
 break-word换行
+
+text-align-last:最后一行的对齐方式
+auto|left|right|jusify|start|end|initial|inherit
+start和end是根据包含最后一行的该元素的文本对齐方向设定，如元素的文本对齐方向是left，则设置start就是left，end就是right
+仅有IE支持该属性，firefox要加前缀，谷歌也支持
+该属性只有在设置text-align为justify时才有效（谷歌可不加）
+
+text-overflow:文本溢出元素的处理方式
+clip|ellipsis|string(string仅火狐支持)
+得先设置元素的overflow:hidden; 不然无效
