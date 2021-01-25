@@ -148,3 +148,12 @@ text-overflow:文本溢出元素的处理方式
 clip|ellipsis|string(string仅火狐支持)
 得先设置元素的overflow:hidden; 不然无效
 
+推荐模板
+@font-face {
+   font-family: 'myFont';
+   src: url('myFont.eot'); // IE9
+   src: url('myFont.eot?#iefix') format('embedded-opentype'),  //IE6-IE8
+        url('myFont.ttf') format('truetype'), //Safari, Android, iOS
+        url('myFont.woff') format('woff'), //现代浏览器
+        url('myFont.svg#myFont') format('svg'); //iOS端开发
+}
