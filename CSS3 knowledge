@@ -128,3 +128,12 @@ background-clip: border-box|padding-box|content-box;
 可以给文字添加：
 从前景内容的形状（比如文字）作为裁剪区域向外裁剪，如此可以实现使用背景作为填充色之类的遮罩效果
 注意：webkit独有属性，且必须配合text-fil
+
+word-break:
+normal正常换行
+break-all强制换行，可以在单词中间换行
+keep-all在空格或连字符处换
+
+word-wrap:(仅对长单词和url有效)
+normal不换行
+break-word换行
