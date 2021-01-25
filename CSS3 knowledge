@@ -15,6 +15,7 @@ linear-gradient([direction], color[percent], color[percent]...)
 direction的单位是deg，0deg是12点钟，顺时针为正，也可以用to bottom(终点在bottom)，to top, to left, to top left等方式来表达
 例：background: linear-gradient(113deg, red 20%, blue 80%, green 99%, transparent 100%);
 第一个颜色不写默认是0%，最后一个默认是100%，最后一个小于前一个，会把百分比变为前一个的百分比值
+repeating-linear-gradient(90deg, red 0%, blue 10%, red 20%); 结果是5次，看最后的颜色的百分比决定几次（把这个区域重复直至填满）
 
 2、径向渐变：
 radial-gradient(shape at position, color[percent], color[percent]..)
