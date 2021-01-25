@@ -147,3 +147,4 @@ start和end是根据包含最后一行的该元素的文本对齐方向设定，
 text-overflow:文本溢出元素的处理方式
 clip|ellipsis|string(string仅火狐支持)
 得先设置元素的overflow:hidden; 不然无效
+
