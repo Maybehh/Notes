@@ -157,3 +157,5 @@ clip|ellipsis|string(string仅火狐支持)
         url('myFont.woff') format('woff'), //现代浏览器
         url('myFont.svg#myFont') format('svg'); //iOS端开发
 }
+
+获取其他格式的字体：https://www.fontquirrel.com/tools/webfont-generator
