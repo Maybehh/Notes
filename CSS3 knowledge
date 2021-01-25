@@ -159,3 +159,15 @@ clip|ellipsis|string(string仅火狐支持)
 }
 
 获取其他格式的字体：https://www.fontquirrel.com/tools/webfont-generator
+
+transform:
+1、rotate中心是自身中心
+2、translate百分比是根据自身 移的是自身中心
+transform: translateX(50%) translateX(50%) 这样子就移了100%
+写两个transform就会被覆盖
+3、scale的中心是自身中点
+4、skewX 与x轴平行的线不扭曲 正值是下线往正方向
+   skewY 与y轴平行的线不扭曲 正值是右线往正方向
+   取值是-90~90
+   skew()不写就默认是0
+   
