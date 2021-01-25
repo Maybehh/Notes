@@ -191,3 +191,5 @@ transform: matrix(sx, 0, 0, sy, 0, 0); 等于 transform: scale(sx, sy);
 transform: matrix(cosθ, sinθ, -sinθ, cosθ, 0, 0); 等于 transform: rotate(θdeg);
 transform: matrix(1, tanθy, tanθx, 1, 0, 0); 等于 transform: skew(θxdeg, θydeg);
 镜像对称效果：matrix((1-k*k)/(1+k*k), 2k/(1+k*k), 2k/(1+k*k), (k*k-1)/(1+k*k), 0, 0);  k是对称轴的斜率
+
+3d是4*4矩阵 matrix3d()有16个参数，刚好一一对应矩阵里的数值，从上到下，从左到右（按列）
