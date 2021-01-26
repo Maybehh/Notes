@@ -196,3 +196,4 @@ transform: matrix(1, tanθy, tanθx, 1, 0, 0); 等于 transform: skew(θxdeg, θ
 
 transition:
 transition-property: none|all|property 默认值all (默认值的意思是不写的话默认取值，意味着css中基本大部分属性即使你不写也依然存在)
+transition写在元素div上，而不用写在div:hover{}里，只写在div:hover{}里的话只有hover才有transition这个属性，当没有hover时就没有transition属性，就会直接变回去了
