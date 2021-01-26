@@ -193,3 +193,6 @@ transform: matrix(1, tanθy, tanθx, 1, 0, 0); 等于 transform: skew(θxdeg, θ
 镜像对称效果：matrix((1-k*k)/(1+k*k), 2k/(1+k*k), 2k/(1+k*k), (k*k-1)/(1+k*k), 0, 0);  k是对称轴的斜率
 
 3d是4*4矩阵 matrix3d()有16个参数，刚好一一对应矩阵里的数值，从上到下，从左到右（按列）
+
+transition:
+transition-property: none|all|property 默认值all (默认值的意思是不写的话默认取值，意味着css中基本大部分属性即使你不写也依然存在)
