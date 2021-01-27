@@ -702,3 +702,21 @@ DOM1成为W3C推荐标准，1级DOM标准中并没有定义事件相关的内容
 
 写：dots[d].id = d;格式 必须是html认识的属性，写成ids就加不上去 自定义属性可用setAttribute来设置html不认识的属性
 读：.xx 的获取必须是html认识的且写在内联里的属性，自定义属性只能写在内联里，不认识的是undefined，不认识的写在内联的是undefined，认识的不写在内联的是空
+
+mouseover mouseout mouseenter mouseleave:
+1、先over后enter，先out后leave  （所有over先然后所有enter，然后所有out然后所有leave）
+2、enter、leave不冒泡
+3、从父元素进入子元素：
+   先out父元素，后over子元素
+   不会leave父元素，会enter子元素
+4、从子元素进入父元素：
+   先out子元素，后over父元素
+   会leave子元素，不会enter父元素
+5、enter、leave会捕获
+6、先离开(out后是leave)后进入(over后是enter)
+7、over和enter作用一样，不存在在元素内移动重复触发over
+8、视觉重叠的进入出来：（鼠标直接划在孙子元素上）（冒泡和捕获情况正常）
+   enter和leave是从外层到内层逐层进入，从内层到外层逐层出去（每一层都有进入和出去，每一层都是事件源）
+   over和out是只进入孙子层，即鼠标直接接触的层才是事件源，其他的父层祖先层不会进入
+9、鼠标划入会触发mouseenter和mouseover两个dom事件，同理离开也会触发两个离开dom事件（只能触发对应事件，如mouseover只能触发捕获或冒泡的mouseover，不能触发捕获或冒泡的mouseenter）
+10、假设划入c，触发c的mouseover，捕获或者冒泡触发了其父元素b的mouseover，则在执行b的mouseover时，不会引起冒泡或捕获，因为此时b不是事件源，c才是事件源
