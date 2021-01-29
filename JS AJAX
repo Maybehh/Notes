@@ -26,9 +26,9 @@ abort()	取消当前请求
 getAllResponseHeaders()	返回头部信息
 getResponseHeader()	返回特定的头部信息
 open(method, url, async, user, psw)	
-规定请求
+规定请求（初始化请求并准备发送，并不会发送请求）
 method：请求类型 GET 或 POST
-url：文件位置
+url：文件位置，必须要设定的参数
 async：true（异步）或 false（同步）
 user：可选的用户名称
 psw：可选的密码
@@ -74,7 +74,7 @@ xhttp.send();
 
 GET 比 POST 更简单更快，可用于大多数情况下。
 不过，请在以下情况始终使用 POST：
-缓存文件不是选项（更新服务器上的文件或数据库）
+缓存文件不是选项，无法使用缓存文件（更新服务器上的文件或数据库）
 向服务器发送大量数据（POST 无大小限制）
 发送用户输入（可包含未知字符），POST 比 GET 更强大更安全
 
