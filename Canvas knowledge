@@ -71,6 +71,7 @@ clearRect() 方法擦除了指定的矩形，并且用一个透明的颜色填�
 
 drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight,destX, destY, destWidth, destHeight)
 image所要绘制的图像,这必须是表示 <img> 标记或者屏幕外图像的 Image 对象，或者是 Canvas 元素
+（可以来做canvas离屏，如canvas做动画时反复擦除绘制，若太过复杂会使动画卡顿，因此可以用另一个canvas画好背景，绘制的时候drawImage该背景canvas即可）
 x, y	要绘制的图像的左上角的位置
 width, height	图像所应该绘制的尺寸。指定这些参数使得图像可以缩放
 sourceX, sourceY	图像将要被绘制的区域的左上角。这些整数参数用图像像素来度量
