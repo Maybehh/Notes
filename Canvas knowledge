@@ -10,6 +10,17 @@ getContext("2d") 对象是内建的 HTML5 对象，拥有多种绘制路径、�
 <canvas> 标签定义图形，比如图表和其他图像
 <canvas> 标签只是图形容器，您必须使用脚本来绘制图形
 
+在canvas的css中设置宽高设置的是画布在屏幕中的具体显示大小, 没有css设置的话就是canvas的height和width的大小
+<canvas height="200" width="200">设置的是画布的比例
+canvas.height = 200; canvas.width = 200;设置的是画布的比例
+如：
+canvas {
+    height: 100px;
+    width: 100px;
+}
+<canvas height="200" width="200">
+设置的画布大小是100px和100px，画布比例是200*200，会把200*200的画布缩放成100px和100px
+
 每当画布的高度或宽度被重设时，画布内容就会被清空
 <canvas> 标记和 SVG 以及 VML 之间的差异
 <canvas> 标记和 SVG 以及 VML 之间的一个重要的不同是，<canvas> 有一个基于 JavaScript 的绘图 API，而 SVG 和 VML 使用一个 XML 文档来描述绘图
@@ -176,6 +187,14 @@ bg.addColorStop(1, 'red');
 ctx.fillStyle = bg;
 ctx.fillRect(0, 0, 150, 150);
 
+渐变的坐标是画布的，即渐变是设置在画布上的，图形以渐变为填充色的话，图形的颜色会根据具体的图形坐标和渐变坐标决定
+如：var bg = ctx.createLinearGradient(50, 50, 150, 150);
+bg.addColorStop(0, 'red');
+bg.addColorStop(1, 'blue');
+ctx.fillStyle = bg;
+ctx.fillRect(200, 200, 200, 200);
+这个矩形就是蓝色
+
 createPattern(image, type)
 该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y和no-repeat
 var img = new Image();
@@ -208,7 +227,8 @@ fill（或者 clip和isPointinPath ）   例：ctx.fill("evenodd");
 "nonzero": non-zero winding rule, 默认值.
 "evenodd":  even-odd winding rule
 
-fillText(text, x, y [, maxWidth])
+ctx.font = '50px sans-serif';
+ctx.fillText(text, x, y [, maxWidth])
 在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的.
 strokeText(text, x, y [, maxWidth])
 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的
@@ -276,9 +296,12 @@ drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 控制图像的缩放行为 Controlling image scaling behavior
 Gecko 1.9.2 引入了 mozImageSmoothingEnabled 属性，值为 false 时，图像不会平滑地缩放。默认是 true 
 
+图形变换的结果是不会被beginPath()清空的
+变换前的坐标位置是不会变的，还是在那里
+变化是会叠加的
 每一次调用 restore （画布(canvas)的所有状态）方法，上一个保存的状态就从栈中弹出，所有设定都恢复
-translate(x, y)（移动原点）
-rotate(angle)（以原点为中心旋转 canvas）：
+translate(x, y)（移动坐标系原点）
+rotate(angle)（以坐标系原点为中心旋转 canvas）：
 这个方法只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。
 旋转的中心点始终是 canvas 的原点，如果要改变它，我们需要用到 translate 方法
 scale(x, y)
