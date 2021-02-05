@@ -1,5 +1,6 @@
 上codepen.io查看炫酷canvas特效
 
+canvas行内元素
 canvas 元素本身是没有绘图能力的。所有的绘制工作必须在 JavaScript 内部完成
 JavaScript 使用 id 来寻找 canvas 元素：
 var c=document.getElementById("myCanvas");
