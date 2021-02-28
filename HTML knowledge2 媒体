@@ -295,7 +295,7 @@ localStorage.setItem("lastname", "Gates");
 // 取回
 document.getElementById("result").innerHTML = localStorage.getItem("lastname");
 实例解释：
-创建 localStorage 名称/值对，其中：name="lastname"，value="Gates"
+创建 localStorage 名称/值对，其中：name是"lastname"，value是"Gates"
 取回 "lastname" 的值，并把它插到 id="result" 的元素中
 也可以：
 localStorage.lastname = "Gates";
@@ -373,7 +373,7 @@ FALLBACK:
 提示：以 "#" 开头的是注释行，但也可满足其他用途。应用的缓存只会在其 manifest 文件改变时被更新
 如果您编辑了一幅图像，或者修改了一个 JavaScript 函数，这些改变都不会被重新缓存
 更新注释行中的日期和版本号是一种使浏览器重新缓存文件的办法
-一旦文件被缓存，则浏览器会继续展示已缓存的版本，即使您修改了服务器上的文件。为了确保浏览器更新缓存，您需要更新 manifest 文件
+一旦文件被缓存，离线时则浏览器会继续展示已缓存的版本，即使您修改了服务器上的文件。为了确保浏览器更新缓存，您需要更新 manifest 文件
 
 什么是 Web Worker？
 当在 HTML 页面中执行脚本时，页面是不可响应的，直到脚本已完成
