@@ -99,8 +99,9 @@ y-offset	必需。垂直阴影的偏移位置。允许负值
 blur	可选。模糊距离（大小，单位px，不可负，会消失）
 spread	可选。阴影的尺寸（像素，可正可负）
 color	可选。阴影的颜色。请参阅 CSS 颜色值
-inset	可选。将外部阴影 (outset) 改为内部阴影（默认outset，但是不可以设置outset，即没有outset这一个值）坐标系正向不同
-outset是右下为正，inset为左上为正
+inset	可选。将外部阴影 (outset) 改为内部阴影（默认outset，但是不可以设置outset，即没有outset这一个值）
+inset效果就像是在元素内部有一个平面，除了元素的位置之外的区域都是背景色，位置刚好与元素重叠，通过设定的偏移进行拉扯，令背景色在元素内部显示出来，如-10px，-10px就把平面往左上方水平垂直拉10px，
+结果就是在元素的右边和底边会有背景色在元素内部出现
 可以单独设置每边边框：
 box-shadow: 10px 10px 4px 0px red, 10px 10px 4px 0px green, 10px 10px 4px 0px pink, 10px 10px 4px 0px blue;
 
@@ -115,7 +116,7 @@ contain:图片自身的宽高比不变，缩放至图片自身能完全显示出
 在repeat情况下：cover:与上述相同；contain:容器内至少有一张完整的图，容器留白区域则平铺背景图，铺不下的再裁掉
 
 background-position：left top(左上)|left center(左中)...
-百分比的话就不一样了，50% 50% 相当于center center就直接居中了（按中心算的），不像position（是按边算的）
+百分比的话就不一样了，50% 50% 相当于center center就直接居中了（按中心算的），不像position（是图片和所在元素的各自百分比位置对齐）
 100% 100%就是在右下角  百分比对应上中下
 像素值：10px 100px 根据background-origin从10px 100px开始引入图片（按左上角算）
 
@@ -249,3 +250,4 @@ contents: 表示将要改变元素的内容
 
 使用方法：div{will-change: transform;} 加前缀 浏览器加载网页后，看到will-change就会告诉GPU该div在往后的使用过程中，可能transform会改变，你先做好准备优化变化
 使用注意（勿滥用、提前声明、remove) 不要每个元素都使用，会增大GPU的负担，同时不用的话要记得删掉语句
+will-change见mdn
