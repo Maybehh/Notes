@@ -1099,7 +1099,7 @@ m	执行多行匹配  var patt1 = /^is/m;  在字符串中每行的开头对“i
 		    ["is", "is"]
 		    
 无配置g，当i和m匹配的内容仅有一个时，此时的数组中还有input、index等其他相关信息作为数组元素，匹配的内容有两个或两个以上时，数组中就仅有匹配的内容作为数组元素
-配置了g就没有相关其他信息了
+配置了g就没有相关其他信息了（子表达式也不会显示，数组中仅有匹配到的内容）
 仅有g修饰符时，不管匹配的内容的个数，数组中就仅有匹配的内容作为数组元素
 没有匹配的就返回null
 		    
@@ -1222,21 +1222,68 @@ str = "aaaabbbb", 也可以匹配成功，结果["aaaa", "bbbb"];
 str = "aabb"就不能匹配了，得用reg = /(\w)\1(\w)\2/g（也可用来匹配"aaaa"，结果是["aaaa", "a", "a", ...])
 console.log(reg.exec(str))的结果是["aabb", "a", "b", ...]，即结果会出现匹配的那两个\w
 
-match()方法：同样上面的str = "aabb", reg = /(\w)\1(\w)\2/g，str.match(reg)的结果也是["aabb", "a", "b", ...]，但是如果没有全局g，就变成["aabb"]
+match()方法：同样上面的str = "aabb", reg = /(\w)\1(\w)\2/，str.match(reg)的结果也是["aabb", "a", "b", ...]，但是如果有全局g，就变成["aabb"]
 search()方法：返回第一次匹配到的光标位置，没有就返回-1
 split()方法：str.split(reg)，按正则表达式切断数组，如果用了子表达式结果就会出现子表达式的内容，而且位置是按顺序的，不是放在最后，如str = "sdwdedaacdcfvgmkbbdsds", reg = /(\w)\1/g，则
 结果是["sdwded", "a", "cdcfvgmk", "b", "dsds"]， 没有g也一样， 但如果是reg = /\w/g，即不是子表达式，就不会出现匹配的那个\w（写不了正则aa形式的非子表达式，就不写了，大概是这个意思）
+var str = "eriweriojwiaabbdjiwejiweojiowccddg"
+var reg = /(\w)\1(\w)\2/g
+var arr = str.split(reg)
+console.log(arr)
+结果是["eriweriojwi", "a", "b", "djiwejiweojiow", "c", "d", "g"]
 
 replace()方法：只能替换一个，不是全局，str = "aa", str.replace("a", "b"),结果是"ba"
 用了正则：reg = /a/, 则str.replace(reg, "b")，结果是"ba"
          reg = /a/g, 则str.replace(reg, "b")，结果是"bb"
-	 
+原来的字符串并没有修改，返回了一个被替换的新字符串
+replace的第2个参数可以不是字符串（可以是数字等，会被隐式转换成字符串），但是如果要使用$1等子表达式，就必须加上""，子表达式可以和字符串一起用，如"$1a"
+reg = /(\w)\1(\w)\2/g, str = "aabbccdd"，str.replace(reg, "$1a");  替换后的结果是aaca
+
 $1是第一个子表达式：aabb->bbaa:
 (1)reg = /(\w)\1(\w)\2/g，str = "aabb"，str.replace(reg, "$2$2$1$1");
 替换的时候可以写$1等，但如果想替换$(即用匹配的内容去替换)，这个时候就必须用$$，即用$进行转义
 (2)str.replace(reg, function(){   function会自动传参，第一个参数是reg匹配到的内容（原来的字符串所匹配正则的对应内容），后面依次是第一个子表达式($1)，第二个子表达式($2)...
        return $2 + $2 + $1 + $1;
    }); //这里用$的话就不用转义，因为$是一个函数参数，传进来了
+(3)具体情况   
+var str = "aabbccdd"
+var reg = /(\w)\1(\w)\2/
+str.replace(reg, function (match, $1, $2) {   //需要定义$1等，不定义获取不到
+    console.log(arguments)
+    console.log(match)
+    console.log($1)
+    console.log($2)
+})
+结果是
+["aabb", "a", "b", 0, "aabbccdd", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+aabb
+a
+b
+
+加了g：
+var str = "aabbccdd"
+var reg = /(\w)\1(\w)\2/g
+var str1 = str.replace(reg, function (match, $1, $2) {   //需要定义$1等，不定义获取不到
+    console.log(arguments)
+    console.log(match)
+    console.log($1)
+    console.log($2)
+    return '12'
+})
+console.log(str)
+console.log(str1)
+结果是
+["aabb", "a", "b", 0, "aabbccdd", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+aabb
+a
+b
+["ccdd", "c", "d", 4, "aabbccdd", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+ccdd
+c
+d
+aabbccdd
+1212   //replace的调用函数中return出替换的内容，如果没有return，就默认是return undefined，然后undefined在传入时会被隐式转换成字符串，就变成str.replace(reg, 'undefined')，结果就是undefinedundefined字符串
+意味着全局匹配的情况下是每个匹配内容都去执行一次函数（因为是对单独的匹配内容去执行函数，因此可看作是没有g，因此会有子表达式等其他信息）
 
 the-first-name->theFirstName:
 reg = /-(\w)/g;
