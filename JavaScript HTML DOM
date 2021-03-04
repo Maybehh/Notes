@@ -315,7 +315,7 @@ function stopBubble(event){
 }
 
 阻止默认事件：（表单提交、右键菜单、a标签跳转等是默认事件）
-document.oncontextmenu = function(e){  //默认事件是document对象的事件，使用document., 元素对象不能. (加了也没有默认事件的作用)
+document.oncontextmenu = function(e){  //是document对象的事件，使用document., 元素对象不能. (加了也没有默认事件的作用)
       console.log('a'); //在鼠标右键出菜单的同时，在控制台打印a
 }  //oncontextmenu是鼠标右键出菜单事件
 想要阻止默认事件：比如在右键的时候不要有菜单出现
@@ -335,8 +335,9 @@ function cancelHandler(event){
 }
 调用的时候用return cancelHandler(e);  //e是调用cancelHandler函数的函数的系统传入的对象
 
-a标签的跳转默认事件：(a中不写href属性就不会跳转，写了href = "" 就是默认到顶部)
+a标签的跳转默认事件：(写了href = "" 就是默认当前页面，会刷新) #top回到顶部，不会刷新
 var a = ....; //href是目的意思，没有跳转功能，点击后跳转是a标签的默认行为
+阻止跳转的默认行为：
 a.onclick = function(){
    return false;
 }
@@ -362,13 +363,13 @@ HTML 元素内的文本是文本节点
 div有7个子节点，文本节点（内容是1）、元素节点(span)、空白文本节点、元素节点(strong)、空白文本节点、元素节点(p)、空白文本节点
 3、firstChild 第一个子节点，上例中是文本节点（内容是1）
 4、lastChild 最后一个子节点，上例中是空白文本节点
-5、nextSibling 上一个兄弟节点（没有就是空）
-6、previousSibling 下一个兄弟节点（没有就是空）
+5、nextSibling 下一个兄弟节点（没有就是空）
+6、previousSibling 上一个兄弟节点（没有就是空）
 
 元素节点（必须得是元素,不能是文本、document等其他）(除children，其他的IE9以下都不兼容，其他浏览器都兼容）（返回的数组都是类数组）
 1、parentElement(html标签的父元素节点是null）
 2、children(直系的非子孙的元素节点）（children所有浏览器都兼容）
-3、childElementCount（子元素节点的个数）不用，用.child.length代替  childElementCount === .child.length
+3、childElementCount（子元素节点的个数）不用，用.childNodes.length代替  childElementCount === .childNodes.length
 4、firstElementChild
 5、lastElementChild
 6、nextElementSibling 
@@ -376,8 +377,9 @@ div有7个子节点，文本节点（内容是1）、元素节点(span)、空白
 
 DOM 处理中的一种常见错误是认为元素节点中包含文本(文本节点，内容（也就是平常所说的文本）是文本节点的值)
 元素节点 <title> 不包含文本。它包含了值为 "DOM 教程" 的文本节点
-文本节点的值能够通过节点的 innerHTML 属性进行访问，var myTitle = document.getElementById("demo").innerHTML;（demo的文本结点的值）
-访问 innerHTML 属性等同于访问首个子节点的 nodeValue：var myTitle = document.getElementById("demo").firstChild.nodeValue;
+文本节点的值能够通过节点的 innerHTML 属性进行访问，var myTitle = document.getElementById("demo").innerHTML;（demo的所有子结点的值）
+
+访问首个子节点的 nodeValue：var myTitle = document.getElementById("demo").firstChild.nodeValue;
 也可以这样访问第一个子节点：var myTitle = document.getElementById("demo").childNodes[0].nodeValue;
 
 元素节点的一些属性：
@@ -430,11 +432,11 @@ function retChildElement(node){
     }
     return temp;
 }
-4、attribute: Element的属性集合 
+4、attributes: Element的属性集合 
 <div id = "only" class = "demo"></demo>
-div.attribute[0].name = "id"; div.attribute[0].value = "only";  可以更改属性值，但不能更改属性名
-div.attribute[0] 结果是 id = "only"
-div.attribute 结果是 NamedNodeMap = { 0: id, 1: class, length: 2}的类数组
+div.attributes[0].name = "id"; div.attributes[0].value = "only";  可以更改属性值，但不能更改属性名
+div.attributes[0] 结果是 id 这个对象，里面有很多的属性
+div.attributes 结果是 NamedNodeMap = { 0: id, 1: class, length: 2}的类数组
 
 节点的一个方法：node.hasChildNodes()，返回布尔值
 
