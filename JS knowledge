@@ -1093,6 +1093,15 @@ m	执行多行匹配  var patt1 = /^is/m;  在字符串中每行的开头对“i
 		    var result = str.match(/^i/gm); 得到的是result = ["i", "i"]; 加了m就可以看成多行的了，有换行符的就会看作下一行了
 		    var result = str.match(/^i/m); 得到的是result = ["i"]; 即m不是全局的，单独使用检索一行，能识别\n，得配合g使用才能检索多行
 		    单独使用m时得到的数组还会包括input: "ice\ni"等数组信息
+		    var text = 'is\nisis'.match(/^is/m)
+		    ["is", index: 0, input: "is↵isis", groups: undefined]
+		    var text = 'is\nisis'.match(/^is/mg)
+		    ["is", "is"]
+		    
+无配置g，当i和m匹配的内容仅有一个时，此时的数组中还有input、index等其他相关信息作为数组元素，匹配的内容有两个或两个以上时，数组中就仅有匹配的内容作为数组元素
+配置了g就没有相关其他信息了
+仅有g修饰符时，不管匹配的内容的个数，数组中就仅有匹配的内容作为数组元素
+没有匹配的就返回null
 		    
 中括号用于查找一定范围的字符串：（检查过的了就不会再看了）/[0-9][0-9][0-9]/ 的话，12309u，结果是["123"]
 表达式	描述    //[]里的表示区间，任取其一符合匹配就可以
@@ -1148,12 +1157,15 @@ n{X}    匹配包含X个n的序列的字符串
 n{X,Y}  匹配包含X至Y个n的序列的字符串 （贪婪匹配，能多就尽量多）
 n{X,}   匹配包含至少X个n的序列的字符串
 
-n$      以n结尾的字符串 /ed$/ 以ed结尾的，这个式子是匹配ed结尾的字符串，最后返回的结果是["ed"]，开头和结尾一样，返回的是开头结尾的字符串，
+n$      以n结尾的字符串 /ed$/ 以ed结尾的，这个式子是匹配是结尾的ed，最后返回的结果是["ed"]，开头和结尾一样，返回的是开头结尾的字符串，
                        而不是带有该开头结尾的整个字符串
                        /^abc$/ 以这个abc开头，以这个abc结尾，（是同一个abc)，因此只能匹配"abc"（锁定指定字符）, "abcdabc"匹配不了，
-		       "abcabc"匹配不了 /(^abc)(abc$)/括号计算完结果是/^abcabc$/，就是以同一个abcabc开头结尾了
+		       
+		       "abcabc"匹配/(^abc)(abc$)/括号计算完结果是/^abcabc$/，就是以同一个abcabc开头结尾了，结果是["abcabc", "abc", "abc", index: 0, input: "abcabc", groups: undefined]
+		       "abc"匹配不了/(^abc)(abc$)/ 结果是null
 		       没有加括号的一般指的是全部 /^ab/ 以ab开头  [^ab] 除了ab [(^\d)0]，0和非数字可以
-		       /(^a)b/,括号计算完还是ab开头了  /a(b$)/，计算完还是ab结尾了
+		       /(^a)b/,括号计算完还是ab开头了  /a(b$)/，计算完还是ab结尾了，//中的括号的作用是为了获取我们想要特定获取的匹配内容，结果数组中除了匹配的结果，后面的接着的数组元素就是
+		       ()里的匹配内容，按顺序从左到右作为数组元素出现在结果数组里，然后是相关的其他信息（如果没有g的话就有相关信息）
 		       [(^\d)0]，0和非数字可以，括号计算完是[\D0]
 
 检验一个字符串首尾是否含有数字：/^\d|\d$/g
@@ -1165,6 +1177,28 @@ var reg = /abce/m;
 var reg1 = new RegExp("abc", "m");  //此时reg1和reg不是同一个
 var reg2 = new RegExp(reg);  //此时reg2和reg不是同一个
 但reg3 = RegExp(reg);的话，就是引用reg，reg3和reg是同一个
+var reg = /abcd/m;
+var reg1 = new RegExp(reg)
+var reg2 = RegExp(reg)
+console.log(typeof reg)
+console.log(typeof reg1)
+console.log(typeof reg2)
+console.log(reg == reg1)
+console.log(reg === reg1)
+console.log(reg == reg2)
+console.log(reg === reg2)
+console.log(reg2 == reg1)
+console.log(reg2 === reg1)
+结果是
+object
+object
+object
+false
+false
+true
+true
+false
+false
 
 test() 是一个正则表达式方法。它通过模式来搜索字符串，然后根据结果返回 true 或 false  reg.test()
 下面的例子搜索字符串中的字符 "e":
