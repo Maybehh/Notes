@@ -34,7 +34,7 @@ HTML DOM Document 对象
 document.getElementsByTagName(name)	通过标签名来查找元素
 element.innerHTML = new html content	改变元素的 inner HTML
 element.attribute = new value	改变 HTML 元素的属性值
-element.setAttribute(attribute, value)	改变 HTML 元素的属性值
+element.setAttribute(attribute, value)	改变 HTML 元素的属性值  也是加在行间的
 element.style.property = new style	改变 HTML 元素的样式
 
 document.createElement(element)	创建 HTML 元素
@@ -60,7 +60,7 @@ document.strictErrorChecking	返回是否强制执行错误检查
 
 查：
 1、var myElement = document.getElementById("intro");(IE8以下如果没有id属性则name属性会被找到)
-如果元素被找到，此方法会以对象返回该元素（在 myElement 中），如果未找到元素，myElement 将包含 null
+如果元素被找到，此方法会以对象返回该元素（在 myElement 中），如果未找到元素，myElement 是 null
 后端经常会把id属性更改，因此不要用id属性比较就好
 2、基本上系统返回的成组的都是以类数组返回
 var y = x.getElementsByTagName("p"); （任何浏览器都兼容）
@@ -95,7 +95,7 @@ document.getElementById("myBtn").onclick = displayDate;
 事件：
 1、ele.onXXX = function(event){}(这个是元素本来就有的事件，只是原来内容为空，现在给他绑定一个函数而已）
 兼容性很好，但是一个元素的同一个事件上只能绑定一个函数，写多个会被最后一个覆盖
-基本等同于写在行间样式上，即<div onclick = "console.log()"></div>在行间不用写function
+基本等同于写在行间样式上，即<div onclick = "console.log()"></div>在行间不能写function，格式不通过，只能直接写函数内容
 on这种绑定方式叫做句柄的绑定方式
 程序this指向是dom元素本身
 
@@ -157,6 +157,47 @@ window.addEventListener("resize", function(){
 当传递参数值时，请以参数形式使用调用指定函数的“匿名函数”：
 var p1 = 5; var p2 = 7;
 element.addEventListener("click", function(){ myFunction(p1, p2); });
+<body>
+<div id="div">div</div>
+<script>
+    var a = 1, b = 2
+    div.addEventListener('click', function (a, b) {
+        console.log(a, b)
+    })
+</script>
+</body>
+结果是：
+点击打印：
+MouseEvent {isTrusted: true, screenX: 14, screenY: 89, clientX: 14, clientY: 18, …} 
+undefined
+即匿名函数传不了参数，且它会默认把事件对象传入第一个参数
+
+function test(a, b) {
+    console.log(a, b)
+}
+var a = 1, b = 2
+div.addEventListener('click', test(a, b))
+结果是：
+test(a, b)马上执行，打印 1 2
+点击无效果，因为test(a, b)马上执行，返回undefined，变成div.addEventListener('click', undefined)，div没有绑定上点击事件函数
+
+因此想要传参就必须用function () {}把test(a, b)包裹起来，即
+div.addEventListener('click', function () {
+    test(a, b)
+})
+默认向function第一个参数传入事件对象event，想要获取需要定义function (e) {}，也可以
+div.addEventListener('click', function () {
+    console.log(arguments[0])
+})
+这样子获取事件对象
+
+事件对象只能像上面两种方式获取，通过匿名函数绑定，然后传入匿名函数，又或者div.addEventListener('click', test())，其中test函数中执行后返回一个函数引用，则事件对象会传入该返回函数中
+又或者直接div.addEventListener('click', test)，事件对象也会作为第一个参数传入test函数
+
+行内样式绑定：<div id="div" onclick="test(a, b)">div</div>报错，不能传变量参数，找不到这些变量，test(1, 2)就可以；事件对象不会传入第一个参数
+div.onclick = function (e) {   //可以获得事件对象
+    console.log(e)
+}
 
 在 HTML DOM 中有两种事件传播的方法：冒泡和捕获
 事件传播是一种定义当发生事件时元素次序的方法。假如 <div> 元素内有一个 <p>，然后用户点击了这个 <p> 元素，应该首先处理哪个元素“click”事件？
