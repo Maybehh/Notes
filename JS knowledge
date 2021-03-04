@@ -1305,6 +1305,7 @@ str.match(reg)结果是["a", "a", "a", "a", "a"]
 匹配\、*、?等得加\转义字符, 在字符串中\也需要转义，即"aa\\aa"其实就是"aa\aa"，"aa\\\aa"也是"aa\aa"
 "aa\aa"是"aaaa", "aa\\aa"是"aa\aa", "aa?aa"是"aa?aa"， "aa\?aa"是"aa?aa"
 \\\\\\结果是\\\，即\后跟一个内容（只能一个），aa\aa就是a a \a a结果就是aaaa
+字符串中只有\需要转义，正则中\、*、?、+、{、}等都得加\转义字符
 
 字符串去重：str = "aaaaaaaaaaaaabbbbbbbbbbbbbbbbbccccccccccccc" -> "abc"
 reg = /(\w)\1*/g; str.replace(reg, "$1");
