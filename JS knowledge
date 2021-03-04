@@ -1885,7 +1885,7 @@ Infinity == Infinity + 1  true
 NaN == NaN  false(NaN不等于任何，包括自己）
 
 null才是空占位符，Null，NULL等其他的都是变量名
-undefined,null,""(是空串，不是空格串）,NaN,0,false 转换为布尔值都是false
+undefined,null,""(是空串，不是空格串）,NaN,0,-0, false 转换为布尔值都是false
 
 &&: 
 1、a && b; 看a转化成布尔值，如果是false,就直接返回a的值，如果a是true，然后返回b的值(只有两个数a,b，所以一定返回b）
@@ -1943,7 +1943,7 @@ if(undefined) undefined转化成布尔值是false，因此不执行
 因此window.foo的值是'bar'，因为是||所以不用看后面的了
 但如果是num = (window.foo || (window.foo = "")); 结果num是""，因为先执行window.foo = ""，所以第一个window.foo是false,因此看||后面的
 又执行了window.foo = ""后，就变成window.foo || window.foo 了，所以执行到||后看window.foo，是""，所以返回""
-
+num = (window.foo || (window.foo = 1)); 结果num是1
 document.write(window.foo = ""),输出的是"" (""赋给window.foo，然后打印window.foo）
 
 function isNaN(num){
@@ -1958,7 +1958,7 @@ function isNaN(num){
 
 {} == {} false   两个不同的对象，所以false，如果是{}和{}是同一个对象，就是true
 引用值== 必须是同一个,比的是地址(引用值==后===一定等)
-基本值== 是相同值就可以（arr和arr1的值相等，arr[1] == arr1[1] 是true,数组值是基本值，但数组是引用值，arr == arr1 是false）
+基本值== 是相同值就可以（arr和arr1的值相等，arr[1] == arr1[1] 是true,数组值如果是基本值，但数组是引用值，arr == arr1 是false）
 null == undefined true
 null === undefined false (===比的是类型和值都得等)
 
@@ -1990,7 +1990,7 @@ var a = {
 var b = {
     name: "333",
     say: function(fun){
-        fun();2
+        fun();
     }
 }
 b.say(a.say); --> b.say(function(){console.log(this.name);}) --> 执行function(){console.log(this.name);}函数 --> 
@@ -2007,6 +2007,14 @@ var num = (function(n){
      if(n == 1) return 1;
      return n * arguments.callee(n - 1);
 }(100));
+立即执行函数中arguments.callee的指向就不是立即执行了，而是函数引用了
+(function () {
+    console.log(arguments.callee)
+})();
+结果是
+ƒ () {
+   console.log(arguments.callee)
+}
 
 function test(){
     console.log(arguments.callee);//打印test函数
@@ -2025,7 +2033,21 @@ function demo(){
     console.log(demo.caller);打印test函数
 }
 test();
+//另一种情况
+function demo(){
+    console.log(demo.caller);打印null而不是window
+}
+demo();
 严格模式下arguments.callee和func.caller不让用
+函数的提升会整个提升，函数名和函数内容（其实是预编译的过程），意味着无论在哪写函数声明都没问题
+function demo(){
+   console.log(demo.caller);
+}   
+test()
+function test(){
+   demo();
+}  
+正确执行
 
 var foo = 123;
 function print(){
