@@ -336,7 +336,9 @@ A函数里定义有函数B，则在定义A的时候，系统只看得到A
 代码块在内存中依然存在，没有删掉，只是没有东西可以指向它（会把自己的AO删了，而且GO中没有立即函数的函数定义，可以节省空间）
 
 只有表达式才能被执行符号执行：
-function test(){}(函数声明） test();(test是表达式，因此可以执行）  表达式：abc,123,345等等都是表达式
+function test(){}(函数声明） test();(test是表达式，因此可以执行）  表达式：abc,123,345等等都是表达式，不是所有的表达式都可以执行，123()就会报错，123 is not a function
+()执行符号前面是函数表达式才能被执行，而加了()运算符号能够把()运算符号里的内容解析成表达式，function test () {} 函数声明会被解析成 function函数表达式，此刻就可以执行了，同样的符号还有!~-+
+[链接地址](https://www.cnblogs.com/renweiboke/articles/12807461.html)
 function test(){}(); 执行符号()前面的是函数声明，因此不能被执行
 var test = function (){}(); 执行符号()前面的是函数表达式，因此可以被执行
 
@@ -476,7 +478,8 @@ var f = (
      }
 )();
 console.log(typeof(f));
-输出的结果是number   因为是，表达式，所以都执行，最后返回function g() {return 2;}，就变成var f = function g(){return 2;}();  最后的结果是f=2；
+输出的结果是number   因为是，表达式，所以都执行，最后返回function g() {return 2;}，就变成var f = function g(){return 2;}();
+此时的function g(){return 2;}因为在(,)逗号表达式中执行过了，function g(){return 2;}已经变成了表达式，所以最后的结果是f=2；
 
 var x = 1;
 if(function f(){}){
@@ -548,7 +551,7 @@ Person.prototype.name = "sunny";
 var person = new Person();
 Person.prototype.name = "cherry";
 person.name打印的是cherry
-如果Person.prototype = {name: "cherry";}
+如果Person.prototype = {name: "cherry";}  给Person.prototype赋另值
 person.name打印的是sunny(因为person的__proto__指向的是原来的Person.prototype)
 
 Person.prototype.name = "sunny";
@@ -571,12 +574,12 @@ Object.create(null)创建的对象的__proto__是null
 __proto__属性可以改，但是不能加（从无（__proto__ : null）到有是不可以的）
 因此绝大多数对象最终都会继承于Object.prototype（比如__proto__是null就不继承于Object.prototype)
 
-因此123.toString()是可以的，会经过包装类变成number对象，然后经过原型链找到Object的toString()
+因此(123).toString()是可以的，会经过包装类变成number对象，然后经过原型链找到Object的toString()
 undefined不能包装类，因此找不到原型，也就没有toString()  null同
 123.toString()不可以的原因，js中默认是浮点型的，因此被看成123.，因此可以加括号或者变成变量
 number对象的prototype有toString()，因此会调用number的prototype里的
 而Object.prototype.toString()打印的是[object 数据类型]的字符串
-document.write(a);实际是a.toString(); 所以可能有的会报错
+document.write(a);实际是(a).toString(); 所以可能有的会报错
 
 0.14*100等于14.00000000002
 js在计算小数时会精度不准（bug)
@@ -702,7 +705,7 @@ var obj = {
 }
 这样子遍历的时候会把lastName一起拿出来，即会把从原型继承的属性也一起遍历出来
 for(var prop in obj){（typeof(prop)结果是string）
-   if(obj.hasOwnProperty(prop){ 判断属性是否是自己的（不包括继承的），过滤不是自己的属性
+   if(obj.hasOwnProperty(prop)){ 判断属性是否是自己的（不包括继承的），过滤不是自己的属性
       console.log(obj[prop]);
    }
 }
@@ -732,7 +735,7 @@ Object.prototype.toString.call({}); 结果是"[object Object]"
 
 null instanceof Object 返回false, null原本是设计作Object空占位符，因此typeof(null)是"object"
 但本质上null并不是Object数据类型，因此null instanceof Object 返回false
-null没有prototype，因此null instanceof null报错
+null没有prototype，因此null instanceof null报错（instanceof的右边必须是那几个值）
 
 function foo(){console.log(arguments);}
 foo(1,2,3,4,5); 打印[1,2,3,4,5]
@@ -747,11 +750,12 @@ foo(1,2,3,4,5); 打印[1,2,3,4,5]
 var obj = {a: 1} delete obj是不可以的   delete obj.a是可以的
 函数内var的(不管是形参系统var的，还是函数内自己写的var)都不可以delete
 
-[] + "" = "" 会进行引用隐式类型转换
+[] + "" = "" 会进行引用隐式类型转换（toString()）
 
 执行函数找值：执行上下文，变量就找上下文（找到变量名字然后输出值，变量要在变量名里找，而不会找值里的同变量名的）
-对象.属性就先在执行上下文找对象，找到在对象里找属性，没有就在对象的原型链上找
+对象.属性就先在执行上下文找对象，找到对象后在对象里找属性，没有找到属性就在对象的原型链上找
 对象找值：prototype（对象没有执行上下文）
+执行上下文是用来找有无该变量的
 
 typeof(arguments) 类数组是对象，因此返回object
 var h = function a(){ return 23;}  typeof a(); 结果是报错，因为a找不到，放在函数表达式的名字是找不到的，只能通过变量名找到
