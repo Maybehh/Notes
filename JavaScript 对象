@@ -94,6 +94,10 @@ var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
 delete person.age;   // 或 delete person["age"];
 delete 关键词会同时删除属性的值和属性本身。删除完成后，属性在被添加回来之前是无法使用的。delete 操作符被设计用于对象属性。它对变量或函数没有影响。
 delete 操作符不应被用于预定义的 JavaScript 对象属性。这样做会使应用程序崩溃
+var obj = {a: 123}
+var a = delete obj.b;
+console.log(a)  //true
+
 对象没有该属性会打印undefined而不是报错
 
 值是属性的特性之一。其他特性包括：可列举、可配置、可写。这些特性定义了属性被访问的方式（是可读的还是可写的？）
@@ -141,6 +145,24 @@ person.lang = "en";
 // 显示来自对象的数据：
 document.getElementById("demo").innerHTML = person.language;
 
+getter和setter都对数据进行了真正的操作，会改变对象中相应的值
+var obj = {
+    counter : 0,
+    get increment() {
+        this.counter++;
+    },
+    set add(value) {
+        this.counter += value;
+    }
+}
+obj.increment
+console.log(obj.counter)
+obj.add = 24
+console.log(obj.counter)
+结果是
+1
+25
+
 使用 getter 和 setter 时，JavaScript 可以确保更好的数据质量
 为什么使用 Getter 和 Setter？
 它提供了更简洁的语法
@@ -173,7 +195,6 @@ obj.add = 5;
 obj.subtract = 1;
 obj.increment;
 obj.decrement;
-Object.defineProperty()
 
 Object.defineProperty() 方法也可用于添加 Getter 和 Setter：
 // 定义对象
@@ -321,7 +342,7 @@ Object.isFrozen(object)
 使语言为只读：Object.defineProperty(person, "language", {writable:false});
 使语言不可枚举：Object.defineProperty(person, "language", {enumerable:false});
 列举对象属性：Object.getOwnPropertyNames(person);  // 返回属性数组
-可枚举：Object.defineProperty(person, "language", {enumerable:false});
+可枚举：Object.defineProperty(person, "language", {enumerable:true});
 Object.keys(person);  // 返回可枚举属性的数组(除了language属性，language属性的enumerable:false）
 setter和getter：Object.defineProperty(person, "fullName", {
   get : function () {return this.firstName + " " + this.lastName;}
@@ -393,9 +414,9 @@ function deepClone(origin, target){
 数组对象等，arr = [] 相当于 arr = new Array();
 new Array(10); 数组长度为10，arr = [undefined, undefined,...](10个undefined), new Array(10.2)报错，只能是整数
 new Array(1,2,3,4), 创建数组arr = [1,2,3,4]
-arr[10],arr = [10],一个数组值为10，长度为1
+arr[10],arr = [10],一个数组值为11，长度为1
 arr = [1,2, , , ,3],可以写逗号，长度为6，值为1，2，undefined, undefined, undefined, 3
 arr[20]不会报错，因为arr数组就是对象，这样是访问arr数组对象有没有20这个属性，没有就打印undefined
-没有属性是undefined，没有变量是报错（除了typeof(未声明过或未赋值过的的变量)是undefined）
+没有属性是undefined，没有变量就用是报错（除了typeof(未声明过或未赋值过的的变量)是undefined）
 
 写一个类就是写一个构造函数
