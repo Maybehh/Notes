@@ -543,7 +543,32 @@ HTMLCollection 和 NodeList 对象都是类数组的对象列表（集合）。�
 访问 HTMLCollection 项目，可以通过它们的名称(name属性)、id 或索引号。访问 NodeList 项目，只能通过它们的索引号。
 HTMLCollection.namedItem(name或id)或HTMLCollection[name或id]
 例：var x = document.getElementsByTagName("p")["myElement"]; 或 var x = document.getElementsByTagName("p").namedItem("myElement");
-只有 NodeList 对象能包含属性节点和文本节点。
+只有 NodeList 对象能包含属性节点和文本节点
+<body>
+<div id="div">
+    <span id='hhhh'></span>
+</div>
+<script>
+    console.log(div.children)
+    console.log(div.childNodes)
+</script>
+</body>
+结果是
+HTMLCollection [span#hhhh, hhhh: span#hhhh]
+里面是：
+   0: span#hhhh
+   length: 1
+   hhhh: span#hhhh
+   __proto__: HTMLCollection
+
+NodeList(3) [text, span#hhhh, text]
+里面是：
+0: text
+1: span#hhhh
+2: text
+length: 3
+__proto__: NodeList
+
 节点列表不是数组！节点数组看起来像数组，但并不是。您能够遍历节点列表并像数组那样引用其节点。
 不过，您无法对节点列表使用数组方法，比如 valueOf()、push()、pop() 或 join()
 
