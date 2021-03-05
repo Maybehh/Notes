@@ -569,6 +569,8 @@ NodeList(3) [text, span#hhhh, text]
 length: 3
 __proto__: NodeList
 
+属性节点是存在attributes里的，要获取得NodeList[1].attributes或HTMLCollection[0].attributes
+
 节点列表不是数组！节点数组看起来像数组，但并不是。您能够遍历节点列表并像数组那样引用其节点。
 不过，您无法对节点列表使用数组方法，比如 valueOf()、push()、pop() 或 join()
 
