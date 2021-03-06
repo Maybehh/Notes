@@ -118,7 +118,8 @@ function loadDoc() {
     xhttp.open("GET", "ajax_info.txt", true);
     xhttp.send(); 
 } 
-注释：onreadystatechange 被触发五次（0-4），每次 readyState 都发生变化
+注释：onreadystatechange 被触发4次，每次 readyState 都发生变化
+在XMLHttpRequest对象创建好时，它的readystate就被初始化为0了
 
 回调函数是一种作为参数被传递到另一个函数的函数
 如果您的网站中有多个 AJAX 任务，那么您应该创建一个执行 XMLHttpRequest 对象的函数，以及一个供每个 AJAX 任务的回调函数。
