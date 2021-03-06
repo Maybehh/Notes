@@ -218,12 +218,11 @@ document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 您应该定义 cookie 路径以确保删除正确的 cookie。如果你不指定路径，一些浏览器不会让你删除 cookie
 
 document.cookie 属性看起来像一个正常的文本字符串。但它不是。
-即使你向 document.cookie 写一份完整的 cookie 字符串，当再次读取时，你只能看到它的名称-值对
+即使你向 document.cookie 写一份完整的 cookie 字符串，当再次读取时，你只能看到它的name-value对
 如果设置了新 cookie，则旧的 cookie 不会被覆盖。新的 Cookie 会被添加到 document.cookie，所以如果你读取 document.cookie，你得到的东西会像这样：
 cookie1 = value; cookie2 = value;
-显示所有 cookie 创建 cookie 1 创建 cookie 2 删除 cookie 1 删除 cookie 2
+
 如果你想找到一个指定 cookie 的值，你必须编写 JavaScript 函数来搜索 cookie 字符串中的 cookie 值
-具体cookie见csdn收藏
 
 滚动条滚动距离：页面顶端到滚动条所在页面位置的距离 = 单频页面高度 + 滚动条滚动代表的距离
 window.pageXOffset/pageYOffset  (ie9及其以下不兼容）
@@ -246,24 +245,35 @@ function getScrollOfset(){
      }
 }
 
-查看元素的几何尺寸：
-document.getBoundingClientRect();
+查看元素的几何尺寸：（盒子的尺寸，不算margin）位置是相对于视口的，具体可以参考mdn
+document.getClientRects();返回当前元素所包含的子框（不包括自己）的位置宽高（多行文本每行会返回一个框）
+document.getBoundingClientRect();返回当前元素框自己的位置宽高
+两个方法都是：位置是从框可以顶开元素的边界开始的（因此行内元素的padding-top/bottom以及多行文本每行框的padding-top/bottom都不算）
+             宽高都是padding+border+content（行内元素的padding-top等也是要加进去的）
 兼容性很好
-返回一个对象，对象里面有left, top, right, bottom等属性。left和top代表该元素左上角的X和Y坐标，right和bottom代表该元素右下角的X和Y坐标
+返回一个对象，对象里面有left, top, right, bottom、height、width等属性。left和top代表该元素左上角的X和Y坐标，right和bottom代表该元素右下角的X和Y坐标
 height和width属性老版本IE未实现（用top和bottom减得height,left和right减width）
 返回的结果不是实时的，那个时刻得到的数据是不会变化的，后续改变宽高左右上下等也不会变化
 width和height是包括内容区和边框和内边距的
 
+HTMLElement.offsetParent 是一个只读属性，返回一个指向最近的（指包含层级上的最近）包含该元素的定位元素或者最近的table,td,th,body元素
+当元素的 style.display 设置为 "none" 时，offsetParent 返回 null
 document.offsetWidth和document.offsetHeight：返回元素的宽高（包括内容区和边框和内边距的）(返回的是数字）
 elem.style.width 返回的是带px的字符串
 
 查看元素的位置：
 document.offsetLeft,document.offsetRight等
-对于无定位父级的元素，返回相对文档边界的距离。对于有定位父级的元素，返回相对于最近的有定位的父级边界的距离（不管该元素是否有定位）
-（文档是document，会把body的margin默认8px也算进去，top的话要注意margin塌陷）
+对于无定位父级的元素，返回相对最近的 table,td,th,body元素的距离。对于有定位父级的元素，返回相对于最近的有定位的父级边界的距离（不管该元素是否有定位）
+当曾祖父有定位，父级是th或td，td或th的父级是table，则此时元素的offsetParent指向td或th
 
-document.offsetParent返回最近的有定位的父级
-如无，返回body       body.offsetParent返回null
+tr、td、th三个元素不是嵌套在table里相当于无效，不会有结构
+table里没有th或td直接放元素（有无tr都可，但是一定得有th或td），table将不包含该元素，而是元素和table独立出来，两个元素平级
+此时元素的offsetParent指向就按拆出来的继续分析
+
+body.offsetParent返回null
+html.offsetParent返回null
+document.offsetParent返回undefined
+window.offsetParent返回undefined
 
 让滚动条滚动：
 window上有3个办法
