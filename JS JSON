@@ -243,7 +243,7 @@ js会阻断html和css加载线，因为js可以修改html和css,因此如果<scr
 2、async: 加载完就执行，async只能加载外部脚本，不能把js写在script标签里（非ie和ie高端可以用，符合w3c就可以用）
 
 兼容：不能<script defer="defer" async="async“>ie9以上都能识别，就崩了
-     不能<script defer="defer"> <script async="async“> 同时写，这样子<script defer="defer">会在解析后执行，冲突，代码执行的结果可能就不对了
+     不能<script defer="defer"> <script async="async“> 同时写，加载同一个文档，这样子<script defer="defer">会在解析后执行，有可能代码操作造成冲突或执行失败，代码执行的结果可能就不对了
 
 <script>
   var script = document.creatElement("script");
@@ -321,6 +321,7 @@ js加载时间线：（浏览器在运行一个页面时，首先会初始化js�
 
 domTree建成要把节点和节点的内容解析完（文本、标签里的语句要一起解析完才算建成dom树）
 使用onreadystatechange可以打印两个readyState状态（loading是一开始的状态，不会变化到loading的）（属性单词首字母大写，事件全小写）
+执行到onreadystatechange这一句时，document早就创建了，属性早就初始化了，document.readystate早已经是loading了
 
 script标签也是domtree的一个节点
 js代码在DOM解析完就进行操作，加载完再操作太慢了
@@ -328,3 +329,5 @@ dom解析完触发事件：DOMContentLoaded
 DOMContentLoaded事件只能addEventListener
 document.addEventListener('DOMContentLoaded', function () {}, false);
 jq中$(document).ready(function () {}); 当DOM解析完就执行
+
+<script>在html里是顺序解析的，当执行到这一行，里面的代码也会按顺序执行，然后解析到</script>，然后...，最后到</html>，这个时候文档解析才结束
