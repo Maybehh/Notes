@@ -257,12 +257,14 @@ height和width属性老版本IE未实现（用top和bottom减得height,left和ri
 width和height是包括内容区和边框和内边距的
 
 HTMLElement.offsetParent 是一个只读属性，返回一个指向最近的（指包含层级上的最近）包含该元素的定位元素或者最近的table,td,th,body元素
-当元素的 style.display 设置为 "none" 时，offsetParent 返回 null
+当元素的 style.display 设置为 "none" 时，offsetParent 返回 null   看mdn
 document.offsetWidth和document.offsetHeight：返回元素的宽高（包括内容区和边框和内边距的）(返回的是数字）
 elem.style.width 返回的是带px的字符串
 
-查看元素的位置：
-document.offsetLeft,document.offsetRight等
+查看元素的位置：mdn
+document.offsetLeft,document.offsetRight等，描述了元素相对于 offsetParent 的边界框的位置宽高等
+对块级元素来说，offsetTop、offsetLeft、offsetWidth 及 offsetHeight（使用 Element.getBoundingClientRect 来获取其位置宽高）
+对行内元素（如 span），offsetTop 和 offsetLeft 描述的是第一个边界框的位置（使用 Element.getClientRects() 来获取其宽度和高度），而 offsetWidth 和 offsetHeight 描述的是边界框的尺寸（使用 Element.getBoundingClientRect 来获取其宽高）
 对于无定位父级的元素，返回相对最近的 table,td,th,body元素的距离。对于有定位父级的元素，返回相对于最近的有定位的父级边界的距离（不管该元素是否有定位）
 当曾祖父有定位，父级是th或td，td或th的父级是table，则此时元素的offsetParent指向td或th
 
