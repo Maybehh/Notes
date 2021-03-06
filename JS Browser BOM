@@ -372,7 +372,21 @@ var timer = setInterval(function(){
 },100);
 
 设置position: absolute;后它的top,left,right,bottom的默认值是auto（即在出生的地方不动）
-auto不能被getComputedStyle直接输出，因为auto不是计算绝对值
+auto不能被getComputedStyle直接输出，因为auto不是计算绝对值（现在可以被计算出来了）
+<style>
+   #div {
+       position: absolute;
+       width: 100px;
+       height: 100px;
+       background-color: red;
+   }
+</style>
+<body>
+<div id="div">hhh</div>
+<script>
+console.log(getComputedStyle(div, null).top) //结果是8px
+</script>
+</body>
 
 window.onscroll = function(e){
    ...;
