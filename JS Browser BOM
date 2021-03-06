@@ -222,6 +222,22 @@ document.cookie 属性看起来像一个正常的文本字符串。但它不是�
 如果设置了新 cookie，则旧的 cookie 不会被覆盖。新的 Cookie 会被添加到 document.cookie，所以如果你读取 document.cookie，你得到的东西会像这样：
 cookie1 = value; cookie2 = value;
 
+打开控制台查看cookie：
+Name Value Domain等数据项
+
+document.cookie = "usename=Steve Jobs; ab=sa; expires=Sun, 31 Dec 2043 12:00:00 UTC; path=/";
+document.cookie = "username=Steve Jobs; expires=Sun, 31 Dec 2043 12:00:00 UTC; path=/";
+document.cookie = "expires=Sun, 31 Dec 2043 12:00:00 UTC; path=/; usname=Steve Jobs;";
+console.log(document.cookie)
+控制台显示：
+usename=Steve Jobs; username=Steve Jobs; expires=Sun, 31 Dec 2043 12:00:00 UTC
+具体看cookie信息，发现：
+1、第一个键值对是分别对应Name和Value的
+2、只会有一个Name和Value，就是第一个，后续写很多个也无效
+3、第一个匹配Name和Value，后续的根据键名匹配对应的数据项，找不到该数据项的键名都是无效
+4、document.cookie = "expires=Sun, 31 Dec 2043 12:00:00 UTC; path=/; usname=Steve Jobs";
+expires写在了第一项，因此作为Name和Value，后续的键值对中找不到expires了，因此expires数据项的值是默认session
+
 如果你想找到一个指定 cookie 的值，你必须编写 JavaScript 函数来搜索 cookie 字符串中的 cookie 值
 
 滚动条滚动距离：页面顶端到滚动条所在页面位置的距离 = 单频页面高度 + 滚动条滚动代表的距离
