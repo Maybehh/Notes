@@ -112,9 +112,9 @@ BFC和流体布局都是后渲染内容，性能不高（content必须写在最�
 
 5、圣杯布局
 <div class = "container">
+    <div class = "content"></div>
     <div class = "left"></div>
     <div class = "right"></div>
-    <div class = "content"></div>
 </div>
 .container{
      margin-left: 100px;
@@ -150,8 +150,8 @@ BFC和流体布局都是后渲染内容，性能不高（content必须写在最�
 6、flex布局
 <div class = "container">
     <div class = "left"></div>
-    <div class = "right"></div>
     <div class = "content"></div>
+    <div class = "right"></div>
 </div>
 .container{display: flex;}
 .left{
