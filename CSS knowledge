@@ -80,7 +80,16 @@ input[type="button"]
 	     继承    0
 权重的值是256进制
 权重一样后写的覆盖
-在css中infinity+1>infinity ，总的来说infinity也是一个值在css中
+在css中infinity+1>infinity（在js中就不是了，Infinity + 1 > Infinity 返回false）
+如：<div class="box"></div>
+.box {
+    color: green !important;
+}
+div {
+    color: red !important;
+}
+则字体颜色是green，.box类名权重比div标签大
+总的来说infinity也是一个值在css中
 
 CSS样式继承同时有三种：不同属性都会继承，相同属性按照就近原则
 
