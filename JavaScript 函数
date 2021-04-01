@@ -525,9 +525,13 @@ A.prototype.fortune = {card1: "passport"},a中没有生成fortune对象
 在A的prototype中的属性fortune没有card2这个属性，在A的fortune这个对象里增加card2属性，
 A.prototype.fortune = {card1: "visa",card2 = "passport"},a中没有生成fortune对象
 delete a.fortune.card2 = "passport"; 此时A.prototype.fortune = {card1: "visa"}，即都是在A中操作，a中没有生成
-总结：a不可以修改和增加A的prototype属性中的基本数据类型，只能访问（只取值），增加和修改（赋值）只会在a中生成相应的属性
-a可以增加修改A的prototype属性的引用数据类型（.两次及以上的是在A里操作的,a中没有东西生成）
-数组也是引用类型，也都是在A中操作
+还有其它情况就不一一列举了
+
+总结：
+a对一个属性赋值操作只在自己身上增加或修改，如a.x = 1; a.x = {num: 1};，这样子原型不会有任何变化
+a对一个属性读取，会先在自己身上找，找不到了就往原型上找
+另一种情况：a.x.y = 123，在这里，注意要给a.x.y赋值，得先找到a.x，因此会往自己身上找，找不到就往原型上找，找到后修改a.x.y，因此修改的有可能是自己的也有可能是原型上的
+
 
 在开发的时候，_private这样的名字告诉同事不要动这个变量，私人的
 __private__前两杠后两杠是系统定义的尽量不更改的
